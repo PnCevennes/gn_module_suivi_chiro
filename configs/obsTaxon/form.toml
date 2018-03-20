@@ -1,0 +1,206 @@
+editAccessOverride = "metaNumerisateurId"
+deleteAccessOverride = "metaNumerisateurId"
+deleteAccess = 5
+subDataRef = "__biometries__"
+dataUrl = "chiro/obs_taxon/"
+editAccess = 3
+subSchemaUrl = "chiro/config/biometrie/form/many"
+subTitle = "Ajout rapide de biometries"
+subSchemaAdd = 3
+[[groups]]
+name = "Informations"
+[[groups.fields]]
+name = "id"
+type = "hidden"
+
+[[groups.fields]]
+name = "fkBvId"
+type = "hidden"
+
+[groups.fields.options]
+ref = "parent"
+[[groups.fields]]
+name = "metaNumerisateurId"
+type = "hidden"
+label = "Numerisateur"
+
+[groups.fields.options]
+ref = "userId"
+[[groups.fields]]
+name = "cotxValidateur"
+type = "hidden"
+
+[[groups.fields]]
+name = "cotxCdNom"
+type = "xhr"
+label = "Nom taxon"
+
+[groups.fields.options]
+url = "chiro/taxons"
+reverseurl = "chiro/taxons/id"
+[[groups.fields]]
+name = "cotxTxPresume"
+type = "string"
+label = "Taxon présumé"
+
+[[groups.fields]]
+thesaurusID = 9
+default = 55
+label = "Validation"
+name = "cotxObjStatusValidation"
+type = "select"
+
+[groups.fields.options]
+editLevel = 5
+[[groups.fields]]
+name = "indices"
+thesaurusID = 12
+type = "multisel"
+label = "Indices"
+
+[[groups.fields]]
+name = "cotxIndicesCmt"
+type = "text"
+label = "Description indices"
+
+[[groups.fields]]
+thesaurusID = 5
+default = 0
+label = "Activité"
+name = "cotxActId"
+type = "select"
+
+[groups.fields.options]
+nullable = true
+[[groups.fields]]
+thesaurusID = 6
+default = 0
+label = "Preuves de reproduction"
+name = "cotxPrvId"
+type = "select"
+
+[groups.fields.options]
+nullable = true
+[[groups.fields]]
+name = "cotxEspeceIncertaine"
+type = "bool"
+label = "Espece incertaine"
+
+[[groups.fields]]
+help = "Informations complémentaires sur l'observation"
+name = "cotxCommentaire"
+type = "text"
+label = "Commentaires"
+
+[[groups.fields]]
+help = "Photographies pour identification"
+name = "obsTaxonFichiers"
+type = "file"
+label = "Photographies"
+
+[groups.fields.options]
+maxSize = 2048000
+accepted = [ "png", "jpg",]
+target = "chiro/obsTaxon"
+
+[[groups]]
+name = "Dénombrement"
+[[groups.fields]]
+name = "enum"
+titles = [ "Adultes", "Juvéniles", "Indéterminés",]
+type = "group"
+[[groups.fields.fields]]
+name = "males"
+label = "Mâles"
+[[groups.fields.fields.fields]]
+name = "cotxNbMaleAdulte"
+default = 0
+type = "num"
+label = "Adultes"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbMaleJuvenile"
+default = 0
+type = "num"
+label = "Juveniles"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbMaleIndetermine"
+default = 0
+type = "num"
+label = "Age indeterminé"
+
+[groups.fields.fields.fields.options]
+min = 0
+
+[[groups.fields.fields]]
+name = "femelles"
+label = "Femelles"
+[[groups.fields.fields.fields]]
+name = "cotxNbFemelleAdulte"
+default = 0
+type = "num"
+label = "Adultes"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbFemelleJuvenile"
+default = 0
+type = "num"
+label = "Juveniles"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbFemelleIndetermine"
+default = 0
+type = "num"
+label = "Age indeterminé"
+
+[groups.fields.fields.fields.options]
+min = 0
+
+[[groups.fields.fields]]
+name = "indetermines"
+label = "Sexe indéterminé"
+[[groups.fields.fields.fields]]
+name = "cotxNbIndetermineAdulte"
+default = 0
+type = "num"
+label = "Adultes"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbIndetermineJuvenile"
+default = 0
+type = "num"
+label = "Juvéniles"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbIndetermineIndetermine"
+default = 0
+type = "num"
+label = "Age indeterminé"
+
+[groups.fields.fields.fields.options]
+min = 0
+
+
+[[groups.fields]]
+name = "cotxEffectifAbs"
+type = "sum"
+label = "Effectif total"
+
+[groups.fields.options]
+ref = [ "cotxNbMaleAdulte", "cotxNbFemelleAdulte", "cotxNbMaleJuvenile", "cotxNbFemelleJuvenile", "cotxNbMaleIndetermine", "cotxNbFemelleIndetermine", "cotxNbIndetermineAdulte", "cotxNbIndetermineJuvenile", "cotxNbIndetermineIndetermine",]
+modifiable = false
+min = 0
+

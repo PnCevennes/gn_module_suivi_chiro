@@ -1,0 +1,131 @@
+emptyMsg = "Aucun site pour le moment"
+createUrl = "#/chiro/edit/site/"
+detailUrl = "#/chiro/site/"
+mapSize = "large"
+dataUrl = "chiro/site"
+mapConfig = "js/resources/chiro_site.json"
+editAccess = 5
+createBtnLabel = "Nouveau site"
+editUrl = "#/chiro/edit/site/"
+title = "Sites"
+[[fields]]
+label = "ID"
+type = "text"
+name = "id"
+
+[fields.filter]
+id = "text"
+[fields.options]
+visible = false
+[[fields]]
+label = "Nom"
+type = "text"
+name = "bsNom"
+
+[fields.filter]
+bsNom = "text"
+[fields.options]
+visible = true
+style = "xl"
+primary = true
+[[fields]]
+label = "Code site"
+type = "text"
+name = "bsCode"
+
+[fields.filter]
+bsCode = "text"
+[fields.options]
+visible = false
+style = "xl"
+[[fields]]
+name = "nomObservateur"
+type = "text"
+label = "Observateur"
+
+[fields.filter]
+nomObservateur = "text"
+[fields.option]
+visible = true
+style = "xl"
+[[fields]]
+label = "Date créa."
+type = "date"
+name = "bsDate"
+
+[fields.filter]
+bsDate = "text"
+[fields.options]
+visible = false
+type = "date"
+style = "l"
+[[fields]]
+label = "Dern. obs."
+type = "date"
+name = "dernObs"
+
+[fields.filter]
+dernObs = "text"
+[fields.options]
+visible = true
+type = "date"
+style = "xs"
+[[fields]]
+label = "Nb visites"
+type = "text"
+name = "nbObs"
+
+[fields.filter]
+nbObs = "text"
+[fields.options]
+visible = true
+style = "xs"
+[[fields]]
+thesaurusID = 7
+default = 0
+label = "Type"
+type = "select"
+name = "bsTypeId"
+
+[fields.filter]
+bsTypeId = "select"
+[fields.options]
+visible = true
+type = "select"
+nullable = true
+style = "l"
+[[fields]]
+name = "cisSiteActif"
+type = "bool"
+label = "Site actif"
+
+[fields.options]
+visible = false
+type = "bool"
+style = "l"
+
+[filtering]
+limit = 2000
+[[filtering.fields]]
+name = "dern_obs"
+type = "date"
+label = "Dernière observation"
+
+[[filtering.fields]]
+name = "nb_obs"
+type = "num"
+label = "Nombre d'observations"
+
+[[filtering.fields]]
+thesaurusID = 7
+zeroNull = true
+default = 0
+label = "Type de site"
+type = "select"
+name = "bs_type_id"
+
+[[filtering.fields]]
+name = "bs_date"
+type = "date"
+label = "Création du site"
+

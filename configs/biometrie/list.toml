@@ -1,0 +1,52 @@
+emptyMsg = "Aucune biométrie"
+createUrl = "#/chiro/edit/biometrie/taxon/"
+detailUrl = "#/chiro/biometrie/"
+editAccess = 3
+createBtnLabel = "Nouvelle biométrie"
+editUrl = "#/chiro/edit/biometrie/"
+title = "Biométries"
+[[fields]]
+label = "Id"
+type = "num"
+name = "id"
+
+[fields.filter]
+id = "text"
+[fields.options]
+visible = false
+style = "xl"
+[[fields]]
+thesaurusID = 1
+label = "Âge"
+name = "cbioAgeId"
+type = "select"
+
+[fields.filter]
+cbioAgeId = "text"
+[fields.options]
+visible = true
+type = "select"
+primary = true
+style = "xl"
+[[fields]]
+thesaurusID = 2
+label = "Sexe"
+name = "cbioSexeId"
+type = "select"
+
+[fields.filter]
+cbioSexeId = "text"
+[fields.options]
+visible = true
+type = "select"
+style = "s"
+[[fields]]
+label = "Poids"
+type = "num"
+name = "cbioPoids"
+
+[fields.filter]
+cbioPoids = "text"
+[fields.options]
+visible = true
+style = "xs"

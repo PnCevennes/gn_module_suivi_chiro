@@ -1,0 +1,149 @@
+emptyMsg = "Aucun taxon en attente"
+editUrl = "#/chiro/edit/taxons/"
+detailUrl = "#/chiro/taxons/"
+checkable = true
+editAccess = 5
+title = "Taxons en attente de validation"
+[[fields]]
+name = "id"
+label = "Id"
+
+[fields.options]
+visible = true
+type = "checkable"
+style = "s"
+[[fields]]
+name = "cdNom"
+label = "CdNom"
+
+[fields.filter]
+cdNom = "text"
+[fields.options]
+visible = false
+style = "s"
+[[fields]]
+name = "nomComplet"
+filterFunc = "starting"
+label = "Nom complet"
+
+[fields.filter]
+nomComplet = "text"
+[fields.options]
+visible = true
+style = "xl"
+primary = true
+[[fields]]
+name = "observateurs"
+label = "Observateurs"
+
+[fields.filter]
+observateurs = "text"
+[fields.options]
+visible = true
+type = "list"
+style = "l"
+[[fields]]
+name = "cotxObjStatusValidation"
+thesaurusID = 9
+label = "Validation"
+
+[fields.filter]
+cotxObjStatusValidation = "select"
+[fields.options]
+visible = true
+type = "select"
+nullable = true
+style = "l"
+[[fields]]
+name = "bsNom"
+label = "Nom du site"
+
+[fields.filter]
+bsNom = "text"
+[fields.options]
+visible = true
+style = "xl"
+[[fields]]
+name = "bvDate"
+label = "Date d'observation"
+
+[fields.filter]
+bvDate = "text"
+[fields.options]
+visible = true
+type = "date"
+style = "l"
+[[fields]]
+name = "cotxEffectifAbs"
+label = "Effectif total"
+
+[fields.filter]
+cotxEffectifAbs = "text"
+[fields.options]
+visible = true
+style = "s"
+[[fields]]
+name = "numerisateur"
+filterFunc = "starting"
+label = "Numérisateur"
+
+[fields.filter]
+numerisateur = "text"
+[fields.options]
+visible = false
+style = "l"
+[[fields]]
+name = "validateur"
+filterFunc = "starting"
+label = "Validateur"
+
+[fields.filter]
+validateur = "text"
+[fields.options]
+visible = false
+style = "l"
+[[fields]]
+name = "cotxDateValidation"
+label = "Date de validation"
+
+[fields.filter]
+cotxDateValidation = "text"
+[fields.options]
+visible = false
+type = "date"
+style = "l"
+[[fields]]
+name = "metaCreateTimestamp"
+label = "Date de création"
+
+[fields.filter]
+cotxDateValidation = "text"
+[fields.options]
+visible = true
+type = "date"
+style = "l"
+
+[filtering]
+limit = 200
+[[filtering.fields]]
+name = "cd_nom"
+type = "xhr"
+label = "Taxon"
+
+[filtering.fields.options]
+url = "chiro/taxons"
+ref = "taxon"
+reverseurl = "chiro/taxons/id"
+[[filtering.fields]]
+name = "bv_date"
+type = "date"
+label = "Date de l'observation"
+
+[[filtering.fields]]
+thesaurusID = 9
+zeroNull = true
+default = 0
+label = "Statut validation"
+type = "select"
+name = "cotx_obj_status_validation"
+

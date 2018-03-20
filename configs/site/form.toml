@@ -1,0 +1,195 @@
+updateSuccessMessage = "Modification réussie"
+createSuccessMessage = "Création réussie"
+formTitleUpdate = "Modification du site "
+editAccess = 5
+formDeleteRedirectUrl = "g/chiro/site/list"
+formTitleRef = "bsNom"
+formCreateCancelUrl = "g/chiro/site/list"
+deleteSuccessMessage = "Suppression réussie"
+formTitleCreate = "Nouveau site"
+deleteAccess = 5
+[[groups]]
+name = "Localisation"
+[[groups.fields]]
+name = "geom"
+type = "geom"
+label = "Coordonnées GPS"
+
+[groups.fields.options]
+geometryType = "point"
+dataUrl = "chiro/site"
+mapConfig = "js/resources/chiro_site.json"
+
+[[groups]]
+name = "Informations"
+[[groups.fields]]
+name = "id"
+type = "hidden"
+label = "ID"
+
+[[groups.fields]]
+name = "metaNumerisateurId"
+type = "hidden"
+label = "Numerisateur"
+
+[groups.fields.options]
+ref = "userId"
+[[groups.fields]]
+help = "nom du site"
+name = "bsNom"
+type = "string"
+label = "Nom"
+
+[groups.fields.options]
+minLength = 5
+maxLength = 250
+[[groups.fields]]
+thesaurusID = 7
+thesaurusHierarchyID = "007.001"
+default = 37
+label = "Type"
+help = "Type de lieu"
+type = "select"
+name = "bsTypeId"
+
+[[groups.fields]]
+name = "bsObrId"
+type = "xhr"
+label = "Observateur"
+
+[groups.fields.options]
+url = "users/menu/1000001"
+required = true
+reverseurl = "users/id"
+[[groups.fields]]
+help = "date d'ajout à la base de données"
+name = "bsDate"
+type = "date"
+label = "Date créa."
+
+[groups.fields.options]
+required = true
+[[groups.fields]]
+help = "Détermine si le suivi du site est définitivement abandonné"
+name = "cisSiteActif"
+default = true
+type = "bool"
+label = "Site actif"
+
+[[groups.fields]]
+name = "bsDescription"
+type = "text"
+label = "Description"
+
+[groups.fields.options]
+maxLength = 1000
+[[groups.fields]]
+help = "Fichiers relatifs au site"
+name = "siteFichiers"
+type = "file"
+label = "Fichiers joints"
+
+[groups.fields.options]
+maxSize = 2048000
+unique = true
+accepted = [ "png", "jpg", "pdf",]
+target = "chiro/site"
+
+[[groups]]
+name = "Etat"
+[[groups.fields]]
+help = "Type de menace pesant sur le site"
+name = "cisMenace"
+thesaurusID = 11
+type = "multisel"
+label = "Types de menace"
+
+[[groups.fields]]
+help = "Type de menace pesant sur le site"
+name = "cisAmenagement"
+thesaurusID = 13
+type = "multisel"
+label = "Types d'aménagements"
+
+[[groups.fields]]
+help = "Informations complémentaires sur les menaces pesant sur le site"
+name = "cisMenaceCmt"
+type = "text"
+label = "Informations menaces"
+
+[[groups.fields]]
+thesaurusID = 10
+default = 0
+label = "Fréquentation"
+help = "Estimation de la fréquentation du site"
+type = "select"
+name = "cisFrequentation"
+
+[groups.fields.options]
+nullable = true
+[[groups.fields]]
+help = "Actions entreprises pour la préservation du site"
+name = "cisActions"
+type = "text"
+label = "Actions"
+
+
+[[groups]]
+name = "Contact"
+[[groups.fields]]
+name = "cisContactNom"
+type = "string"
+label = "Nom du contact"
+
+[groups.fields.options]
+maxLength = 25
+[[groups.fields]]
+name = "cisContactPrenom"
+type = "string"
+label = "Prénom du contact"
+
+[groups.fields.options]
+maxLength = 25
+[[groups.fields]]
+name = "cisContactAdresse"
+type = "string"
+label = "Adresse du contact"
+
+[groups.fields.options]
+maxLength = 150
+[[groups.fields]]
+name = "cisContactCodePostal"
+type = "string"
+label = "Code postal"
+
+[groups.fields.options]
+maxLength = 5
+[[groups.fields]]
+name = "cisContactVille"
+type = "string"
+label = "Ville"
+
+[groups.fields.options]
+maxLength = 100
+[[groups.fields]]
+name = "cisContactTelephone"
+type = "string"
+label = "Téléphone"
+
+[groups.fields.options]
+maxLength = 15
+[[groups.fields]]
+name = "cisContactPortable"
+type = "string"
+label = "Portable"
+
+[groups.fields.options]
+maxLength = 15
+[[groups.fields]]
+name = "cisContactCommentaire"
+type = "text"
+label = "Commentaires contact"
+
+[groups.fields.options]
+maxLength = 1000
+

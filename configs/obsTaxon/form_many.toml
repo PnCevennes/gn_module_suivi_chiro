@@ -1,0 +1,112 @@
+[[fields]]
+name = "cotxCdNom"
+type = "xhr"
+label = "Nom taxon"
+
+[fields.options]
+url = "chiro/taxons"
+ref = "cdNom"
+reverseurl = "chiro/taxons/id"
+primary = true
+[[fields]]
+name = "metaNumerisateurId"
+type = "hidden"
+label = "Numerisateur"
+
+[fields.options]
+ref = "userId"
+[[fields]]
+name = "cotxTxPresume"
+type = "string"
+label = "Taxon initial"
+
+[[fields]]
+name = "cotxEspeceIncertaine"
+type = "bool"
+label = "Espece incertaine"
+
+[[fields]]
+name = "cotxActId"
+thesaurusID = 5
+type = "select"
+label = "Activité"
+
+[[fields]]
+name = "cotxPrvId"
+thesaurusID = 6
+type = "select"
+label = "Preuves de reproduction"
+
+[[fields]]
+name = "cotxNbIndetermineIndetermine"
+type = "num"
+label = "Indéterminés"
+
+[fields.options]
+min = 0
+[[fields]]
+name = "cotxNbMaleIndetermine"
+type = "num"
+label = "Mâles indeterminés"
+
+[fields.options]
+min = 0
+[[fields]]
+name = "cotxNbFemelleIndetermine"
+type = "num"
+label = "Femelles indeterminés"
+
+[fields.options]
+min = 0
+[[fields]]
+name = "cotxNbMaleAdulte"
+type = "num"
+label = "Mâles adultes"
+
+[fields.options]
+min = 0
+[[fields]]
+name = "cotxNbFemelleAdulte"
+type = "num"
+label = "Femelles adultes"
+
+[fields.options]
+min = 0
+[[fields]]
+name = "cotxNbMaleJuvenile"
+type = "num"
+label = "Mâles juveniles"
+
+[fields.options]
+min = 0
+[[fields]]
+name = "cotxNbFemelleJuvenile"
+type = "num"
+label = "Femelles juveniles"
+
+[fields.options]
+min = 0
+[[fields]]
+name = "cotxNbIndetermineAdulte"
+type = "num"
+label = "Indeterminés adultes"
+
+[fields.options]
+min = 0
+[[fields]]
+name = "cotxNbIndetermineJuvenile"
+type = "num"
+label = "Indeterminés juvéniles"
+
+[fields.options]
+min = 0
+[[fields]]
+name = "cotxEffectifAbs"
+default = 0
+type = "sum"
+label = "Effectif total"
+
+[fields.options]
+ref = [ "cotxNbMaleAdulte", "cotxNbFemelleAdulte", "cotxNbMaleJuvenile", "cotxNbFemelleJuvenile", "cotxNbMaleIndetermine", "cotxNbFemelleIndetermine", "cotxNbIndetermineIndetermine", "cotxNbIndetermineAdulte", "cotxNbIndetermineJuvenile",]
+modifiable = false
+min = 1

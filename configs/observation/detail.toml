@@ -1,0 +1,81 @@
+editAccessOverride = "metaNumerisateurId"
+subDataUrl = "chiro/obs_taxon/observation/"
+subSchemaUrl = "chiro/config/obstaxon/list"
+subEditRef = "id"
+editAccess = 3
+subEditSchemaUrl = "chiro/config/obstaxon/form/many"
+subEditAccess = 2
+subEditSaveUrl = "chiro/obs_taxon/many"
+subSchemaAdd = 2
+[[groups]]
+name = "Observation"
+glyphicon = "glyphicon-info-sign"
+[[groups.fields]]
+name = "bsNom"
+type = "string"
+label = "Site"
+
+[[groups.fields]]
+name = "refCommune"
+type = "xhr"
+label = "Commune"
+
+[groups.fields.options]
+url = "commune"
+multi = true
+[[groups.fields]]
+name = "bvDate"
+type = "date"
+label = "Date"
+
+[[groups.fields]]
+name = "observateurs"
+type = "xhr"
+label = "Observateurs"
+
+[groups.fields.options]
+url = "users/id"
+multi = true
+[[groups.fields]]
+name = "cvcModId"
+thesaurusID = 4
+type = "select"
+label = "Mode d'observation"
+
+[[groups.fields]]
+name = "bvCommentaire"
+type = "string"
+label = "Commentaires"
+
+[[groups.fields]]
+name = "cvcTemperature"
+type = "string"
+label = "Température (°C)"
+
+[[groups.fields]]
+name = "cvcHumidite"
+type = "string"
+label = "Humidité (%)"
+
+
+[[groups]]
+name = "Metadonnées"
+glyphicon = "glyphicon-stats"
+[[groups.fields]]
+name = "metaNumerisateurId"
+type = "xhr"
+label = "Numérisateur"
+
+[groups.fields.options]
+url = "users/id"
+[[groups.fields]]
+name = "metaCreateTimestamp"
+type = "date"
+label = "Création donnée"
+
+[[groups.fields]]
+name = "metaUpdateTimestamp"
+type = "date"
+label = "Dernière mise à jour"
+
+

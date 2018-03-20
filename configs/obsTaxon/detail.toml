@@ -1,0 +1,202 @@
+editAccessOverride = "metaNumerisateurId"
+subDataUrl = "chiro/biometrie/taxon/"
+subSchemaUrl = "chiro/config/biometrie/list"
+subEditRef = "id"
+dataUrl = "chiro/obs_taxon/"
+editAccess = 3
+subEditSchemaUrl = "chiro/config/biometrie/form/many"
+subEditAccess = 3
+subEditSaveUrl = "chiro/biometrie/many"
+subSchemaAdd = 3
+[[groups]]
+name = "Général"
+glyphicon = "glyphicon-info-sign"
+[[groups.fields]]
+name = "cotxCdNom"
+type = "num"
+label = "Cd nom"
+
+[[groups.fields]]
+name = "cotxNomComplet"
+type = "string"
+label = "Nom taxon"
+
+[[groups.fields]]
+name = "cotxTxPresume"
+type = "string"
+label = "Taxon presumé"
+
+[[groups.fields]]
+name = "cotxEspeceIncertaine"
+type = "bool"
+label = "Espece incertaine"
+
+[[groups.fields]]
+name = "cotxObjStatusValidation"
+thesaurusID = 9
+type = "select"
+label = "Statut validation"
+
+[[groups.fields]]
+name = "cotxValidateur"
+type = "xhr"
+label = "Validateur"
+
+[groups.fields.options]
+url = "users/id"
+[[groups.fields]]
+name = "indices"
+thesaurusID = 12
+type = "multisel"
+label = "Indices"
+
+[[groups.fields]]
+name = "cotxIndicesCmt"
+type = "string"
+label = "Description indices"
+
+[[groups.fields]]
+name = "cotxActId"
+thesaurusID = 5
+type = "select"
+label = "Activité"
+
+[[groups.fields]]
+name = "cotxPrvId"
+thesaurusID = 6
+type = "select"
+label = "Preuves de reproduction"
+
+[[groups.fields]]
+name = "cotxEffectifAbs"
+type = "num"
+label = "Effectif total"
+
+[[groups.fields]]
+help = "Photographies pour identification"
+name = "obsTaxonFichiers"
+type = "file"
+label = "Photographies"
+
+[groups.fields.options]
+target = "uploads/chiro/obsTaxon/"
+
+[[groups]]
+name = "Détail"
+glyphicon = "glyphicon-search"
+[[groups.fields]]
+name = "Dénombrement"
+titles = [ "Adultes", "Juvéniles", "Indéterminés",]
+type = "group"
+[[groups.fields.fields]]
+name = "males"
+label = "Mâles"
+[[groups.fields.fields.fields]]
+name = "cotxNbMaleAdulte"
+default = 0
+type = "num"
+label = "Adultes"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbMaleJuvenile"
+default = 0
+type = "num"
+label = "Juveniles"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbMaleIndetermine"
+default = 0
+type = "num"
+label = "Age indeterminé"
+
+[groups.fields.fields.fields.options]
+min = 0
+
+[[groups.fields.fields]]
+name = "femelles"
+label = "Femelles"
+[[groups.fields.fields.fields]]
+name = "cotxNbFemelleAdulte"
+default = 0
+type = "num"
+label = "Adultes"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbFemelleJuvenile"
+default = 0
+type = "num"
+label = "Juveniles"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbFemelleIndetermine"
+default = 0
+type = "num"
+label = "Age indeterminé"
+
+[groups.fields.fields.fields.options]
+min = 0
+
+[[groups.fields.fields]]
+name = "indetermines"
+label = "Sexe indéterminé"
+[[groups.fields.fields.fields]]
+name = "cotxNbIndetermineAdulte"
+default = 0
+type = "num"
+label = "Adultes"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbIndetermineJuvenile"
+default = 0
+type = "num"
+label = "Juvéniles"
+
+[groups.fields.fields.fields.options]
+min = 0
+[[groups.fields.fields.fields]]
+name = "cotxNbIndetermineIndetermine"
+default = 0
+type = "num"
+label = "Age indeterminé"
+
+[groups.fields.fields.fields.options]
+min = 0
+
+
+[[groups.fields]]
+name = "cotxCommentaire"
+type = "string"
+label = "Commentaires"
+
+
+[[groups]]
+name = "Metadonnées"
+glyphicon = "glyphicon-stats"
+[[groups.fields]]
+name = "metaNumerisateurId"
+type = "xhr"
+label = "Numérisateur"
+
+[groups.fields.options]
+url = "users/id"
+[[groups.fields]]
+name = "metaCreateTimestamp"
+type = "date"
+label = "Création donnée"
+
+[[groups.fields]]
+name = "metaUpdateTimestamp"
+type = "date"
+label = "Dernière mise à jour"
+
+

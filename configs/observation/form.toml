@@ -1,0 +1,78 @@
+editAccessOverride = "metaNumerisateurId"
+deleteAccessOverride = "metaNumerisateurId"
+deleteAccess = 5
+subDataRef = "__taxons__"
+editAccess = 3
+subSchemaUrl = "chiro/config/obstaxon/form/many"
+subTitle = "Ajout rapide de taxons"
+subSchemaAdd = "2,"
+[[groups]]
+name = "Visite"
+[[groups.fields]]
+name = "id"
+type = "hidden"
+label = "Id"
+
+[[groups.fields]]
+name = "fkBsId"
+type = "xhr"
+label = "Site"
+
+[groups.fields.options]
+url = "chiro/sitelist"
+ref = "fkBsId"
+reverseurl = "chiro/sitexhr"
+restrictLevel = 5
+[[groups.fields]]
+name = "metaNumerisateurId"
+type = "hidden"
+label = "Numerisateur"
+
+[groups.fields.options]
+ref = "userId"
+[[groups.fields]]
+name = "observateurs"
+type = "xhr"
+label = "Observateurs"
+
+[groups.fields.options]
+url = "users/menu/1000001"
+reverseurl = "users/id"
+ref = "nomComplet"
+multi = true
+[[groups.fields]]
+name = "bvDate"
+type = "date"
+label = "Date"
+
+[groups.fields.options]
+required = true
+[[groups.fields]]
+name = "cvcModId"
+thesaurusID = 4
+type = "select"
+default = 18
+label = "Mode d'observation"
+
+[[groups.fields]]
+name = "bvCommentaire"
+type = "text"
+label = "Commentaires"
+
+[[groups.fields]]
+name = "cvcTemperature"
+type = "num"
+label = "Température (°C)"
+
+[groups.fields.options]
+step = 0.1
+max = 100
+[[groups.fields]]
+name = "cvcHumidite"
+type = "num"
+label = "Humidité (%)"
+
+[groups.fields.options]
+step = 0.1
+max = 100
+

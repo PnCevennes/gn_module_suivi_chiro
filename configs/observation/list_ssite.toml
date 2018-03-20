@@ -1,0 +1,76 @@
+emptyMsg = "Aucun inventaire pour le moment"
+createUrl = "#/chiro/edit/inventaire"
+detailUrl = "#/chiro/inventaire/"
+mapSize = "large"
+dataUrl = "chiro/inventaire"
+mapConfig = "js/resources/chiro_site.json"
+editAccess = 2
+createBtnLabel = "Nouvel inventaire"
+editUrl = "#/chiro/edit/inventaire/"
+title = "Inventaire"
+[[fields]]
+name = "id"
+label = "Id"
+
+[fields.filter]
+id = "text"
+[fields.options]
+visible = false
+style = "xs"
+[[fields]]
+name = "bvDate"
+label = "Date d'inventaire"
+
+[fields.filter]
+bvDate = "text"
+[fields.options]
+visible = true
+type = "date"
+style = "l"
+primary = true
+[[fields]]
+name = "observateurs"
+label = "Observateurs"
+
+[fields.filter]
+observateurs = "text"
+[fields.options]
+visible = true
+type = "list"
+style = "xl"
+[[fields]]
+name = "nbTaxons"
+label = "Taxons"
+
+[fields.filter]
+nbTaxons = "text"
+[fields.options]
+visible = true
+style = "xs"
+[[fields]]
+name = "abondance"
+label = "Abondance"
+
+[fields.filter]
+abondance = "text"
+[fields.options]
+visible = true
+style = "xs"
+
+[filtering]
+limit = 200
+[[filtering.fields]]
+name = "bv_date"
+type = "date"
+label = "Date d'observation"
+
+[[filtering.fields]]
+name = "nb_taxons"
+type = "num"
+label = "Taxons"
+
+[[filtering.fields]]
+name = "abondance"
+type = "num"
+label = "Abondance"
+

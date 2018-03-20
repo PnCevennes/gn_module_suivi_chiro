@@ -1,0 +1,61 @@
+emptyMsg = "Aucun taxon observé"
+createUrl = "#/chiro/edit/taxons/observation/"
+detailUrl = "#/chiro/taxons/"
+mapSize = "small"
+dataUrl = "chiro/obs_taxon"
+mapConfig = "js/resources/chiro_site.json"
+editAccess = 3
+createBtnLabel = "Ajouter taxon"
+editUrl = "#/chiro/edit/taxons/"
+title = "Taxons"
+[[fields]]
+name = "id"
+label = "Id"
+
+[fields.filter]
+id = "text"
+[fields.options]
+visible = false
+[[fields]]
+name = "cotxNomComplet"
+label = "Nom taxon"
+
+[fields.filter]
+cotxNomComplet = "text"
+[fields.options]
+visible = true
+style = "xl"
+primary = true
+[[fields]]
+name = "cotxEffectifAbs"
+label = "Effectif total"
+
+[fields.filter]
+cotxEffectifAbs = "text"
+[fields.options]
+visible = true
+style = "xs"
+[[fields]]
+thesaurusID = 9
+label = "Validation"
+name = "cotxObjStatusValidation"
+type = "select"
+
+[fields.filter]
+cotxObjStatusValidation = "text"
+[fields.options]
+visible = true
+type = "select"
+style = "l"
+
+[filtering]
+limit = 200
+[[filtering.fields]]
+name = "cotx_cd_nom"
+type = "xhr"
+label = "Taxon"
+
+[filtering.fields.options]
+url = "chiro/taxons"
+ref = "taxon"
+reverseurl = "chiro/taxons/id"

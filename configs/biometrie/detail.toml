@@ -1,0 +1,112 @@
+editAccess = 3
+[[groups]]
+name = "Général"
+[[groups.fields]]
+name = "cbioAgeId"
+thesaurusID = 1
+type = "select"
+label = "Âge"
+
+[[groups.fields]]
+name = "cbioSexeId"
+thesaurusID = 2
+type = "select"
+label = "Sexe"
+
+[[groups.fields]]
+name = "cbioPoids"
+type = "num"
+label = "Poids (g)"
+
+[[groups.fields]]
+name = "cbioCommentaire"
+type = "string"
+label = "Commentaires"
+
+
+[[groups]]
+name = "Membre"
+[[groups.fields]]
+name = "cbioAb"
+type = "num"
+label = "AB (mm)"
+
+[[groups.fields]]
+help = "Mesure du 3ème doigt, métacarpe + 1ère phalange"
+name = "cbioD3mf1"
+type = "num"
+label = "D3MF1 (mm)"
+
+[[groups.fields]]
+help = "Mesure du 3ème doigt, 2ème et 3ème phalanges"
+name = "cbioD3f2f3"
+type = "num"
+label = "D3F2F3 (mm)"
+
+[[groups.fields]]
+help = "Longueur totale du 3ème doigt"
+name = "cbioD3total"
+type = "num"
+label = "D3 total (mm)"
+
+[[groups.fields]]
+help = "Mesure du 5ème doigt"
+name = "cbioD5"
+type = "num"
+label = "D5 (mm)"
+
+
+[[groups]]
+name = "Crane"
+[[groups.fields]]
+help = "Mesure canine - 3ème molaire (mandibule supérieure)"
+name = "cbioCm3sup"
+type = "num"
+label = "CM3SUP (mm)"
+
+[[groups.fields]]
+help = "Mesure canine - 3ème molaire (mandibule inférieure)"
+name = "cbioCm3inf"
+type = "num"
+label = "CM3INF (mm)"
+
+[[groups.fields]]
+help = "Mesure condylobasale"
+name = "cbioCb"
+type = "num"
+label = "CB (mm)"
+
+[[groups.fields]]
+help = "Mesure mandibule inférieure"
+name = "cbioLm"
+type = "num"
+label = "LM (mm)"
+
+[[groups.fields]]
+help = "Mesure de l'oreille"
+name = "cbioOreille"
+type = "num"
+label = "Oreille (mm)"
+
+
+[[groups]]
+name = "Metadonnées"
+glyphicon = "glyphicon-stats"
+[[groups.fields]]
+name = "metaNumerisateurId"
+type = "xhr"
+label = "Numérisateur"
+
+[groups.fields.options]
+url = "users/id"
+[[groups.fields]]
+name = "metaCreateTimestamp"
+type = "date"
+label = "Création donnée"
+
+[[groups.fields]]
+name = "metaUpdateTimestamp"
+type = "date"
+label = "Dernière mise à jour"
+
+
