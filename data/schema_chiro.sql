@@ -1,38 +1,4 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 9.5.12
--- Dumped by pg_dump version 9.5.12
-
--- Started on 2018-03-20 15:08:20 CET
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- TOC entry 10 (class 2615 OID 224399)
--- Name: chiro; Type: SCHEMA; Schema: -; Owner: dbadmin
---
-
 CREATE SCHEMA monitoring_chiro;
-
-
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
---
--- TOC entry 207 (class 1259 OID 225788)
--- Name: pr_site_infos; Type: TABLE; Schema: chiro; Owner: dbadmin
---
 
 CREATE TABLE monitoring_chiro.t_site_infos
 (
@@ -72,11 +38,31 @@ CREATE TABLE monitoring_chiro.t_visite_conditions
   id_base_visit integer NOT NULL
       REFERENCES gn_monitoring.t_base_visits (id_base_visit) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE,
+  geom public.geometry,
   temperature numeric(4,2),
   humidite numeric(4,2),
   id_nomenclature_mod_id integer REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE NO ACTION,
+  CONSTRAINT enforce_dims_geom CHECK (st_ndims(geom) = 2),
+  CONSTRAINT enforce_srid_geom CHECK (st_srid(geom) = 4326)
 );
+
+
+CREATE INDEX index_monitoring_chiro_t_visite_conditions_geom
+  ON monitoring_chiro.t_visite_conditions
+  USING gist
+  (geom);
+
+
+-- Trigger: trg_add_obs_geom on gn_monitoring.t_base_visits
+
+-- DROP TRIGGER trg_add_obs_geom ON gn_monitoring.t_base_visits;
+
+CREATE TRIGGER trg_add_obs_geom
+  BEFORE INSERT OR UPDATE
+  ON monitoring_chiro.t_visite_conditions
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_monitoring.fct_trg_add_obs_geom();
 
 
 CREATE UNIQUE INDEX index_t_visite_conditions_id_base_visit
