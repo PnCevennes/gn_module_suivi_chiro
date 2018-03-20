@@ -9,8 +9,6 @@ from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import serializable
 from geonature.core.gn_monitoring.models import TBaseVisits
 
-from .gn_models_imports import TMedias
-
 
 @serializable
 class ConditionsVisite(TBaseVisits):
@@ -22,7 +20,7 @@ class ConditionsVisite(TBaseVisits):
     __mapper_args__ = {
             'column_prefix': 'cvc_',
             'polymorphic_identity': 'chiro_condition_visite',
-            'polymorphic_on': 'protocol_visit'
+            'polymorphic_on': 'protocol_complements'
             }
     bv_id = DB.Column('fk_bv_id', DB.Integer) #fk gn_monitoring.base_visite
     temperature = DB.Column(DB.Float)

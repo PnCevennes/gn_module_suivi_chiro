@@ -8,8 +8,7 @@ from sqlalchemy import ForeignKey
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import serializable
 from geonature.core.gn_monitoring.models import TBaseSites
-
-from .gn_models_imports import TMedias
+from geonature.core.gn_medias.models import TMedias
 
 
 @serializable
@@ -22,7 +21,7 @@ class InfoSite(TBaseSites):
     __mapper_args__ = {
             'column_prefix': 'cis_',
             'polymorphic_identity': 'chiro_info_site',
-            'polymorphic_on': 'protocol_site'
+            'polymorphic_on': 'protocol_complements'
             }
     bs_id = DB.Column('fk_bs_id', DB.Integer) #fk gn_monitoring.base_site
     id = DB.Column(DB.Integer, primary_key=True)
@@ -56,6 +55,9 @@ class InfoSite(TBaseSites):
 
 
 class RelChirositeThesaurusMenace(DB.Model):
+    '''
+    Relations entre les sites chiro et les définitions de la nomenclature relatives aux menaces
+    '''
     __tablename__ = 'rel_chirosite_thesaurus_menace'
     __table_args__ = {'schema': 'chiro'}
     id_cis = DB.Column(
@@ -69,6 +71,9 @@ class RelChirositeThesaurusMenace(DB.Model):
 
 
 class RelChirositeThesaurusAmenagement(DB.Model):
+    '''
+    Relations entre les sites chiro et les définitions de la nomenclature relatives aux aménagements
+    '''
     __tablename__ = 'rel_chirosite_thesaurus_amenagement'
     __table_args__ = {'schema': 'chiro'}
     id_cis = DB.Column(
@@ -82,6 +87,9 @@ class RelChirositeThesaurusAmenagement(DB.Model):
 
 
 class RelChirositeMedias(DB.Model):
+    '''
+    Relations entre les sites chiro et les fichiers liés
+    '''
     __tablename__ = 'rel_chirosite_medias'
     __table_args__ = {'schema': 'chiro'}
     id_cis = DB.Column(
