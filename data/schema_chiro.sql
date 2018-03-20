@@ -19,8 +19,6 @@ CREATE TABLE monitoring_chiro.t_site_infos
   contact_commentaire text,
   id_nomenclature_frequentation integer REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE NO ACTION,
-  id_nomenclature_menace integer REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION,
   site_actif boolean,
   actions text
 );
@@ -194,33 +192,33 @@ CREATE TRIGGER tri_meta_dates_change_cor_counting_contact
 
 CREATE TABLE monitoring_chiro.cor_site_infos_nomenclature_amenagements
 (
-  id_base_site integer NOT NULL REFERENCES gn_monitoring.t_base_sites (id_base_site) MATCH SIMPLE
+  id_site_infos integer NOT NULL REFERENCES monitoring_chiro.t_site_infos (id_site_infos) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE,
   id_nomenclature_amenagement integer NOT NULL REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE NO ACTION,
-  CONSTRAINT pk_amenagement_f PRIMARY KEY (id_base_site, id_nomenclature_amenagement)
+  CONSTRAINT pk_amenagement_f PRIMARY KEY (id_site_infos, id_nomenclature_amenagement)
 );
 
 
 
 CREATE TABLE monitoring_chiro.cor_site_infos_nomenclature_menaces
 (
-  id_base_site integer NOT NULL  REFERENCES gn_monitoring.t_base_sites (id_base_site) MATCH SIMPLE
+  id_site_infos integer NOT NULL  REFERENCES monitoring_chiro.t_site_infos (id_site_infos) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE,
   id_nomenclature_menaces integer NOT NULL REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE NO ACTION,
-  CONSTRAINT pk_menaces_f PRIMARY KEY (id_base_site, id_nomenclature_menaces)
+  CONSTRAINT pk_menaces_f PRIMARY KEY (id_site_infos, id_nomenclature_menaces)
 );
 
 
 
 CREATE TABLE monitoring_chiro.cor_contact_taxons_nomenclature_indices
 (
-  id_base_site integer NOT NULL REFERENCES gn_monitoring.t_base_sites (id_base_site) MATCH SIMPLE
+  id_site_infos integer NOT NULL REFERENCES monitoring_chiro.t_site_infos (id_site_infos) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE,
   id_nomenclature_indice integer NOT NULL REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE NO ACTION,
-  CONSTRAINT pk_cor_contact_taxons_nomenclature_indices PRIMARY KEY (id_base_site, id_nomenclature_indice)
+  CONSTRAINT pk_cor_contact_taxons_nomenclature_indices PRIMARY KEY (id_site_infos, id_nomenclature_indice)
 );
 
 
