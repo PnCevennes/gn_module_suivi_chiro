@@ -7,8 +7,7 @@ from sqlalchemy import ForeignKey
 
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import serializable
-
-from .gn_models_imports import TMedias
+from geonature.core.gn_medias.models import TMedias
 
 
 @serializable
