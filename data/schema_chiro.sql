@@ -1,3 +1,4 @@
+DROP SCHEMA IF EXISTS monitoring_chiro CASCADE;
 CREATE SCHEMA monitoring_chiro;
 
 CREATE TABLE monitoring_chiro.t_site_infos
@@ -170,16 +171,12 @@ CREATE TABLE monitoring_chiro.cor_counting_contact
   CONSTRAINT check_cor_counting_contact_valid_status CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_valid_status, 101))
 );
 
-COMMENT ON COLUMN pr_contact.cor_counting_contact.id_nomenclature_life_stage IS 'Correspondance nomenclature INPN = stade_vie (10)';
-COMMENT ON COLUMN pr_contact.cor_counting_contact.id_nomenclature_sex IS 'Correspondance nomenclature INPN = sexe (9)';
-COMMENT ON COLUMN pr_contact.cor_counting_contact.id_nomenclature_obj_count IS 'Correspondance nomenclature INPN = obj_denbr (6)';
-COMMENT ON COLUMN pr_contact.cor_counting_contact.id_nomenclature_type_count IS 'Correspondance nomenclature INPN = typ_denbr (21)';
-COMMENT ON COLUMN pr_contact.cor_counting_contact.id_nomenclature_valid_status IS 'Correspondance nomenclature INPN = statut_valid (101)';
+COMMENT ON COLUMN monitoring_chiro.cor_counting_contact.id_nomenclature_life_stage IS 'Correspondance nomenclature INPN = stade_vie (10)';
+COMMENT ON COLUMN monitoring_chiro.cor_counting_contact.id_nomenclature_sex IS 'Correspondance nomenclature INPN = sexe (9)';
+COMMENT ON COLUMN monitoring_chiro.cor_counting_contact.id_nomenclature_obj_count IS 'Correspondance nomenclature INPN = obj_denbr (6)';
+COMMENT ON COLUMN monitoring_chiro.cor_counting_contact.id_nomenclature_type_count IS 'Correspondance nomenclature INPN = typ_denbr (21)';
+COMMENT ON COLUMN monitoring_chiro.cor_counting_contact.id_nomenclature_valid_status IS 'Correspondance nomenclature INPN = statut_valid (101)';
 
-
--- Trigger: tri_meta_dates_change_cor_counting_contact on pr_contact.cor_counting_contact
-
--- DROP TRIGGER tri_meta_dates_change_cor_counting_contact ON pr_contact.cor_counting_contact;
 
 CREATE TRIGGER tri_meta_dates_change_cor_counting_contact
   BEFORE INSERT OR UPDATE
