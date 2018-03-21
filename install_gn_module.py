@@ -1,3 +1,4 @@
+import os
 import subprocess
 from pathlib import Path
 
@@ -24,4 +25,18 @@ def gnmodule_install_app(gn_db, gn_app):
             - Module (pour le moment rien)
     '''
     with gn_app.app_context() :
+        # Création des liens symboliques pour la configuration
+        try :
+            config_path = Path(gn_app.config['BASE_DIR']) / 'static/configs'
+            if config_path.is_dir():
+                os.symlink(str(ROOT_DIR / 'configs'), str(config_path / 'suivi_chiro'))
+            else:
+                raise Exception ('''
+                    unable to create config file symlink : config_path doesn't exists
+                ''')
+        except Exception as e:
+            print(e)
+        # Installation du module de la base
         gnmodule_install_db(gn_db, gn_app)
+
+        
