@@ -57,6 +57,25 @@ CREATE INDEX index_monitoring_chiro_t_visite_conditions_geom
 
 -- DROP TRIGGER trg_add_obs_geom ON gn_monitoring.t_base_visits;
 
+CREATE OR REPLACE FUNCTION gn_monitoring.fct_trg_add_obs_geom()
+  RETURNS trigger AS
+$BODY$
+BEGIN
+	IF (NEW.geom IS NULL) THEN
+		NEW.geom = (
+			SELECT geom
+			FROM gn_monitoring.t_base_sites s
+			JOIN gn_monitoring.t_base_visits v ON s.id_base_site = v.id_base_site
+			WHERE id_base_visit = NEW.id_base_visit
+		);
+	END IF;
+	return NEW;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+
 CREATE TRIGGER trg_add_obs_geom
   BEFORE INSERT OR UPDATE
   ON monitoring_chiro.t_visite_conditions
@@ -99,7 +118,7 @@ CREATE TABLE monitoring_chiro.t_visite_contact_taxons
 );
 
 
-CREATE UNIQUE INDEX index_t_visite_contact_taxons_id_base_visit
+CREATE INDEX index_t_visite_contact_taxons_id_base_visit
   ON monitoring_chiro.t_visite_contact_taxons
   USING btree
   (id_base_visit);
@@ -139,7 +158,7 @@ CREATE TABLE monitoring_chiro.cor_counting_contact
   meta_create_date timestamp without time zone,
   meta_update_date timestamp without time zone,
   
-  unique_id_sinp_occtax uuid NOT NULL DEFAULT public.uuid_generate_v4(),
+  unique_id_sinp uuid NOT NULL DEFAULT public.uuid_generate_v4(),
   
   CONSTRAINT fk_cor_counting_contact_life_stage FOREIGN KEY (id_nomenclature_life_stage)
       REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
@@ -209,9 +228,10 @@ CREATE TABLE monitoring_chiro.cor_site_infos_nomenclature_menaces
 
 
 
+
 CREATE TABLE monitoring_chiro.cor_contact_taxons_nomenclature_indices
 (
-  id_site_infos integer NOT NULL REFERENCES monitoring_chiro.t_site_infos (id_site_infos) MATCH SIMPLE
+  id_contact_taxon integer NOT NULL REFERENCES monitoring_chiro.t_visite_contact_taxons (id_contact_taxon) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE,
   id_nomenclature_indice integer NOT NULL REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE NO ACTION,
