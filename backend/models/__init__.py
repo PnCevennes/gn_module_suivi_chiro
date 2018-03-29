@@ -1,14 +1,14 @@
 from .site import (
         InfoSite,
-        RelChirositeMedias,
-        RelChirositeThesaurusMenace,
-        RelChirositeThesaurusAmenagement)
-
-from .visite import ConditionsVisite
-
-from .observation_taxon import (
-        ObservationTaxon,
-        RelObservationTaxonFichiers
+        RelChirositeTNomenclaturesMenace,
+        RelChirositeTNomenclaturesAmenagement,
         )
-
-from .biometrie import Biometrie
+from .visite import(
+        ConditionsVisite
+        )
+from .observation_taxon import (
+        ObservationTaxon
+        )
+from .biometrie import (
+        Biometrie
+        )

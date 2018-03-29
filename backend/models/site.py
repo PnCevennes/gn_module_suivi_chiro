@@ -6,99 +6,85 @@ Modeles de données propres aux sites suivi chiro
 from sqlalchemy import ForeignKey
 
 from geonature.utils.env import DB
-from geonature.utils.utilssqlalchemy import serializable
+from geonature.utils.utilssqlalchemy import (
+        serializable,
+        geoserializable)
 from geonature.core.gn_monitoring.models import TBaseSites
 from geonature.core.gn_medias.models import TMedias
+from pypnnomenclature.models import TNomenclatures
 
 
 @serializable
-class InfoSite(TBaseSites):
+class RelChirositeTNomenclaturesMenace(DB.Model):
+    '''
+    Correspondances entre id nomenclatures des menaces et sites
+    '''
+    __tablename__ = 'cor_site_infos_nomenclature_menaces'
+    __table_args__ = {'schema': 'monitoring_chiro'}
+    id_site_infos = DB.Column(
+        DB.Integer,
+        ForeignKey('monitoring_chiro.t_site_infos.id_site_infos'),
+        primary_key=True
+    )
+    id_nomenclature_menaces = DB.Column(
+        DB.Integer,
+        #ForeignKey('ref_nomenclatures.t_nomenclatures.id_nomenclature'),
+        ForeignKey(TNomenclatures.id_nomenclature),
+        primary_key=True
+    )
+
+
+@serializable
+class RelChirositeTNomenclaturesAmenagement(DB.Model):
+    '''
+    Correspondances entre id nomenclatures des amenagements et sites
+    '''
+    __tablename__ = 'cor_site_infos_nomenclature_amenagements'
+    __table_args__ = {'schema':'monitoring_chiro'}
+    id_site_infos = DB.Column(
+        DB.Integer,
+        ForeignKey('monitoring_chiro.t_site_infos.id_site_infos'),
+        primary_key=True
+    )
+    id_nomenclature_amenagement = DB.Column(
+        DB.Integer,
+        #ForeignKey('ref_nomenclatures.t_nomenclatures.id_nomenclature'),
+        ForeignKey(TNomenclatures.id_nomenclature),
+        primary_key=True
+    )
+
+
+@serializable
+@geoserializable
+class InfoSite(DB.Model):
     '''
     Informations propres aux problématiques chiro pour un site donné
     '''
-    __tablename__ = 't_pr_site_infos'
-    __table_args__ = {'schema': 'chiro'}
-    __mapper_args__ = {
-            'column_prefix': 'cis_',
-            'polymorphic_identity': 'chiro_info_site',
-            'polymorphic_on': 'protocol_complements'
-            }
-    bs_id = DB.Column('fk_bs_id', DB.Integer) #fk gn_monitoring.base_site
-    id = DB.Column(DB.Integer, primary_key=True)
-    frequentation = DB.Column(DB.Integer) #rel thesaurus
-    menaces = DB.relationship(
-           Thesaurus,
-           secondary='rel_chirosite_thesaurus_menace',
-           lazy='joined'
-            )
+    __tablename__ = 't_site_infos'
+    __table_args__ = {'schema': 'monitoring_chiro'}
+
+    id_site_infos = DB.Column(DB.Integer, primary_key=True)
+    id_base_site = DB.Column(
+            DB.Integer,
+            ForeignKey(TBaseSites.id_base_site)
+            ) #fk gn_monitoring.base_site
+    base_site = DB.relationship(TBaseSites)
+    description = DB.Column(DB.UnicodeText)
+    id_nomenclature_frequentation = DB.Column(DB.Integer) #rel nomenclature
     menace_cmt = DB.Column(DB.Unicode(250))
     actions = DB.Column(DB.Unicode(250))
-    amenagements = DB.relationship(
-            Thesaurus,
-            secondary='rel_chirosite_thesaurus_amenagement',
-            lazy='joined'
-            )
-    fichiers = DB.relationship(
-            TMedias,
-            secondary='rel_chirosite_fichiers',
-            lazy='joined'
-            )
+    menaces_ids = DB.relationship(
+            RelChirositeTNomenclaturesMenace,
+            lazy='joined')
+    amenagements_ids = DB.relationship(
+            RelChirositeTNomenclaturesAmenagement,
+            lazy='joined')
     site_actif = DB.Column(DB.Boolean, default=False)
     contact_nom = DB.Column(DB.Unicode(25))
     contact_prenom = DB.Column(DB.Unicode(25))
     contact_adresse = DB.Column(DB.Unicode(150))
-    contact_codepostal = DB.Column(DB.Unicode(5))
+    contact_code_postal = DB.Column(DB.Unicode(5))
     contact_ville = DB.Column(DB.Unicode(100))
     contact_telephone = DB.Column(DB.Unicode(15))
     contact_portable = DB.Column(DB.Unicode(15))
     contact_commentaire = DB.Column(DB.Unicode(250))
-
-
-class RelChirositeThesaurusMenace(DB.Model):
-    '''
-    Relations entre les sites chiro et les définitions de la nomenclature relatives aux menaces
-    '''
-    __tablename__ = 'rel_chirosite_thesaurus_menace'
-    __table_args__ = {'schema': 'chiro'}
-    id_cis = DB.Column(
-            DB.Integer,
-            DB.ForeignKey(InfoSite.cis_id),
-            primary_key=True)
-    id_menace = DB.Column(
-            DB.Integer,
-            DB.ForeignKey('nomenclatures.t_nomenclatures.id_nomenclature'),
-            primary_key=True)
-
-
-class RelChirositeThesaurusAmenagement(DB.Model):
-    '''
-    Relations entre les sites chiro et les définitions de la nomenclature relatives aux aménagements
-    '''
-    __tablename__ = 'rel_chirosite_thesaurus_amenagement'
-    __table_args__ = {'schema': 'chiro'}
-    id_cis = DB.Column(
-            DB.Integer,
-            DB.ForeignKey(InfoSite.id),
-            primary_key=True)
-    id_menace = DB.Column(
-            DB.Integer,
-            DB.ForeignKey('nomenclatures.t_nomenclatures.id_nomenclature'),
-            primary_key=True)
-
-
-class RelChirositeMedias(DB.Model):
-    '''
-    Relations entre les sites chiro et les fichiers liés
-    '''
-    __tablename__ = 'rel_chirosite_medias'
-    __table_args__ = {'schema': 'chiro'}
-    id_cis = DB.Column(
-            DB.Integer,
-            DB.ForeignKey(InfoSite.id),
-            primary_key=True)
-    id_fichier = DB.Column(
-            DB.Integer,
-            DB.ForeignKey(TMedias.id_media),
-            primary_key=True)
-
-
