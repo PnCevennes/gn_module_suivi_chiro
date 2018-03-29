@@ -7,7 +7,7 @@ from .visite import(
         ConditionsVisite
         )
 from .observation_taxon import (
-        ObservationTaxon
+        ContactTaxon
         )
 from .biometrie import (
         Biometrie

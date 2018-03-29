@@ -10,8 +10,8 @@ from ..models.visite import ConditionsVisite
 
 
 def _format_visite_data(data):
-    result = data.as_dict(recursif=False)
-    result.update(data.base_visit.as_dict())
+    result = data.as_geofeature('geom', 'id_visite_cond', recursif=False)
+    result['properties'].update(data.base_visit.as_dict())
     return result
 
 

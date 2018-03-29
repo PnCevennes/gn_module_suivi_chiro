@@ -9,14 +9,15 @@ from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import serializable
 from geonature.core.gn_medias.models import TMedias
 from geonature.core.gn_monitoring.models import TBaseVisits
+from .counting_contact import CountingContact
 
 
 @serializable
-class ObservationTaxon(DB.Model):
+class ContactTaxon(DB.Model):
     '''
     Informations recueillies sur un taxon donné lors d'une visite
     '''
-    __tablename__ = 't_visite_contact_taxon'
+    __tablename__ = 't_visite_contact_taxons'
     __table_args__ = {'schema': 'monitoring_chiro'}
     id_contact_taxon = DB.Column(DB.Integer, primary_key=True)
     id_base_visit = DB.Column(
@@ -33,6 +34,7 @@ class ObservationTaxon(DB.Model):
     commentaire = DB.Column(DB.Unicode(250))
     meta_create_date = DB.Column(DB.Date)
     meta_update_date = DB.Column(DB.Date)
-    id_digitizer = DB.Column(DB.Integer)
+    id_digitiser = DB.Column(DB.Integer)
 
+    denombrements = DB.relationship("CountingContact")
 

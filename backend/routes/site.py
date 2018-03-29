@@ -1,5 +1,6 @@
 from flask import request
 
+from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp
 from pypnnomenclature.models import TNomenclatures
 from pypnnomenclature import repository
@@ -7,20 +8,21 @@ from pypnnomenclature import repository
 from ..blueprint import blueprint as routes
 from ..models.site import InfoSite
 
-from geonature.utils.env import DB
 
 
 
 def _format_site_data(data):
+    base = data.base_site.as_geofeature('geom', 'id_base_site')
+    
     result = data.as_dict(recursif=False)
-    result.update(data.base_site.as_dict())
     result['menaces_ids'] = [
             menace.id_nomenclature_menaces
             for menace in data.menaces_ids]
     result['amenagements_ids'] = [
             amenagement.id_nomenclature_amenagement
             for amenagement in data.amenagements_ids]
-    return result
+    base['properties'].update(result)
+    return base
 
 
 @routes.route('/sites', methods=['GET'])

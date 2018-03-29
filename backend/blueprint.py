@@ -10,4 +10,5 @@ def gn_module_suivi_chiro_index():
 from .routes import (
         site,
         visite,
+        observation_taxon,
         )

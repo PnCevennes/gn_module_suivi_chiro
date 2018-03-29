@@ -7,12 +7,14 @@ from sqlalchemy import ForeignKey
 from geoalchemy2 import Geometry
 
 from geonature.utils.env import DB
-from geonature.utils.utilssqlalchemy import serializable
+from geonature.utils.utilssqlalchemy import serializable, geoserializable
 from geonature.core.gn_monitoring.models import TBaseVisits
 from pypnnomenclature.models import TNomenclatures
 
+from .counting_contact import CountingContact
 
 @serializable
+@geoserializable
 class ConditionsVisite(DB.Model):
     '''
     Informations relatives aux conditions dans lesquelles s'est déroulée une visite ou une observation propres aux problématiques chiro
