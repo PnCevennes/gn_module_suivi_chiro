@@ -1,0 +1,89 @@
+#
+# tables de relations remappées
+#
+
+# correspondance menaces
+RelChirositeTNomenclaturesMenace = DB.Table(
+    'cor_site_infos_nomenclature_menaces',
+    DB.MetaData(schema='monitoring_chiro'),
+    DB.Column(
+        'id_site_infos',
+        DB.Integer,
+        ForeignKey('monitoring_chiro.t_site_infos.id_site_infos'),
+        primary_key=True
+    ),
+    DB.Column(
+        'id_nomenclature_menaces',
+        DB.Integer,
+        ForeignKey('ref_nomenclatures.t_nomenclatures.id_nomenclature'),
+        primary_key=True
+    )
+)
+
+
+# correspondance amenagements
+RelChirositeTNomenclaturesAmenagement = DB.Table(
+    'cor_site_infos_nomenclature_amenagements',
+    DB.MetaData(schema='monitoring_chiro'),
+    DB.Column(
+        'id_site_infos',
+        DB.Integer,
+        ForeignKey('monitoring_chiro.t_site_infos.id_site_infos'),
+        primary_key=True
+    ),
+    DB.Column(
+        'id_nomenclature_amenagement',
+        DB.Integer,
+        ForeignKey('ref_nomenclatures.t_nomenclatures.id_nomenclature'),
+        primary_key=True
+    )
+)
+
+# correspondance medias
+RelChirositeMedias = DB.Table(
+    'cor_site_infos_medias',
+    DB.MetaData(schema='monitoring_chiro'),
+    DB.Column(
+        'id_site_infos',
+        DB.Integer,
+        ForeignKey('monitoring_chiro.t_site_infos.id_site_infos'),
+        primary_key=True
+    ),
+    DB.Column(
+        'id_nomenclature_menaces',
+        DB.Integer,
+        ForeignKey('ref_nomenclatures.t_nomenclatures.id_nomenclature'),
+        primary_key=True
+    )
+)
+
+
+#
+# restes de mappings relations
+#
+    menaces = DB.relationship(
+           TNomenclatures,
+           secondary=RelChirositeTNomenclaturesMenace,
+               primaryjoin=(
+                   RelChirositeTNomenclaturesMenace.c.id_site_infos == id_site_infos
+               ),
+               secondaryjoin=(RelChirositeTNomenclaturesMenace.c.id_nomenclature_menaces == TNomenclatures.id_nomenclature),
+               foreign_keys=[
+                   RelChirositeTNomenclaturesMenace.c.id_site_infos,
+                   RelChirositeTNomenclaturesMenace.c.id_nomenclature_menaces
+               ],
+           lazy='joined'
+       ) #rel nomenclature
+    amenagements = DB.relationship(
+           TNomenclatures,
+           secondary=RelChirositeTNomenclaturesAmenagement,
+               primaryjoin=(
+                   RelChirositeTNomenclaturesAmenagement.c.id_site_infos == id_site_infos
+               ),
+               secondaryjoin=(RelChirositeTNomenclaturesAmenagement.c.id_nomenclature_amenagement == TNomenclatures.id_nomenclature),
+               foreign_keys=[
+                   RelChirositeTNomenclaturesAmenagement.c.id_site_infos,
+                   RelChirositeTNomenclaturesAmenagement.c.id_nomenclature_amenagement
+               ],
+           lazy='joined'
+       ) #rel nomenclature

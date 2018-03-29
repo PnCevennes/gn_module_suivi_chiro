@@ -17,7 +17,7 @@ class ConditionsVisite(DB.Model):
     '''
     Informations relatives aux conditions dans lesquelles s'est déroulée une visite ou une observation propres aux problématiques chiro
     '''
-    __tablename__ = 't_pr_visite_conditions'
+    __tablename__ = 't_visite_conditions'
     __table_args__ = {'schema': 'monitoring_chiro'}
 
     id_visite_cond = DB.Column(DB.Integer, primary_key=True)
@@ -25,6 +25,7 @@ class ConditionsVisite(DB.Model):
             DB.Integer,
             ForeignKey(TBaseVisits.id_base_visit)
             ) #fk gn_monitoring.base_visite
+    base_visit = DB.relationship(TBaseVisits)
     geom = DB.Column(Geometry('GEOMETRY', 4326))
     temperature = DB.Column(DB.Float)
     humidite = DB.Column(DB.Float)

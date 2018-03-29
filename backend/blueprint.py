@@ -7,4 +7,7 @@ blueprint = Blueprint('gn_module_suivi_chiro', __name__)
 def gn_module_suivi_chiro_index():
     return 'Ca marche yep yep'
 
-from .routes import site
+from .routes import (
+        site,
+        visite,
+        )
