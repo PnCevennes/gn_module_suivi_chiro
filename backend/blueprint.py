@@ -11,4 +11,5 @@ from .routes import (
         site,
         visite,
         observation_taxon,
+        biometrie
         )

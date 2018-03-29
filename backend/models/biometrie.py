@@ -14,8 +14,8 @@ class Biometrie(DB.Model):
     '''
     Données de biométrie sur un individu
     '''
-    __tablename__ = 't_subpr_observationtaxon_biometrie'
-    __table_args__ = {'schema': 'chiro'}
+    __tablename__ = 't_contact_taxon_biometries'
+    __table_args__ = {'schema': 'monitoring_chiro'}
     id_biometrie = DB.Column(DB.Integer, primary_key=True)
     id_contact_taxon = DB.Column(
             DB.Integer,
@@ -37,4 +37,4 @@ class Biometrie(DB.Model):
     commentaire = DB.Column(DB.Unicode(250))
     meta_create_date = DB.Column(DB.Date)
     meta_update_date = DB.Column(DB.Date)
-    id_digitizer = DB.Column(DB.Integer)
+    id_digitiser = DB.Column(DB.Integer)
