@@ -2,7 +2,9 @@
 
 --DROP  VIEW monitoring_chiro.v_sites_chiro;
 CREATE OR REPLACE VIEW monitoring_chiro.v_sites_chiro AS 
-SELECT s.id_base_site,
+SELECT 
+    s.id_base_site as id,
+    s.id_base_site,
 	s.base_site_name, 
 	s.base_site_code, 
 	s.first_use_date,
@@ -42,7 +44,8 @@ ORDER BY s.id_base_site DESC;
 
 -- AVANT  chiro.vue_chiro_obs_ss_site;
 CREATE OR REPLACE VIEW monitoring_chiro.v_inventaires_chiro AS 
-SELECT obs.id_base_visit,
+SELECT obs.id_base_visit as id,
+    obs.id_base_visit,
 	cco.geom, 
 	obs.visit_date,
 	obs.comments,
@@ -71,8 +74,8 @@ ORDER BY obs.visit_date DESC;
 
 --- chiro.vue_chiro_obs
 CREATE OR REPLACE VIEW monitoring_chiro.v_visites_chiro AS 
- SELECT obs.id_base_visit,
-	obs.id_base_site,
+ SELECT obs.id_base_visit as id,
+    obs.id_base_visit,
 	s.base_site_name,
 	obs.visit_date,
 	obs.comments,

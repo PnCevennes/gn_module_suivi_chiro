@@ -3,129 +3,120 @@ createUrl = "#/chiro/edit/site/"
 detailUrl = "#/chiro/site/"
 mapSize = "large"
 dataUrl = "chiro/site"
-mapConfig = "js/resources/chiro_site.json"
+mapConfig = "static/configs/suivi_chiro/resources/chiro_site.json"
 editAccess = 5
 createBtnLabel = "Nouveau site"
 editUrl = "#/chiro/edit/site/"
 title = "Sites"
 [[fields]]
-label = "ID"
-type = "text"
-name = "id"
-
-[fields.filter]
-id = "text"
-[fields.options]
-visible = false
+    label = "ID"
+    type = "text"
+    name = "id_base_site"
+    [fields.filter]
+        id_base_site = "text"
+    [fields.options]
+        visible = false
 [[fields]]
-label = "Nom"
-type = "text"
-name = "bsNom"
-
-[fields.filter]
-bsNom = "text"
-[fields.options]
-visible = true
-style = "xl"
-primary = true
+    label = "Nom"
+    type = "text"
+    name = "base_site_name"
+    [fields.filter]
+        base_site_name = "text"
+    [fields.options]
+        visible = true
+        style = "xl"
+        primary = true
 [[fields]]
-label = "Code site"
-type = "text"
-name = "bsCode"
-
-[fields.filter]
-bsCode = "text"
-[fields.options]
-visible = false
-style = "xl"
+    label = "Code site"
+    type = "text"
+    name = "base_site_code"
+    [fields.filter]
+        base_site_code = "text"
+    [fields.options]
+        visible = false
+        style = "xl"
 [[fields]]
-name = "nomObservateur"
-type = "text"
-label = "Observateur"
-
-[fields.filter]
-nomObservateur = "text"
-[fields.option]
-visible = true
-style = "xl"
+    name = "nomObservateur"
+    type = "text"
+    label = "Observateur"
+    [fields.filter]
+        nomObservateur = "text"
+    [fields.option]
+        visible = true
+        style = "xl"
 [[fields]]
-label = "Date créa."
-type = "date"
-name = "bsDate"
-
-[fields.filter]
-bsDate = "text"
-[fields.options]
-visible = false
-type = "date"
-style = "l"
+    label = "Date créa."
+    type = "date"
+    name = "first_use_date"
+    [fields.filter]
+        first_use_date = "text"
+    [fields.options]
+        visible = false
+        type = "date"
+        style = "l"
 [[fields]]
-label = "Dern. obs."
-type = "date"
-name = "dernObs"
-
-[fields.filter]
-dernObs = "text"
-[fields.options]
-visible = true
-type = "date"
-style = "xs"
+    label = "Dern. obs."
+    type = "date"
+    name = "dern_obs"
+    [fields.filter]
+        dern_obs = "text"
+    [fields.options]
+        visible = true
+        type = "date"
+        style = "xs"
 [[fields]]
-label = "Nb visites"
-type = "text"
-name = "nbObs"
-
-[fields.filter]
-nbObs = "text"
-[fields.options]
-visible = true
-style = "xs"
+    label = "Nb visites"
+    type = "text"
+    name = "nb_obs"
+    [fields.filter]
+        nb_obs = "text"
+    [fields.options]
+        visible = true
+        style = "xs"
 [[fields]]
-thesaurusID = 7
-default = 0
-label = "Type"
-type = "select"
-name = "bsTypeId"
-
-[fields.filter]
-bsTypeId = "select"
-[fields.options]
-visible = true
-type = "select"
-nullable = true
-style = "l"
+    thesaurusID = 7
+    default = 0
+    label = "Type"
+    type = "select"
+    name = "id_nomenclature_type_site"
+    [fields.filter]
+        id_nomenclature_type_site = "select"
+    [fields.options]
+        visible = true
+        type = "select"
+        nullable = true
+        style = "l"
 [[fields]]
-name = "cisSiteActif"
-type = "bool"
-label = "Site actif"
-
-[fields.options]
-visible = false
-type = "bool"
-style = "l"
+    name = "site_actif"
+    type = "bool"
+    label = "Site actif"
+    [fields.options]
+        visible = false
+        type = "bool"
+        style = "l"
 
 [filtering]
-limit = 2000
-[[filtering.fields]]
-name = "dern_obs"
-type = "date"
-label = "Dernière observation"
+    limit = 2000
+    [[filtering.fields]]
+        name = "dern_obs"
+        type = "date"
+        label = "Dernière observation"
 
-[[filtering.fields]]
-name = "nb_obs"
-type = "num"
-label = "Nombre d'observations"
+    [[filtering.fields]]
+        name = "nb_obs"
+        type = "num"
+        label = "Nombre d'observations"
 
-[[filtering.fields]]
-thesaurusID = 7
-zeroNull = true
-default = 0
-label = "Type de site"
-type = "select"
-name = "bs_type_id"
+    [[filtering.fields]]
+        thesaurusID = 7
+        zeroNull = true
+        default = 0
+        label = "Type de site"
+        type = "select"
+        name = "id_nomenclature_type_site"
 
-[[filtering.fields]]
-name = "bs_date"
-type = "date"
-label = "Création du site"
+    [[filtering.fields]]
+        name = "first_use_date"
+        type = "date"
+        label = "Création du site"
 

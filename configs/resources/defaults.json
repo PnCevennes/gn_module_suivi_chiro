@@ -1,0 +1,35 @@
+[
+    {
+        "order" : 1,
+        "id": "sample", 
+        "clustering": false,
+        "name": "Map", 
+        "center": {
+            "lat": 44.3266459,
+            "lng": 3.6072651,
+            "zoom": 10
+        },
+        "layers": { 
+            "baselayers": [
+                {
+                    "name": "OpenCycleMap",
+                    "type": "xyz",
+                    "url": "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+                    "active": false,
+                    "options":{}
+                },
+                {
+                    "name": "OpenStreetMap",
+                    "type": "xyz",
+                    "url": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+                    "active": true,
+                    "options":{}
+                }
+            ]
+        }
+    }
+]
+
+
+
+
