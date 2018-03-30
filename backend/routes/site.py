@@ -5,15 +5,18 @@ from geonature.utils.utilssqlalchemy import json_resp
 from pypnnomenclature.models import TNomenclatures
 from pypnnomenclature import repository
 
-from ..blueprint import blueprint as routes
+from ..blueprint import blueprint
 from ..models.site import InfoSite
 
 
 
 
 def _format_site_data(data):
+    '''
+    Procédure de sérialisation non récursive des modèles
+    '''
     base = data.base_site.as_geofeature('geom', 'id_base_site')
-    
+
     result = data.as_dict(recursif=False)
     result['menaces_ids'] = [
             menace.id_nomenclature_menaces
@@ -25,7 +28,7 @@ def _format_site_data(data):
     return base
 
 
-@routes.route('/sites', methods=['GET'])
+@blueprint.route('/sites', methods=['GET'])
 @json_resp
 def get_sites_chiro():
     '''
@@ -41,7 +44,7 @@ def get_sites_chiro():
     return list(map(_format_site_data, results))
 
 
-@routes.route('/site/<id_site>', methods=['GET'])
+@blueprint.route('/site/<id_site>', methods=['GET'])
 @json_resp
 def get_one_site_chiro(id_site):
     '''
@@ -53,16 +56,42 @@ def get_one_site_chiro(id_site):
     return {'err': 'site introuvable', 'id_site': id_site}, 404
 
 
-@routes.route('/site', methods=['POST', 'PUT'])
+@blueprint.route('/site', methods=['POST', 'PUT'])
 def create_site_chiro():
+    '''
+    Crée un nouveau site chiro
+    suggestion process :
+        data = request.get_json()
+        base_site = geonature.core.gn_monitoring.handle_base_site(data)
+        info_site = InfoSite(data)
+        info_site.base_site = base_site
+        ...
+    '''
+    #TODO
     pass
 
 
-@routes.route('/site/<id_site>', methods=['POST', 'PUT'])
+@blueprint.route('/site/<id_site>', methods=['POST', 'PUT'])
 def update_site_chiro(id_site):
+    '''
+    Met à jour un site chiro
+    suggestion process :
+        data = request.get_json()
+        base_site = geonature.core.gn_monitoring.handle_base_site(data)
+        info_site = DB.session.query(InfoSite).get(id_site)
+        ...
+    '''
+    #TODO
     pass
 
 
-@routes.route('/site/<id_site>', methods=['DELETE'])
+@blueprint.route('/site/<id_site>', methods=['DELETE'])
 def delete_site_chiro(id_site):
+    '''
+    Met à jour un site chiro
+    suggestion process :
+        info_site = DB.session.query(InfoSite).get(id_site)
+        ...
+    '''
+    #TODO
     pass

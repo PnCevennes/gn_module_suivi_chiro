@@ -6,8 +6,11 @@ from .site import (
 from .visite import(
         ConditionsVisite
         )
-from .observation_taxon import (
+from .contact_taxon import (
         ContactTaxon
+        )
+from .counting_contact import (
+        CountingContact
         )
 from .biometrie import (
         Biometrie

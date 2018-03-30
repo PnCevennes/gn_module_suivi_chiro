@@ -9,7 +9,28 @@ from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import serializable
 from geonature.core.gn_medias.models import TMedias
 from geonature.core.gn_monitoring.models import TBaseVisits
+from pypnnomenclature.models import TNomenclatures
+
 from .counting_contact import CountingContact
+
+
+@serializable
+class RelContactTaxonIndices(DB.Model):
+    '''
+    Relation entre informations de contact taxon et indices de présence
+    '''
+    __tablename__ = 'cor_contact_taxons_nomenclature_indices'
+    __table_args__ = {'schema': 'monitoring_chiro'}
+    id_contact_taxon = DB.Column(
+        DB.Integer,
+        ForeignKey('monitoring_chiro.t_visite_contact_taxons.id_contact_taxon'),
+        primary_key=True
+    )
+    id_nomenclature_indice = DB.Column(
+        DB.Integer,
+        ForeignKey(TNomenclatures.id_nomenclature),
+        primary_key=True
+    )
 
 
 @serializable
@@ -37,4 +58,7 @@ class ContactTaxon(DB.Model):
     id_digitiser = DB.Column(DB.Integer)
 
     denombrements = DB.relationship("CountingContact")
+    indices = DB.relationship(
+            RelContactTaxonIndices,
+            lazy='joined')
 
