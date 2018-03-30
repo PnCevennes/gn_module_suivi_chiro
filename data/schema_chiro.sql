@@ -235,7 +235,7 @@ CREATE TABLE monitoring_chiro.cor_contact_taxons_nomenclature_indices
       ON UPDATE CASCADE ON DELETE CASCADE,
   id_nomenclature_indice integer NOT NULL REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE NO ACTION,
-  CONSTRAINT pk_cor_contact_taxons_nomenclature_indices PRIMARY KEY (id_site_infos, id_nomenclature_indice)
+  CONSTRAINT pk_cor_contact_taxons_nomenclature_indices PRIMARY KEY (id_contact_taxon, id_nomenclature_indice)
 );
 
 
