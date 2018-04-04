@@ -1,12 +1,12 @@
 emptyMsg = "Aucun site pour le moment"
-createUrl = "#/chiro/edit/site/"
-detailUrl = "#/chiro/site/"
+createUrl = "#/suivi_chiro/edit/site/"
+detailUrl = "#/suivi_chiro/site/"
 mapSize = "large"
-dataUrl = "chiro/site"
+dataUrl = "genericview/monitoring_chiro/v_sites_chiro?geometry_field=geom"
 mapConfig = "static/configs/suivi_chiro/resources/chiro_site.json"
 editAccess = 5
 createBtnLabel = "Nouveau site"
-editUrl = "#/chiro/edit/site/"
+editUrl = "#/suivi_chiro/edit/site/"
 title = "Sites"
 [[fields]]
     label = "ID"
@@ -74,7 +74,7 @@ title = "Sites"
         visible = true
         style = "xs"
 [[fields]]
-    thesaurusID = 7
+    thesaurusID = 116
     default = 0
     label = "Type"
     type = "select"
@@ -108,7 +108,7 @@ title = "Sites"
         label = "Nombre d'observations"
 
     [[filtering.fields]]
-        thesaurusID = 7
+        thesaurusID = 116
         zeroNull = true
         default = 0
         label = "Type de site"

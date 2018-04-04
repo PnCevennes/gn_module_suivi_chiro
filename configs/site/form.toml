@@ -20,7 +20,8 @@ deleteAccess = 5
         [groups.fields.options]
             geometryType = "point"
             dataUrl = "chiro/site"
-            mapConfig = "js/resources/chiro_site.json"
+            mapConfig = "static/configs/suivi_chiro/resources/chiro_site.json"
+            mapData = "genericview/monitoring_chiro/v_sites_chiro?geometry_field=geom"
 
 [[groups]]
     name = "Informations"
@@ -49,23 +50,23 @@ deleteAccess = 5
             maxLength = 250
 
     [[groups.fields]]
-        thesaurusID = 12
-        thesaurusHierarchyID = "012.001"
+        thesaurusID = 116
+        #thesaurusHierarchyID = "012.001"
         #default = 37
         label = "Type"
         help = "Type de lieu"
         type = "select"
         name = "id_nomenclature_type_site"
 
-    [[groups.fields]]
-        name = "id_inventor"
-        type = "xhr"
-        label = "Observateur"
+    # [[groups.fields]]
+    #     name = "id_inventor"
+    #     type = "xhr"
+    #     label = "Observateur"
 
-        [groups.fields.options]
-            url = "users/menu/1000001"
-            required = true
-            reverseurl = "users/id"
+    #     [groups.fields.options]
+    #         url = "users/menu/1000001"
+    #         required = true
+    #         reverseurl = "users/id"
 
     [[groups.fields]]
         help = "date d'ajout à la base de données"

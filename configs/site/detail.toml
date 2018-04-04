@@ -1,10 +1,11 @@
-subDataUrl = "chiro/observation/site/"
-subSchemaUrl = "chiro/config/observation/list"
+subDataUrl = "suivi_chiro/visites/"
+subSchemaUrl = "config?app=suivi_chiro&vue=observation&vue=list"
+formUrl = "config?app=suivi_chiro&vue=site&vue=form"
 mapSize = "large"
-dataUrl = "chiro/site/"
-mapConfig = "js/resources/chiro_site.json"
+dataUrl = "suivi_chiro/site/"
+mapConfig = "static/configs/suivi_chiro/resources/chiro_site.json"
 editAccess = 3
-mapData = "chiro/site"
+mapData = "genericview/monitoring_chiro/v_sites_chiro?geometry_field=geom"
 subEditAccess = 2
 
 [[groups]]
@@ -30,7 +31,7 @@ subEditAccess = 2
     [[groups.fields]]
         help = "Type de lieu"
         name = "id_nomenclature_type_site"
-        thesaurusID = 12
+        thesaurusID = 116
         type = "select"
         label = "Type"
 
@@ -89,7 +90,7 @@ subEditAccess = 2
     [[groups.fields]]
         help = "Aménagements effectués sur le site"
         name = "amenagements_ids"
-        thesaurusID = 13
+        thesaurusID = 501
         type = "multisel"
         label = "Aménagements"
 
