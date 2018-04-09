@@ -1,5 +1,5 @@
-subDataUrl = "suivi_chiro/visites/"
-subSchemaUrl = "config?app=suivi_chiro&vue=observation&vue=list"
+subDataUrl = "genericview/monitoring_chiro/v_visites_chiro?id_base_site="
+subSchemaUrl = "config?app=suivi_chiro&vue=visite&vue=list"
 formUrl = "config?app=suivi_chiro&vue=site&vue=form"
 mapSize = "large"
 dataUrl = "suivi_chiro/site/"
@@ -19,8 +19,12 @@ subEditAccess = 2
 
     [[groups.fields]]
         name = "id_inventor"
-        type = "string"
+        type = "xhr"
         label = "Observateur"
+
+            [groups.fields.options]
+                url = "users/role"
+                displayField = ["nom_role", "prenom_role"]
 
     [[groups.fields]]
         help = "Date d'ajout du site à la base de données"
@@ -157,7 +161,9 @@ subEditAccess = 2
         label = "Numérisateur"
 
         [groups.fields.options]
-            url = "users/id"
+            url = "users/role"
+            displayField = ["nom_role", "prenom_role"]
+
     [[groups.fields]]
         name = "meta_create_date"
         type = "date"

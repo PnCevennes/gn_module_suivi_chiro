@@ -43,7 +43,7 @@ type = "xhr"
 label = "Validateur"
 
 [groups.fields.options]
-url = "users/id"
+url = "users/role"
 [[groups.fields]]
 name = "indices"
 thesaurusID = 12
@@ -188,7 +188,7 @@ type = "xhr"
 label = "Numérisateur"
 
 [groups.fields.options]
-url = "users/id"
+url = "users/role"
 [[groups.fields]]
 name = "metaCreateTimestamp"
 type = "date"

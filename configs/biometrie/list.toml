@@ -1,9 +1,9 @@
 emptyMsg = "Aucune biométrie"
-createUrl = "#/chiro/edit/biometrie/taxon/"
-detailUrl = "#/chiro/biometrie/"
+createUrl = "chiro/edit/biometrie/taxon/"
+detailUrl = "chiro/biometrie/"
 editAccess = 3
 createBtnLabel = "Nouvelle biométrie"
-editUrl = "#/chiro/edit/biometrie/"
+editUrl = "chiro/edit/biometrie/"
 title = "Biométries"
 [[fields]]
 label = "Id"

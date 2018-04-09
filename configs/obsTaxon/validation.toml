@@ -1,6 +1,6 @@
 emptyMsg = "Aucun taxon en attente"
-editUrl = "#/chiro/edit/taxons/"
-detailUrl = "#/chiro/taxons/"
+editUrl = "chiro/edit/taxons/"
+detailUrl = "chiro/taxons/"
 checkable = true
 editAccess = 5
 title = "Taxons en attente de validation"

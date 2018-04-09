@@ -1,12 +1,12 @@
 emptyMsg = "Aucun taxon observé"
-createUrl = "#/chiro/edit/taxons/observation/"
-detailUrl = "#/chiro/taxons/"
+createUrl = "suivi_chiro/edit/taxons/observation/"
+detailUrl = "suivi_chiro/taxons/"
 mapSize = "small"
-dataUrl = "chiro/obs_taxon"
+dataUrl = "suivi_chiro/obs_taxon"
 mapConfig = "js/resources/chiro_site.json"
 editAccess = 3
 createBtnLabel = "Ajouter taxon"
-editUrl = "#/chiro/edit/taxons/"
+editUrl = "suivi_chiro/edit/taxons/"
 title = "Taxons"
 [[fields]]
 name = "id"

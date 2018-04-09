@@ -58,15 +58,18 @@ deleteAccess = 5
         type = "select"
         name = "id_nomenclature_type_site"
 
-    # [[groups.fields]]
-    #     name = "id_inventor"
-    #     type = "xhr"
-    #     label = "Observateur"
+    [[groups.fields]]
+        name = "id_inventor"
+        type = "xhr"
+        label = "Observateur"
 
-    #     [groups.fields.options]
-    #         url = "users/menu/1000001"
-    #         required = true
-    #         reverseurl = "users/id"
+        [groups.fields.options]
+            url = "users/menu/10"
+            required = true
+            reverseurl = "users/role"
+            displayField = ["nom_role", "prenom_role"]
+            idField = "id_role"
+            searchField = "nom_complet"
 
     [[groups.fields]]
         help = "date d'ajout à la base de données"
