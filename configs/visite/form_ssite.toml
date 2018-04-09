@@ -1,5 +1,5 @@
 editAccessOverride = "metaNumerisateurId"
-deleteAccessOverride = "metaNumerisateurId"
+deleteAccessOverride = "numerisateurId"
 deleteAccess = 5
 subDataRef = "__taxons__"
 editAccess = 3
@@ -7,7 +7,19 @@ subSchemaUrl = "chiro/config/obstaxon/form/many"
 subTitle = "Ajout rapide de taxons"
 subSchemaAdd = "2,"
 [[groups]]
-name = "Visite"
+name = "Localisation"
+[[groups.fields]]
+name = "geom"
+type = "geom"
+label = "Coordonnées GPS"
+
+[groups.fields.options]
+geometryType = "point"
+dataUrl = "chiro/observation"
+mapConfig = "js/resources/chiro_obs.json"
+
+[[groups]]
+name = "Observation"
 [[groups.fields]]
 name = "id"
 type = "hidden"
@@ -15,14 +27,9 @@ label = "Id"
 
 [[groups.fields]]
 name = "fkBsId"
-type = "xhr"
+type = "hidden"
 label = "Site"
 
-[groups.fields.options]
-url = "chiro/sitelist"
-ref = "fkBsId"
-reverseurl = "chiro/sitexhr"
-restrictLevel = 5
 [[groups.fields]]
 name = "metaNumerisateurId"
 type = "hidden"
@@ -37,7 +44,7 @@ label = "Observateurs"
 
 [groups.fields.options]
 url = "users/menu/1000001"
-reverseurl = "users/id"
+reverseurl = "users/role"
 ref = "nomComplet"
 multi = true
 [[groups.fields]]

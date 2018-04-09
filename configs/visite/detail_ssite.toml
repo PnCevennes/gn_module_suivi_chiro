@@ -1,4 +1,4 @@
-editAccessOverride = "metaNumerisateurId"
+editAccessOverride = "numerisateurId"
 subDataUrl = "chiro/obs_taxon/observation/"
 subSchemaUrl = "chiro/config/obstaxon/list"
 subEditRef = "id"
@@ -8,12 +8,16 @@ subEditAccess = 2
 subEditSaveUrl = "chiro/obs_taxon/many"
 subSchemaAdd = 2
 [[groups]]
-name = "Observation"
+name = "Inventaire"
 glyphicon = "glyphicon-info-sign"
 [[groups.fields]]
-name = "bsNom"
-type = "string"
-label = "Site"
+name = "id"
+type = "hidden"
+
+[[groups.fields]]
+name = "bvDate"
+type = "date"
+label = "Date"
 
 [[groups.fields]]
 name = "refCommune"
@@ -24,17 +28,12 @@ label = "Commune"
 url = "commune"
 multi = true
 [[groups.fields]]
-name = "bvDate"
-type = "date"
-label = "Date"
-
-[[groups.fields]]
 name = "observateurs"
 type = "xhr"
 label = "Observateurs"
 
 [groups.fields.options]
-url = "users/id"
+url = "users/role"
 multi = true
 [[groups.fields]]
 name = "cvcModId"
@@ -67,7 +66,7 @@ type = "xhr"
 label = "Numérisateur"
 
 [groups.fields.options]
-url = "users/id"
+url = "users/role"
 [[groups.fields]]
 name = "metaCreateTimestamp"
 type = "date"

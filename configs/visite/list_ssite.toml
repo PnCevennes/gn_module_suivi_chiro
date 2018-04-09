@@ -1,10 +1,13 @@
-emptyMsg = "Aucune visite"
-createUrl = "#/chiro/edit/observation/site/"
-detailUrl = "#/chiro/observation/"
+emptyMsg = "Aucun inventaire pour le moment"
+createUrl = "chiro/edit/inventaire"
+detailUrl = "chiro/inventaire/"
+mapSize = "large"
+dataUrl = "chiro/inventaire"
+mapConfig = "js/resources/chiro_site.json"
 editAccess = 2
-createBtnLabel = "Nouvelle visite"
-editUrl = "#/chiro/edit/observation/"
-title = "Visites"
+createBtnLabel = "Nouvel inventaire"
+editUrl = "chiro/edit/inventaire/"
+title = "Inventaire"
 [[fields]]
 name = "id"
 label = "Id"
@@ -13,15 +16,17 @@ label = "Id"
 id = "text"
 [fields.options]
 visible = false
+style = "xs"
 [[fields]]
 name = "bvDate"
-label = "Date de visite"
+label = "Date d'inventaire"
 
 [fields.filter]
 bvDate = "text"
 [fields.options]
 visible = true
 type = "date"
+style = "l"
 primary = true
 [[fields]]
 name = "observateurs"
@@ -32,14 +37,16 @@ observateurs = "text"
 [fields.options]
 visible = true
 type = "list"
+style = "xl"
 [[fields]]
 name = "nbTaxons"
-label = "Richesse"
+label = "Taxons"
 
 [fields.filter]
 nbTaxons = "text"
 [fields.options]
 visible = true
+style = "xs"
 [[fields]]
 name = "abondance"
 label = "Abondance"
@@ -48,6 +55,7 @@ label = "Abondance"
 abondance = "text"
 [fields.options]
 visible = true
+style = "xs"
 
 [filtering]
 limit = 200

@@ -1,0 +1,92 @@
+editAccessOverride = "metaNumerisateurId"
+deleteAccessOverride = "metaNumerisateurId"
+deleteAccess = 5
+subDataRef = "__taxons__"
+editAccess = 3
+subSchemaUrl = "chiro/config/obstaxon/form/many"
+subTitle = "Ajout rapide de taxons"
+subSchemaAdd = "2,"
+
+[[groups]]
+    name = "Visite"
+    [[groups.fields]]
+        name = "id"
+        type = "hidden"
+        label = "Id"
+
+    [[groups.fields]]
+    name = "id_base_site"
+    type = "xhr"
+    label = "Site"
+        [groups.fields.options]
+        url = "gn_monitoring/siteslist?id_app=101"
+        displayField = ["base_site_name"]
+        idField = "id_base_site"
+        searchField = "base_site_name"
+        ref = "id_base_site"
+        reverseurl = "gn_monitoring/siteslist"
+        restrictLevel = 5
+
+[[groups.fields]]
+name = "metaNumerisateurId"
+type = "hidden"
+label = "Numerisateur"
+
+[groups.fields.options]
+ref = "userId"
+
+
+[[groups.fields]]
+    name = "observers"
+    type = "xhr"
+    label = "Observateur"
+
+        [groups.fields.options]
+            url = "users/menu/10"
+            reverseurl = "users/role"
+            displayField = ["nom_role", "prenom_role"]
+            idField = "id_role"
+            searchField = "nom_complet"
+            multi = true
+            # ref = "nomComplet"
+
+    # [groups.fields.options]
+    #     url = "users/menu/1000001"
+    #     reverseurl = "users/role"
+
+[[groups.fields]]
+    name = "visit_date"
+    type = "date"
+    label = "Date"
+
+    [groups.fields.options]
+        required = true
+
+[[groups.fields]]
+    name = "id_nomenclature_mod_id"
+    thesaurusID = 503
+    type = "select"
+    default = 1004
+    label = "Mode d'observation"
+
+[[groups.fields]]
+    name = "comments"
+    type = "text"
+    label = "Commentaires"
+
+[[groups.fields]]
+    name = "temperature"
+    type = "num"
+    label = "Température (°C)"
+    [groups.fields.options]
+        stp = 0.1
+        maxe = 100
+
+[[groups.fields]]
+    name = "humidite"
+    type = "num"
+    label = "Humidité (%)"
+    [groups.fields.options]
+        step = 0.1
+        max = 100
+

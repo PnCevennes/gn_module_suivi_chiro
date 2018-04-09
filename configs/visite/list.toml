@@ -1,0 +1,66 @@
+emptyMsg = "Aucune visite"
+createUrl = "suivi_chiro/edit/observation/site/"
+detailUrl = "suivi_chiro/observation/"
+editAccess = 2
+createBtnLabel = "Nouvelle visite"
+editUrl = "suivi_chiro/edit/observation/"
+title = "Visites"
+[[fields]]
+    name = "id_base_visitid"
+    label = "Id"
+    [fields.filter]
+        id_base_visit = "text"
+    [fields.options]
+        visible = false
+[[fields]]
+    name = "visit_date"
+    label = "Date de visite"
+    [fields.filter]
+        visit_date = "text"
+    [fields.options]
+        visible = true
+        type = "date"
+        primary = true
+
+[[fields]]
+    name = "observateurs"
+    label = "Observateurs"
+    [fields.filter]
+        observateurs = "text"
+    [fields.options]
+        visible = true
+        type = "list"
+
+[[fields]]
+    name = "nb_taxons"
+    label = "Richesse"
+    [fields.filter]
+        nb_taxons = "text"
+    [fields.options]
+        visible = true
+
+[[fields]]
+    name = "abondance"
+    label = "Abondance"
+    [fields.filter]
+        abondance = "text"
+    [fields.options]
+        visible = true
+
+[filtering]
+    limit = 200
+    [[filtering.fields]]
+        name = "visit_date"
+        type = "date"
+        label = "Date d'observation"
+
+    [[filtering.fields]]
+        name = "nb_taxons"
+        type = "num"
+        label = "Taxons"
+
+    [[filtering.fields]]
+        name = "abondance"
+        type = "num"
+        label = "Abondance"
+
