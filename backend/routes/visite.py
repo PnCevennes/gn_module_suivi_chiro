@@ -8,21 +8,25 @@ from ..blueprint import blueprint
 from ..models.visite import ConditionsVisite
 
 
-
 def _format_visite_data(data):
-    result = data.as_geofeature('geom', 'id_visite_cond', recursif=False)
-    result['properties'].update(data.base_visit.as_dict())
+    result = data.as_dict()
+    result.update(data.base_visit.as_dict(recursif=False))
+    result['observers'] = [
+        o.id_role for o in data.base_visit.observers
+    ]
     return result
 
 
 @blueprint.route('/visites/<id_base_site>', methods=['GET'])
 @json_resp
 def get_visites_chiro(id_base_site):
-    results = (DB.session.query(ConditionsVisite)
-            .filter(ConditionsVisite.base_visit.has(
-                id_base_site=id_base_site))
-            .all()
-            )
+    results = (
+        DB.session.query(ConditionsVisite)
+        .filter(ConditionsVisite.base_visit.has(
+            id_base_site=id_base_site)
+        )
+        .all()
+    )
     return list(map(_format_visite_data, results))
 
 
