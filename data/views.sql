@@ -2,44 +2,44 @@
 
 --DROP  VIEW monitoring_chiro.v_sites_chiro;
 CREATE OR REPLACE VIEW monitoring_chiro.v_sites_chiro AS 
-SELECT 
-    s.id_base_site as id,
+ SELECT s.id_base_site AS id,
     s.id_base_site,
-	s.base_site_name, 
-	s.base_site_code, 
-	s.first_use_date,
-	s.id_inventor,
-	s.meta_create_date,
-	s.meta_update_date,
-	NULL::varchar AS ref_commune, --TODO ref commune
-	s.geom,
-	s.id_nomenclature_type_site,
-	l.label_default as type_lieu,
-	c.id_nomenclature_frequentation,
-	c.menace_cmt,
-	c.contact_nom,
-	c.contact_prenom,
-	c.contact_adresse,
-	c.contact_code_postal,
-	c.contact_ville,
-	c.contact_telephone,
-	c.contact_portable,
-	c.contact_commentaire,
-	c.site_actif,
-	c.actions,
-	    ( SELECT max(v.visit_date) AS max
-		   FROM gn_monitoring.t_base_visits v
-		  WHERE v.id_base_site = s.id_base_site) AS dern_obs,
-	    ( SELECT count(*) AS count
-		   FROM gn_monitoring.t_base_visits v
-		  WHERE v.id_base_site = s.id_base_site) AS nb_obs
-FROM gn_monitoring.t_base_sites s 
-JOIN gn_monitoring.cor_site_application csa ON s.id_base_site = csa.id_base_site AND id_application = 101
-LEFT OUTER JOIN monitoring_chiro.t_site_infos c ON c.id_base_site = s.id_base_site
-LEFT JOIN utilisateurs.t_roles obr ON obr.id_role = s.id_inventor
-LEFT JOIN ref_nomenclatures.t_nomenclatures l ON l.id_nomenclature = s.id_nomenclature_type_site
-ORDER BY s.id_base_site DESC;
-
+    s.base_site_name,
+    s.base_site_code,
+    s.first_use_date,
+    s.id_inventor,
+    (((obr.nom_role::text || ' '::text) || obr.prenom_role::text))::character varying(255) AS nom_observateur,
+    s.meta_create_date,
+    s.meta_update_date,
+    NULL::character varying AS ref_commune,
+    s.geom,
+    s.id_nomenclature_type_site,
+    l.label_default AS type_lieu,
+    c.id_nomenclature_frequentation,
+    c.menace_cmt,
+    c.contact_nom,
+    c.contact_prenom,
+    c.contact_adresse,
+    c.contact_code_postal,
+    c.contact_ville,
+    c.contact_telephone,
+    c.contact_portable,
+    c.contact_commentaire,
+    c.site_actif,
+    c.actions,
+    ( SELECT max(v.visit_date) AS max
+           FROM gn_monitoring.t_base_visits v
+          WHERE v.id_base_site = s.id_base_site) AS dern_obs,
+    ( SELECT count(*) AS count
+           FROM gn_monitoring.t_base_visits v
+          WHERE v.id_base_site = s.id_base_site) AS nb_obs,
+    '<h4><a href="#!/suivi_chiro/site/' || s.id_base_site || '">' || s.base_site_name || '</a></h4>'::varchar(500) as geom_popup
+   FROM gn_monitoring.t_base_sites s
+     JOIN gn_monitoring.cor_site_application csa ON s.id_base_site = csa.id_base_site AND csa.id_application = 101
+     LEFT JOIN monitoring_chiro.t_site_infos c ON c.id_base_site = s.id_base_site
+     LEFT JOIN utilisateurs.t_roles obr ON obr.id_role = s.id_inventor
+     LEFT JOIN ref_nomenclatures.t_nomenclatures l ON l.id_nomenclature = s.id_nomenclature_type_site
+  ORDER BY s.id_base_site DESC;
 
 
 -- AVANT  chiro.vue_chiro_obs_ss_site;
