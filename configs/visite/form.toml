@@ -3,7 +3,7 @@ deleteAccessOverride = "metaNumerisateurId"
 deleteAccess = 5
 subDataRef = "__taxons__"
 editAccess = 3
-subSchemaUrl = "chiro/config/obstaxon/form/many"
+subSchemaUrl = "config?app=suivi_chiro&vue=obs_taxon&vue=form_many"
 subTitle = "Ajout rapide de taxons"
 subSchemaAdd = "2,"
 

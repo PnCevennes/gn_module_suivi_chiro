@@ -73,32 +73,31 @@ ORDER BY obs.visit_date DESC;
 
 
 --- chiro.vue_chiro_obs
+
 CREATE OR REPLACE VIEW monitoring_chiro.v_visites_chiro AS 
- SELECT obs.id_base_visit as id,
+ SELECT obs.id_base_visit AS id,
     obs.id_base_visit,
-	s.base_site_name,
-	obs.visit_date,
-	obs.comments,
-	obs.meta_create_date,
-	obs.meta_update_date,
-	obs.id_digitiser,
-        (upper(num.nom_role::text) || ' '::text) || num.prenom_role::text AS numerisateur,
-	NULL::text as ref_commune, --TODO
-	cco.temperature,
-	cco.humidite,
-	cco.id_nomenclature_mod_id,
-	( SELECT count(*) AS count
+    s.base_site_name,
+    s.geom,
+    obs.visit_date,
+    obs.comments,
+    obs.meta_create_date,
+    obs.meta_update_date,
+    obs.id_digitiser,
+    (upper(num.nom_role::text) || ' '::text) || num.prenom_role::text AS numerisateur,
+    NULL::text AS ref_commune,
+    cco.temperature,
+    cco.humidite,
+    cco.id_nomenclature_mod_id,
+    ( SELECT count(*) AS count
            FROM monitoring_chiro.t_visite_contact_taxons a
           WHERE a.id_base_visit = obs.id_base_visit) AS nb_taxons,
-        ( SELECT sum(c.count_min) AS count
+    ( SELECT sum(c.count_min) AS count
            FROM monitoring_chiro.t_visite_contact_taxons a
-           JOIN monitoring_chiro.cor_counting_contact c
-           ON a.id_contact_taxon = c.id_contact_taxon
-          WHERE a.id_base_visit = obs.id_base_visit
-        ) AS abondance
-FROM gn_monitoring.t_base_visits obs
-JOIN monitoring_chiro.t_visite_conditions cco ON cco.id_base_visit = obs.id_base_visit
-JOIn gn_monitoring.t_base_sites s ON s.id_base_site = obs.id_base_site
-LEFT JOIN utilisateurs.t_roles num ON num.id_role = obs.id_digitiser
-ORDER BY obs.visit_date DESC;
-
+             JOIN monitoring_chiro.cor_counting_contact c ON a.id_contact_taxon = c.id_contact_taxon
+          WHERE a.id_base_visit = obs.id_base_visit) AS abondance
+   FROM gn_monitoring.t_base_visits obs
+     JOIN monitoring_chiro.t_visite_conditions cco ON cco.id_base_visit = obs.id_base_visit
+     JOIN gn_monitoring.t_base_sites s ON s.id_base_site = obs.id_base_site
+     LEFT JOIN utilisateurs.t_roles num ON num.id_role = obs.id_digitiser
+  ORDER BY obs.visit_date DESC;

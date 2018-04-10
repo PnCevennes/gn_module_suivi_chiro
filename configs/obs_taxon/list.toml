@@ -1,0 +1,37 @@
+emptyMsg = "Aucun taxon observé"
+createUrl = "suivi_chiro/edit/taxons/observation/"
+detailUrl = "suivi_chiro/taxons/"
+mapSize = "small"
+dataUrl = "suivi_chiro/obs_taxon"
+mapConfig = "js/resources/chiro_site.json"
+editAccess = 3
+createBtnLabel = "Ajouter taxon"
+editUrl = "suivi_chiro/edit/taxons/"
+title = "Taxons"
+
+[[fields]]
+    name = "id_contact_taxon"
+    label = "Id"
+    [fields.filter]
+        id_contact_taxon = "text"
+    [fields.options]
+        visible = false
+
+[[fields]]
+    name = "nom_complet"
+    label = "Nom taxon"
+    [fields.filter]
+        nom_complet = "text"
+    [fields.options]
+        visible = true
+        style = "xl"
+        primary = true
+
+[[filtering.fields]]
+    name = "cd_nom"
+    type = "xhr"
+    label = "Taxon"
+        [filtering.fields.options]
+            url = "chiro/taxons"
+            ref = "taxon"
+            reverseurl = "chiro/taxons/id"

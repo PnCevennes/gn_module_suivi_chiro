@@ -1,9 +1,9 @@
 editAccessOverride = "metaNumerisateurId"
-subDataUrl = "suivi_chiro/obs_taxon/observation/"
-subSchemaUrl = "suivi_chiro/config/obstaxon/list"
+subDataUrl = "suivi_chiro/contact_taxons/"
+subSchemaUrl = "config?app=suivi_chiro&vue=obs_taxon&vue=list"
 subEditRef = "id"
 editAccess = 3
-subEditSchemaUrl = "suivi_chiro/config/obstaxon/form/many"
+subEditSchemaUrl = "config?app=suivi_chiro&vue=obs_taxon&vue=form_many"
 subEditAccess = 2
 subEditSaveUrl = "suivi_chiro/obs_taxon/many"
 subSchemaAdd = 2
@@ -15,45 +15,46 @@ glyphicon = "glyphicon-info-sign"
     type = "string"
     label = "Site"
 
-    [[groups.fields]]
-    name = "refCommune"
-    type = "xhr"
-    label = "Commune"
+    # [[groups.fields]]
+    # name = "refCommune"
+    # type = "xhr"
+    # label = "Commune"
 
-        [groups.fields.options]
-        url = "commune"
-        multi = true
+    #     [groups.fields.options]
+    #     url = "commune"
+    #     multi = true
+
     [[groups.fields]]
-    name = "bvDate"
+    name = "visit_date"
     type = "date"
     label = "Date"
 
     [[groups.fields]]
-    name = "observateurs"
-    type = "xhr"
-    label = "Observateurs"
+        name = "observers"
+        type = "xhr"
+        label = "Observateurs"
+       [groups.fields.options]
+            url = "users/role"
+            displayField = ["nom_role", "prenom_role"]
 
-[groups.fields.options]
-url = "users/role"
-multi = true
     [[groups.fields]]
-    name = "cvcModId"
-    thesaurusID = 4
+    name = "id_nomenclature_mod_id"
+    thesaurusID = 503
     type = "select"
     label = "Mode d'observation"
 
     [[groups.fields]]
-    name = "bvCommentaire"
+    name = "comments"
     type = "string"
     label = "Commentaires"
 
     [[groups.fields]]
-    name = "cvcTemperature"
+    name = "temperature"
     type = "string"
     label = "Température (°C)"
 
     [[groups.fields]]
-    name = "cvcHumidite"
+    name = "humidite"
     type = "string"
     label = "Humidité (%)"
 
@@ -62,7 +63,7 @@ multi = true
 name = "Metadonnées"
 glyphicon = "glyphicon-stats"
     [[groups.fields]]
-    name = "metaNumerisateurId"
+    name = "id_digitiser"
     type = "xhr"
     label = "Numérisateur"
 
@@ -71,12 +72,12 @@ glyphicon = "glyphicon-stats"
             displayField = ["nom_role", "prenom_role"]
 
     [[groups.fields]]
-    name = "metaCreateTimestamp"
+    name = "meta_create_date"
     type = "date"
     label = "Création donnée"
 
     [[groups.fields]]
-    name = "metaUpdateTimestamp"
+    name = "meta_update_date"
     type = "date"
     label = "Dernière mise à jour"
 
