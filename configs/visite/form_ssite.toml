@@ -1,4 +1,4 @@
-editAccessOverride = "metaNumerisateurId"
+editAccessOverride = "id_digitiser"
 deleteAccessOverride = "numerisateurId"
 deleteAccess = 5
 subDataRef = "__taxons__"
@@ -31,7 +31,7 @@ type = "hidden"
 label = "Site"
 
 [[groups.fields]]
-name = "metaNumerisateurId"
+name = "id_digitiser"
 type = "hidden"
 label = "Numerisateur"
 

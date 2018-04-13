@@ -1,112 +1,112 @@
 [[fields]]
-name = "cotxCdNom"
-type = "xhr"
-label = "Nom taxon"
-
-[fields.options]
-url = "chiro/taxons"
-ref = "cdNom"
-reverseurl = "chiro/taxons/id"
-primary = true
-[[fields]]
-name = "metaNumerisateurId"
-type = "hidden"
-label = "Numerisateur"
-
-[fields.options]
-ref = "userId"
-[[fields]]
-name = "cotxTxPresume"
-type = "string"
-label = "Taxon initial"
+        name = "id"
+        type = "hidden"
 
 [[fields]]
-name = "cotxEspeceIncertaine"
-type = "bool"
-label = "Espece incertaine"
+    name = "id_base_visit"
+    type = "hidden"
+    [fields.options]
+        ref = "parent"
 
 [[fields]]
-name = "cotxActId"
-thesaurusID = 5
-type = "select"
-label = "Activité"
+    name = "id_digitiser"
+    type = "hidden"
+    label = "Numerisateur"
+    [fields.options]
+        ref = "userId"
 
 [[fields]]
-name = "cotxPrvId"
-thesaurusID = 6
-type = "select"
-label = "Preuves de reproduction"
+    name = "cd_nom"
+    type = "taxhub"
+    label = "Nom taxon"
 
 [[fields]]
-name = "cotxNbIndetermineIndetermine"
-type = "num"
-label = "Indéterminés"
+    name = "tx_presume"
+    type = "string"
+    label = "Taxon initial"
 
-[fields.options]
-min = 0
 [[fields]]
-name = "cotxNbMaleIndetermine"
-type = "num"
-label = "Mâles indeterminés"
+    name = "espece_incertaine"
+    type = "bool"
+    label = "Espece incertaine"
 
-[fields.options]
-min = 0
 [[fields]]
-name = "cotxNbFemelleIndetermine"
-type = "num"
-label = "Femelles indeterminés"
+    thesaurusID = 504
+    label = "Activité"
+    name = "id_nomenclature_activite"
+    type = "select"
+    [fields.options]
+        nullable = true
 
-[fields.options]
-min = 0
 [[fields]]
-name = "cotxNbMaleAdulte"
-type = "num"
-label = "Mâles adultes"
+    thesaurusID = 13
+    default = 0
+    label = "Preuves de reproduction"
+    name = "id_nomenclature_preuve_repro"
+    type = "select"
+    [fields.options]
+        nullable = true
 
-[fields.options]
-min = 0
 [[fields]]
-name = "cotxNbFemelleAdulte"
-type = "num"
-label = "Femelles adultes"
+    label = "Indeterminés"
+    name = "denombrement.indetermine_indetermine"
+    type = "num"
+    [fields.options]
+        min = 0
 
-[fields.options]
-min = 0
 [[fields]]
-name = "cotxNbMaleJuvenile"
-type = "num"
-label = "Mâles juveniles"
+    label = "Femelles adultes"
+    name = "denombrement.femelle_adulte"
+    type = "num"
+    [fields.options]
+        min = 0
 
-[fields.options]
-min = 0
 [[fields]]
-name = "cotxNbFemelleJuvenile"
-type = "num"
-label = "Femelles juveniles"
+    label = "Mâles adultes"
+    name = "denombrement.male_adulte"
+    type = "num"
+    [fields.options]
+        min = 0
 
-[fields.options]
-min = 0
 [[fields]]
-name = "cotxNbIndetermineAdulte"
-type = "num"
-label = "Indeterminés adultes"
+    label = "Femelles indeterminés"
+    name = "denombrement.femelle_indetermine"
+    type = "num"
+    [fields.options]
+        min = 0
 
-[fields.options]
-min = 0
 [[fields]]
-name = "cotxNbIndetermineJuvenile"
-type = "num"
-label = "Indeterminés juvéniles"
+    label = "Mâles indeterminés"
+    name = "denombrement.male_indetermine"
+    type = "num"
+    [fields.options]
+        min = 0
 
-[fields.options]
-min = 0
+
 [[fields]]
-name = "cotxEffectifAbs"
-default = 0
-type = "sum"
-label = "Effectif total"
+    label = "Indeterminés juvéniles"
+    name = "denombrement.indetermine_juvenile"
+    type = "num"
+    [fields.options]
+        min = 0
 
-[fields.options]
-ref = [ "cotxNbMaleAdulte", "cotxNbFemelleAdulte", "cotxNbMaleJuvenile", "cotxNbFemelleJuvenile", "cotxNbMaleIndetermine", "cotxNbFemelleIndetermine", "cotxNbIndetermineIndetermine", "cotxNbIndetermineAdulte", "cotxNbIndetermineJuvenile",]
-modifiable = false
-min = 1
+[[fields]]
+    label = "Indeterminés adultes"
+    name = "denombrement.indetermine_adulte"
+    type = "num"
+    [fields.options]
+        min = 0
+
+[[fields]]
+    label = "Mâles juveniles"
+    name = "denombrement.male_juvenile"
+    type = "num"
+    [fields.options]
+        min = 0
+
+[[fields]]
+    label = "Femelles juveniles"
+    name = "denombrement.femelle_juvenile"
+    type = "num"
+    [fields.options]
+        min = 0

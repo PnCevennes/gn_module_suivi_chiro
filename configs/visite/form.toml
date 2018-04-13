@@ -1,11 +1,11 @@
-editAccessOverride = "metaNumerisateurId"
-deleteAccessOverride = "metaNumerisateurId"
+editAccessOverride = "id_digitiser"
+deleteAccessOverride = "id_digitiser"
 deleteAccess = 5
 subDataRef = "__taxons__"
 editAccess = 3
 subSchemaUrl = "config?app=suivi_chiro&vue=obs_taxon&vue=form_many"
 subTitle = "Ajout rapide de taxons"
-subSchemaAdd = "2,"
+subSchemaAdd = "2"
 
 [[groups]]
     name = "Visite"
@@ -27,13 +27,12 @@ subSchemaAdd = "2,"
         reverseurl = "gn_monitoring/siteslist"
         restrictLevel = 5
 
-[[groups.fields]]
-name = "metaNumerisateurId"
-type = "hidden"
-label = "Numerisateur"
-
-[groups.fields.options]
-ref = "userId"
+    [[groups.fields]]
+        name = "id_digitiser"
+        type = "hidden"
+        label = "Numerisateur"
+        [groups.fields.options]
+            ref = "userId"
 
 
 [[groups.fields]]

@@ -23,7 +23,7 @@ type = "select"
 label = "Sexe"
 
 [[groups.fields]]
-name = "metaNumerisateurId"
+name = "id_digitiser"
 type = "hidden"
 label = "Numerisateur"
 

@@ -1,0 +1,11 @@
+modification schéma
+
+Suppression colonne :
+ cotx_num_id
+ cotx_eff_id
+ 
+Renommage colonne : 
+  cotx_id_nomenclature_preuve_repro integer,  -- cotx_prv_id
+  cotx_id_nomenclature_activite integer,   --  cotx_act_id
+  
+Suppression colonnes dénombrement et validation qui sont déportées dans  chiro.cor_counting_contact

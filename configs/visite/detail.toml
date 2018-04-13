@@ -1,5 +1,5 @@
-editAccessOverride = "metaNumerisateurId"
-subDataUrl = "suivi_chiro/contact_taxons/"
+editAccessOverride = "id_digitiser"
+subDataUrl = "genericview/monitoring_chiro/v_obs_taxons?id_base_visit="
 subSchemaUrl = "config?app=suivi_chiro&vue=obs_taxon&vue=list"
 subEditRef = "id"
 editAccess = 3
@@ -11,9 +11,12 @@ subSchemaAdd = 2
 name = "Observation"
 glyphicon = "glyphicon-info-sign"
     [[groups.fields]]
-    name = "bsNom"
-    type = "string"
-    label = "Site"
+        name = "id_base_site"
+        type = "xhr"
+        label = "Site"
+        [groups.fields.options]
+            url = "gn_monitoring/siteslist"
+            displayField = ["base_site_name"]
 
     # [[groups.fields]]
     # name = "refCommune"

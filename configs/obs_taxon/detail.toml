@@ -1,202 +1,244 @@
-editAccessOverride = "metaNumerisateurId"
-subDataUrl = "chiro/biometrie/taxon/"
-subSchemaUrl = "chiro/config/biometrie/list"
-subEditRef = "id"
-dataUrl = "chiro/obs_taxon/"
+editAccessOverride = "id_digitiser"
+dataUrl = "suivi_chiro/contact_taxon/"
 editAccess = 3
-subEditSchemaUrl = "chiro/config/biometrie/form/many"
-subEditAccess = 3
-subEditSaveUrl = "chiro/biometrie/many"
-subSchemaAdd = 3
-[[groups]]
-name = "Général"
-glyphicon = "glyphicon-info-sign"
-[[groups.fields]]
-name = "cotxCdNom"
-type = "num"
-label = "Cd nom"
 
-[[groups.fields]]
-name = "cotxNomComplet"
-type = "string"
-label = "Nom taxon"
-
-[[groups.fields]]
-name = "cotxTxPresume"
-type = "string"
-label = "Taxon presumé"
-
-[[groups.fields]]
-name = "cotxEspeceIncertaine"
-type = "bool"
-label = "Espece incertaine"
-
-[[groups.fields]]
-name = "cotxObjStatusValidation"
-thesaurusID = 9
-type = "select"
-label = "Statut validation"
-
-[[groups.fields]]
-name = "cotxValidateur"
-type = "xhr"
-label = "Validateur"
-
-[groups.fields.options]
-url = "users/role"
-[[groups.fields]]
-name = "indices"
-thesaurusID = 12
-type = "multisel"
-label = "Indices"
-
-[[groups.fields]]
-name = "cotxIndicesCmt"
-type = "string"
-label = "Description indices"
-
-[[groups.fields]]
-name = "cotxActId"
-thesaurusID = 5
-type = "select"
-label = "Activité"
-
-[[groups.fields]]
-name = "cotxPrvId"
-thesaurusID = 6
-type = "select"
-label = "Preuves de reproduction"
-
-[[groups.fields]]
-name = "cotxEffectifAbs"
-type = "num"
-label = "Effectif total"
-
-[[groups.fields]]
-help = "Photographies pour identification"
-name = "obsTaxonFichiers"
-type = "file"
-label = "Photographies"
-
-[groups.fields.options]
-target = "uploads/chiro/obsTaxon/"
+# subDataUrl = "suivi_chiro/biometries/"
+# subSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=list"
+# subEditRef = "id"
+# subEditSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=form_many"
+# subEditAccess = 3
+# subEditSaveUrl = "suivi_chiro/biometrie/many"
+# subSchemaAdd = 3
 
 [[groups]]
-name = "Détail"
-glyphicon = "glyphicon-search"
-[[groups.fields]]
-name = "Dénombrement"
-titles = [ "Adultes", "Juvéniles", "Indéterminés",]
-type = "group"
-[[groups.fields.fields]]
-name = "males"
-label = "Mâles"
-[[groups.fields.fields.fields]]
-name = "cotxNbMaleAdulte"
-default = 0
-type = "num"
-label = "Adultes"
+    name = "Général"
+    glyphicon = "glyphicon-info-sign"
 
-[groups.fields.fields.fields.options]
-min = 0
-[[groups.fields.fields.fields]]
-name = "cotxNbMaleJuvenile"
-default = 0
-type = "num"
-label = "Juveniles"
+    [[groups.fields]]
+        name = "cd_nom"
+        type = "num"
+        label = "Cd nom"
 
-[groups.fields.fields.fields.options]
-min = 0
-[[groups.fields.fields.fields]]
-name = "cotxNbMaleIndetermine"
-default = 0
-type = "num"
-label = "Age indeterminé"
+    [[groups.fields]]
+        name = "nom_complet"
+        type = "string"
+        label = "Nom taxon"
 
-[groups.fields.fields.fields.options]
-min = 0
+    [[groups.fields]]
+        name = "tx_presume"
+        type = "string"
+        label = "Taxon presumé"
 
-[[groups.fields.fields]]
-name = "femelles"
-label = "Femelles"
-[[groups.fields.fields.fields]]
-name = "cotxNbFemelleAdulte"
-default = 0
-type = "num"
-label = "Adultes"
+    [[groups.fields]]
+        name = "espece_incertaine"
+        type = "bool"
+        label = "Espece incertaine"
 
-[groups.fields.fields.fields.options]
-min = 0
-[[groups.fields.fields.fields]]
-name = "cotxNbFemelleJuvenile"
-default = 0
-type = "num"
-label = "Juveniles"
+    # [[groups.fields]]
+    #     name = "cotxObjStatusValidation"
+    #     thesaurusID = 9
+    #     type = "select"
+    #     label = "Statut validation"
 
-[groups.fields.fields.fields.options]
-min = 0
-[[groups.fields.fields.fields]]
-name = "cotxNbFemelleIndetermine"
-default = 0
-type = "num"
-label = "Age indeterminé"
+    # [[groups.fields]]
+    #     name = "cotxValidateur"
+    #     type = "xhr"
+    #     label = "Validateur"
 
-[groups.fields.fields.fields.options]
-min = 0
+    #     [groups.fields.options]
+    #         url = "users/role"
 
-[[groups.fields.fields]]
-name = "indetermines"
-label = "Sexe indéterminé"
-[[groups.fields.fields.fields]]
-name = "cotxNbIndetermineAdulte"
-default = 0
-type = "num"
-label = "Adultes"
+    [[groups.fields]]
+        name = "indices"
+        thesaurusID = 505
+        type = "multisel"
+        label = "Indices"
 
-[groups.fields.fields.fields.options]
-min = 0
-[[groups.fields.fields.fields]]
-name = "cotxNbIndetermineJuvenile"
-default = 0
-type = "num"
-label = "Juvéniles"
+    [[groups.fields]]
+        name = "indices_cmt"
+        type = "string"
+        label = "Description indices"
 
-[groups.fields.fields.fields.options]
-min = 0
-[[groups.fields.fields.fields]]
-name = "cotxNbIndetermineIndetermine"
-default = 0
-type = "num"
-label = "Age indeterminé"
+    [[groups.fields]]
+        name = "id_nomenclature_activite"
+        thesaurusID = 504
+        type = "select"
+        label = "Activité"
 
-[groups.fields.fields.fields.options]
-min = 0
+    [[groups.fields]]
+        name = "id_nomenclature_preuve_repro"
+        thesaurusID = 13
+        type = "select"
+        label = "Preuves de reproduction"
+
+    # [[groups.fields]]
+    #     name = "cotxEffectifAbs"
+    #     type = "num"
+    #     label = "Effectif total"
+
+    # [[groups.fields]]
+    #     help = "Photographies pour identification"
+    #     name = "obsTaxonFichiers"
+    #     type = "file"
+    #     label = "Photographies"
+
+    #     [groups.fields.options]
+    #         target = "uploads/chiro/obsTaxon/"
+
+[[groups]]
+    name = "Détail"
+    glyphicon = "glyphicon-search"
+
+    [[groups.fields]]
+        name = "denombrements"
+        label = "Dénombrement"
+        type = "subgroup"
+
+        [[groups.fields.fields]]
+            name = "id_nomenclature_life_stage"
+            label = "Age"
+            thesaurusID = 10
+            type = "select"
+
+        [[groups.fields.fields]]
+            name = "id_nomenclature_sex"
+            label = "Sexe"
+            thesaurusID = 9
+            type = "select"
+
+        [[groups.fields.fields]]
+            name = "count_min"
+            label = "Nb min"
+            type = "string"
+
+        [[groups.fields.fields]]
+            name = "count_max"
+            label = "Nb max"
+            type = "string"
 
 
-[[groups.fields]]
-name = "cotxCommentaire"
-type = "string"
-label = "Commentaires"
+# [[groups]]
+#     name = "Détail"
+#     glyphicon = "glyphicon-search"
+#     [[groups.fields]]
+#         name = "denombrements"
+#         label = "Dénombrement"
+#         titles = [ "Adultes", "Juvéniles", "Indéterminés",]
+#         type = "group"
+
+#     [[groups.fields.fields]]
+#         name = "males"
+#         label = "Mâles"
+
+#     [[groups.fields.fields.fields]]
+#         name = "cotxNbMaleAdulte"
+#         default = 0
+#         type = "num"
+#         label = "Adultes"
+#         [groups.fields.fields.fields.options]
+#             min = 0
+
+#     [[groups.fields.fields.fields]]
+#         name = "cotxNbMaleJuvenile"
+#         default = 0
+#         type = "num"
+#         label = "Juveniles"
+#         [groups.fields.fields.fields.options]
+#             min = 0
+
+#     [[groups.fields.fields.fields]]
+#         name = "cotxNbMaleIndetermine"
+#         default = 0
+#         type = "num"
+#         label = "Age indeterminé"
+
+#         [groups.fields.fields.fields.options]
+#             min = 0
+
+#     [[groups.fields.fields]]
+#         name = "femelles"
+#         label = "Femelles"
+
+#     [[groups.fields.fields.fields]]
+#         name = "cotxNbFemelleAdulte"
+#         default = 0
+#         type = "num"
+#         label = "Adultes"
+#         [groups.fields.fields.fields.options]
+#             min = 0
+
+#     [[groups.fields.fields.fields]]
+#         name = "cotxNbFemelleJuvenile"
+#         default = 0
+#         type = "num"
+#         label = "Juveniles"
+#         [groups.fields.fields.fields.options]
+#             min = 0
+
+#     [[groups.fields.fields.fields]]
+#         name = "cotxNbFemelleIndetermine"
+#         default = 0
+#         type = "num"
+#         label = "Age indeterminé"
+#         [groups.fields.fields.fields.options]
+#             min = 0
+
+#     [[groups.fields.fields]]
+#         name = "indetermines"
+#         label = "Sexe indéterminé"
+    
+#     [[groups.fields.fields.fields]]
+#         name = "cotxNbIndetermineAdulte"
+#         default = 0
+#         type = "num"
+#         label = "Adultes"
+#         [groups.fields.fields.fields.options]
+#             min = 0
+
+#     [[groups.fields.fields.fields]]
+#         name = "cotxNbIndetermineJuvenile"
+#         default = 0
+#         type = "num"
+#         label = "Juvéniles"
+#         [groups.fields.fields.fields.options]
+#             min = 0
+
+#     [[groups.fields.fields.fields]]
+#         name = "cotxNbIndetermineIndetermine"
+#         default = 0
+#         type = "num"
+#         label = "Age indeterminé"
+#         [groups.fields.fields.fields.options]
+#             min = 0
+
+
+#     [[groups.fields]]
+#         name = "cotxCommentaire"
+#         type = "string"
+#         label = "Commentaires"
 
 
 [[groups]]
-name = "Metadonnées"
-glyphicon = "glyphicon-stats"
-[[groups.fields]]
-name = "metaNumerisateurId"
-type = "xhr"
-label = "Numérisateur"
+    name = "Metadonnées"
+    glyphicon = "glyphicon-stats"
+    
+    [[groups.fields]]
+        name = "id_digitiser"
+        type = "xhr"
+        label = "Numérisateur"
 
-[groups.fields.options]
-url = "users/role"
-[[groups.fields]]
-name = "metaCreateTimestamp"
-type = "date"
-label = "Création donnée"
+        [groups.fields.options]
+            url = "users/role"
+            displayField = ["nom_role", "prenom_role"]
 
-[[groups.fields]]
-name = "metaUpdateTimestamp"
-type = "date"
-label = "Dernière mise à jour"
+    [[groups.fields]]
+        name = "meta_create_date"
+        type = "date"
+        label = "Création donnée"
+
+    [[groups.fields]]
+        name = "meta_update_date"
+        type = "date"
+        label = "Dernière mise à jour"
 
 

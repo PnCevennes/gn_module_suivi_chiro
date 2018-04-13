@@ -61,7 +61,7 @@ label = "Humidité (%)"
 name = "Metadonnées"
 glyphicon = "glyphicon-stats"
 [[groups.fields]]
-name = "metaNumerisateurId"
+name = "id_digitiser"
 type = "xhr"
 label = "Numérisateur"
 

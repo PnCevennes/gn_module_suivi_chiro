@@ -101,3 +101,24 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_visites_chiro AS
      JOIN gn_monitoring.t_base_sites s ON s.id_base_site = obs.id_base_site
      LEFT JOIN utilisateurs.t_roles num ON num.id_role = obs.id_digitiser
   ORDER BY obs.visit_date DESC;
+
+
+
+
+CREATE OR REPLACE VIEW monitoring_chiro.v_obs_taxons AS 
+SELECT 
+ct.id_contact_taxon as id,
+ct.id_contact_taxon, 
+ct.id_base_visit, 
+ct.tx_presume, 
+ct.cd_nom, 
+ct.nom_complet, 
+ccc.nb_total_min,
+ccc.nb_total_max
+       /*espece_incertaine, id_nomenclature_preuve_repro, id_nomenclature_activite, 
+       indices_cmt, commentaire, meta_create_date, meta_update_date, 
+       id_digitiser, db_suivi_id, app*/
+FROM monitoring_chiro.t_visite_contact_taxons ct
+left outer JOIN (SELECT id_contact_taxon, sum(count_min)  as nb_total_min, sum(count_max) as nb_total_max FROM monitoring_chiro.cor_counting_contact group by id_contact_taxon) ccc
+ON ct.id_contact_taxon = ccc.id_contact_taxon;
+

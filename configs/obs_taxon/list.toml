@@ -27,6 +27,23 @@ title = "Taxons"
         style = "xl"
         primary = true
 
+[[fields]]
+    name = "nb_total_min"
+    label = "Effectif min"
+    [fields.filter]
+        nb_total_min = "text"
+    [fields.options]
+        visible = true
+
+
+[[fields]]
+    name = "nb_total_max"
+    label = "Effectif max"
+    [fields.filter]
+        nb_total_max = "text"
+    [fields.options]
+        visible = true
+
 [[filtering.fields]]
     name = "cd_nom"
     type = "xhr"
