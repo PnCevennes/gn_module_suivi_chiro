@@ -75,10 +75,12 @@ class InfoSite(DB.Model):
     actions = DB.Column(DB.Unicode(250))
     menaces_ids = DB.relationship(
             RelChirositeTNomenclaturesMenace,
-            lazy='joined')
+            lazy='joined',
+            passive_updates=False)
     amenagements_ids = DB.relationship(
             RelChirositeTNomenclaturesAmenagement,
-            lazy='joined')
+            lazy='joined',
+            passive_updates=False)
     site_actif = DB.Column(DB.Boolean, default=False)
     contact_nom = DB.Column(DB.Unicode(25))
     contact_prenom = DB.Column(DB.Unicode(25))

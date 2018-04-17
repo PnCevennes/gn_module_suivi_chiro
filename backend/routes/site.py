@@ -2,6 +2,7 @@ from flask import request
 
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp
+from pypnnomenclature.models import TNomenclatures
 
 from ..blueprint import blueprint
 from ..models.site import InfoSite
@@ -73,7 +74,38 @@ def create_site_chiro():
     pass
 
 
+import pprint #TODO remove
+from ..utils.repos import GNMonitoringSiteRepository, InvalidBaseSiteData
+from shapely.geometry import Point
+from geoalchemy2.shape import from_shape
+
+
+def _prepare_site_data(data, db):
+    """
+    Prépare les données en vue d'une insertion en base de données
+    params :
+        data : données à préparer (dict <- request.get_json())
+        db : session DB à utiliser pour charger les relations
+    """
+
+    data['geom'] = from_shape(Point(*data['geom'][0]), srid=4326)
+
+    menaces = []
+    for menace_id in data['menaces_ids']:
+        menaces.append(db.query(TNomenclatures).get(menace_id))
+    data['menaces_ids'] = menaces
+
+    amenagements = []
+    for amenagement_id in data['amenagements_ids']:
+        amenagements.append(db.query(TNomenclatures).get(amenagement_id))
+
+    data['amenagements_ids'] = amenagements
+    return data
+
+
+
 @blueprint.route('/site/<id_site>', methods=['POST', 'PUT'])
+@json_resp
 def update_site_chiro(id_site):
     '''
     Met à jour un site chiro
@@ -83,14 +115,50 @@ def update_site_chiro(id_site):
         info_site = DB.session.query(InfoSite).get(id_site)
         ...
     '''
-    #TODO
-    pass
+
+    try:
+        db_sess = DB.session
+        data = _prepare_site_data(request.get_json(), db_sess)
+        pprint.pprint(data) #TODO remove
+        base_repo = GNMonitoringSiteRepository(db_sess)
+        base_site = base_repo.handle_write(
+                base_site_id=id_site,
+                data=data)
+        infos_site = db_sess.query(InfoSite).get(data['id_site_infos'])
+        for menace in data.pop('menaces_ids', []):
+            infos_site.menaces_ids.append(menace)
+        for amenagement in data.pop('amenagements_ids', []):
+            infos_site.amenagements_ids.append(amenagement)
+        '''
+        for menace in infos_site.menaces_ids:
+            db_sess.delete(menace)
+        for amenagement in infos_site.amenagements_ids:
+            db_sess.delete(amenagement)
+        '''
+        for field in data:
+            if hasattr(infos_site, field):
+                setattr(infos_site, field, data[field])
+        db_sess.commit()
+        return infos_site.as_dict()
+    except InvalidBaseSiteData:
+        db.sess.rollback()
+        return ({
+                'data': data,
+                'errmsg': 'Données base site invalides'
+                }, 400)
+    except ValueError: #TODO vérifier type erreur
+        db_sess.rollback()
+        return ({
+                'data': data,
+                'errmsg': 'Données infos site invalides'
+                }, 400)
+
 
 
 @blueprint.route('/site/<id_site>', methods=['DELETE'])
 def delete_site_chiro(id_site):
     '''
-    Met à jour un site chiro
+    supprime un site chiro
     suggestion process :
         info_site = DB.session.query(InfoSite).get(id_site)
         ...
