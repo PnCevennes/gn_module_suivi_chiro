@@ -5,7 +5,6 @@ des entités gn_monitoring
 À déplacer à terme dans Geonature/backend/gn_monitoring
 """
 from geonature.core.gn_monitoring.models import TBaseSites
-from geonature.core.gn_medias.models import TMedias
 
 
 class InvalidBaseSiteData(Exception):
@@ -18,7 +17,7 @@ class GNMonitoringSiteRepository:
     """
     def __init__(self, db_sess):
         """
-        params: 
+        params:
             db_sess = session DB initialisée par la vue cliente
         """
         self.session = db_sess

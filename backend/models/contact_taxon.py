@@ -7,7 +7,7 @@ from sqlalchemy import ForeignKey
 
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import serializable
-from geonature.core.gn_medias.models import TMedias
+
 from geonature.core.gn_monitoring.models import TBaseVisits
 from pypnnomenclature.models import TNomenclatures
 
@@ -42,9 +42,9 @@ class ContactTaxon(DB.Model):
     __table_args__ = {'schema': 'monitoring_chiro'}
     id_contact_taxon = DB.Column(DB.Integer, primary_key=True)
     id_base_visit = DB.Column(
-            DB.Integer,
-            ForeignKey(TBaseVisits.id_base_visit)
-            )
+        DB.Integer,
+        ForeignKey(TBaseVisits.id_base_visit)
+    )
     tx_presume = DB.Column(DB.Unicode(250))
     cd_nom = DB.Column(DB.Integer)
     nom_complet = DB.Column(DB.Unicode(250))

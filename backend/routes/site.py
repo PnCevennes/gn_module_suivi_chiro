@@ -74,7 +74,7 @@ def create_site_chiro():
     pass
 
 
-import pprint #TODO remove
+import pprint # TODO remove
 from ..utils.repos import GNMonitoringSiteRepository, InvalidBaseSiteData
 from shapely.geometry import Point
 from geoalchemy2.shape import from_shape

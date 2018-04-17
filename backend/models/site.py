@@ -10,7 +10,6 @@ from geonature.utils.utilssqlalchemy import (
         serializable,
         geoserializable)
 from geonature.core.gn_monitoring.models import TBaseSites
-from geonature.core.gn_medias.models import TMedias
 from pypnnomenclature.models import TNomenclatures
 
 
@@ -48,7 +47,7 @@ class RelChirositeTNomenclaturesAmenagement(DB.Model):
     )
     id_nomenclature_amenagement = DB.Column(
         DB.Integer,
-        #ForeignKey('ref_nomenclatures.t_nomenclatures.id_nomenclature'),
+        # ForeignKey('ref_nomenclatures.t_nomenclatures.id_nomenclature'),
         ForeignKey(TNomenclatures.id_nomenclature),
         primary_key=True
     )
@@ -64,23 +63,27 @@ class InfoSite(DB.Model):
     __table_args__ = {'schema': 'monitoring_chiro'}
 
     id_site_infos = DB.Column(DB.Integer, primary_key=True)
+    # fk gn_monitoring.base_site
     id_base_site = DB.Column(
-            DB.Integer,
-            ForeignKey(TBaseSites.id_base_site)
-            ) #fk gn_monitoring.base_site
+        DB.Integer,
+        ForeignKey(TBaseSites.id_base_site)
+    )
     base_site = DB.relationship(TBaseSites)
     description = DB.Column(DB.UnicodeText)
-    id_nomenclature_frequentation = DB.Column(DB.Integer) #rel nomenclature
+    # rel nomenclature
+    id_nomenclature_frequentation = DB.Column(DB.Integer)
     menace_cmt = DB.Column(DB.Unicode(250))
     actions = DB.Column(DB.Unicode(250))
     menaces_ids = DB.relationship(
-            RelChirositeTNomenclaturesMenace,
-            lazy='joined',
-            passive_updates=False)
+        RelChirositeTNomenclaturesMenace,
+        lazy='joined',
+        passive_updates=False
+    )
     amenagements_ids = DB.relationship(
-            RelChirositeTNomenclaturesAmenagement,
-            lazy='joined',
-            passive_updates=False)
+        RelChirositeTNomenclaturesAmenagement,
+        lazy='joined',
+        passive_updates=False
+        )
     site_actif = DB.Column(DB.Boolean, default=False)
     contact_nom = DB.Column(DB.Unicode(25))
     contact_prenom = DB.Column(DB.Unicode(25))
