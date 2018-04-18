@@ -31,7 +31,7 @@
     label = "Espece incertaine"
 
 [[fields]]
-    thesaurusID = 504
+    thesaurusID = 13
     label = "Activité"
     name = "id_nomenclature_activite"
     type = "select"

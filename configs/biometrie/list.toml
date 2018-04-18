@@ -1,16 +1,16 @@
 emptyMsg = "Aucune biométrie"
-createUrl = "chiro/edit/biometrie/taxon/"
-detailUrl = "chiro/biometrie/"
+createUrl = "suivi_chiro/edit/biometrie/taxon/"
+detailUrl = "suivi_chiro/biometrie/"
 editAccess = 3
 createBtnLabel = "Nouvelle biométrie"
-editUrl = "chiro/edit/biometrie/"
+editUrl = "suivi_chiro/edit/biometrie/"
 title = "Biométries"
 [[fields]]
     label = "Id"
     type = "num"
-    name = "id"
+    name = "id_biometrie"
     [fields.filter]
-        id = "text"
+        id_biometrie = "text"
     [fields.options]
         visible = false
         style = "xl"
@@ -18,10 +18,10 @@ title = "Biométries"
 [[fields]]
     thesaurusID = 10
     label = "Âge"
-    name = "cbioAgeId"
+    name = "id_nomenclature_life_stage"
     type = "select"
     [fields.filter]
-        cbioAgeId = "text"
+        id_nomenclature_life_stage = "text"
     [fields.options]
         visible = true
         type = "select"
@@ -31,10 +31,10 @@ title = "Biométries"
 [[fields]]
     thesaurusID = 9
     label = "Sexe"
-    name = "cbioSexeId"
+    name = "id_nomenclature_sex"
     type = "select"
     [fields.filter]
-        cbioSexeId = "text"
+        id_nomenclature_sex = "text"
     [fields.options]
         visible = true
         type = "select"
@@ -43,9 +43,9 @@ title = "Biométries"
 [[fields]]
     label = "Poids"
     type = "num"
-    name = "cbioPoids"
+    name = "poids"
     [fields.filter]
-        cbioPoids = "text"
+        poids = "text"
     [fields.options]
         visible = true
         style = "xs"

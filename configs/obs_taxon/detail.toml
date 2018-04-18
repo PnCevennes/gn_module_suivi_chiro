@@ -2,13 +2,13 @@ editAccessOverride = "id_digitiser"
 dataUrl = "suivi_chiro/contact_taxon/"
 editAccess = 3
 
-# subDataUrl = "suivi_chiro/biometries/"
-# subSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=list"
-# subEditRef = "id"
-# subEditSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=form_many"
-# subEditAccess = 3
-# subEditSaveUrl = "suivi_chiro/biometrie/many"
-# subSchemaAdd = 3
+subDataUrl = "genericview/monitoring_chiro/v_biometrie?id_contact_taxon="
+subSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=list"
+subEditRef = "id"
+subEditSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=form_many"
+subEditAccess = 3
+subEditSaveUrl = "suivi_chiro/biometrie/many"
+subSchemaAdd = 3
 
 [[groups]]
     name = "Général"
@@ -34,23 +34,9 @@ editAccess = 3
         type = "bool"
         label = "Espece incertaine"
 
-    # [[groups.fields]]
-    #     name = "cotxObjStatusValidation"
-    #     thesaurusID = 9
-    #     type = "select"
-    #     label = "Statut validation"
-
-    # [[groups.fields]]
-    #     name = "cotxValidateur"
-    #     type = "xhr"
-    #     label = "Validateur"
-
-    #     [groups.fields.options]
-    #         url = "users/role"
-
     [[groups.fields]]
         name = "indices"
-        thesaurusID = 505
+        thesaurusID = 14
         type = "multisel"
         label = "Indices"
 
@@ -61,7 +47,7 @@ editAccess = 3
 
     [[groups.fields]]
         name = "id_nomenclature_activite"
-        thesaurusID = 504
+        thesaurusID = 13
         type = "select"
         label = "Activité"
 
@@ -70,11 +56,6 @@ editAccess = 3
         thesaurusID = 13
         type = "select"
         label = "Preuves de reproduction"
-
-    # [[groups.fields]]
-    #     name = "cotxEffectifAbs"
-    #     type = "num"
-    #     label = "Effectif total"
 
     # [[groups.fields]]
     #     help = "Photographies pour identification"
@@ -186,7 +167,7 @@ editAccess = 3
 #     [[groups.fields.fields]]
 #         name = "indetermines"
 #         label = "Sexe indéterminé"
-    
+
 #     [[groups.fields.fields.fields]]
 #         name = "cotxNbIndetermineAdulte"
 #         default = 0
@@ -221,7 +202,7 @@ editAccess = 3
 [[groups]]
     name = "Metadonnées"
     glyphicon = "glyphicon-stats"
-    
+
     [[groups.fields]]
         name = "id_digitiser"
         type = "xhr"

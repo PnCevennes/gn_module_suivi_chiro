@@ -63,7 +63,7 @@ subSchemaAdd = "2"
 
 [[groups.fields]]
     name = "id_nomenclature_mod_id"
-    thesaurusID = 503
+    thesaurusID = 115
     type = "select"
     default = 1004
     label = "Mode d'observation"

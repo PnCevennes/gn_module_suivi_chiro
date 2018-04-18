@@ -25,7 +25,7 @@ name = "Informations"
         label = "Numerisateur"
         [groups.fields.options]
             ref = "userId"
-      
+
     [[groups.fields]]
         name = "cd_nom"
         type = "taxhub"
@@ -38,7 +38,7 @@ name = "Informations"
 
     [[groups.fields]]
         name = "indices"
-        thesaurusID = 505
+        thesaurusID = 14
         type = "multisel"
         label = "Indices"
 
@@ -48,7 +48,7 @@ name = "Informations"
         label = "Description indices"
 
     [[groups.fields]]
-        thesaurusID = 504
+        thesaurusID = 13
         label = "Activité"
         name = "id_nomenclature_activite"
         type = "select"

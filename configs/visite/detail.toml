@@ -42,7 +42,7 @@ glyphicon = "glyphicon-info-sign"
 
     [[groups.fields]]
     name = "id_nomenclature_mod_id"
-    thesaurusID = 503
+    thesaurusID = 115
     type = "select"
     label = "Mode d'observation"
 
