@@ -35,6 +35,4 @@ class Biometrie(DB.Model):
     lm = DB.Column(DB.Float) # mesure mandibule inf
     oreille = DB.Column(DB.Float)
     commentaire = DB.Column(DB.Unicode(250))
-    meta_create_date = DB.Column(DB.Date)
-    meta_update_date = DB.Column(DB.Date)
     id_digitiser = DB.Column(DB.Integer)

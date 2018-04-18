@@ -37,14 +37,4 @@ class CountingContact(DB.Model):
     )
     count_min = DB.Column(DB.Integer)
     count_max = DB.Column(DB.Integer)
-    # Correspondance nomenclature INPN = statut_valid (101)
-    id_nomenclature_valid_status = DB.Column(
-        DB.Integer,
-        ForeignKey(TNomenclatures.id_nomenclature)
-    )
-    id_validator = DB.Column(DB.Integer)
-    validation_comment = DB.Column(DB.UnicodeText)
-    meta_validation_date = DB.Column(DB.DateTime)
-    meta_create_date = DB.Column(DB.DateTime)
-    meta_update_date = DB.Column(DB.DateTime)
     unique_id_sinp = DB.Column(UUID(as_uuid=True))

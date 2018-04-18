@@ -53,8 +53,6 @@ class ContactTaxon(DB.Model):
     id_nomenclature_preuve_repro = DB.Column(DB.Integer)
     indices_cmt = DB.Column(DB.Unicode(250))
     commentaire = DB.Column(DB.Unicode(250))
-    meta_create_date = DB.Column(DB.Date)
-    meta_update_date = DB.Column(DB.Date)
     id_digitiser = DB.Column(DB.Integer)
 
     denombrements = DB.relationship("CountingContact")

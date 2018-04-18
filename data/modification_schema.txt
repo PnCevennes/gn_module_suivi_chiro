@@ -1,11 +1,110 @@
-modification schéma
 
-Suppression colonne :
- cotx_num_id
- cotx_eff_id
- 
-Renommage colonne : 
-  cotx_id_nomenclature_preuve_repro integer,  -- cotx_prv_id
-  cotx_id_nomenclature_activite integer,   --  cotx_act_id
-  
-Suppression colonnes dénombrement et validation qui sont déportées dans  chiro.cor_counting_contact
+INSERT INTO gn_commons.bib_tables_location(table_desc, schema_name, table_name, pk_field, uuid_field_name)
+VALUES
+('Table centralisant les sites faisant l''objet de protocole de suivis', 'gn_monitoring', 't_base_sites', 'id_base_site', 'uuid_base_site'),
+('Table centralisant les visites réalisées sur un site', 'gn_monitoring', 't_base_visits', 'id_base_visit', 'uuid_base_visits'),
+('Liste des taxons observés durant une visite chiroptère', 'monitoring_chiro', 't_visite_contact_taxons', 'id_contact_taxon', 'uuid_chiro_visite_contact_taxon'),
+('Liste des indices ayant conduit à l''identification d''un taxon lors d''une visite', 'monitoring_chiro', 'cor_contact_taxons_nomenclature_indices',
+'uuid_chiro_visite_contact_indices', 'uuid_chiro_visite_contact_indices'
+),
+('Conditions de la visite d''un gite de chiroptère', 'monitoring_chiro', 't_visite_conditions', 'id_visite_cond', 'uuid_chiro_visite_conditions'),
+('Information complémentaire de description des sites à chiroptère', 'monitoring_chiro', 't_site_infos', 'id_site_infos', 'uuid_chiro_site_infos'),
+('Menaces relevés sur un site à chiroptère', 'monitoring_chiro', 'cor_site_infos_nomenclature_menaces', 'uuid_chiro_site_menaces', 'uuid_chiro_site_menaces'),
+('Aménagements relevés sur un site à chiroptère', 'monitoring_chiro', 'cor_site_infos_nomenclature_amenagements', 'uuid_chiro_site_amenagements', 'uuid_chiro_site_amenagements'),
+('Données de biométrie des chiroptères mesurés lors d''une capture', 'monitoring_chiro', 't_contact_taxon_biometries', 'id_biometrie', 'uuid_chiro_biometrie'),
+('Données dénombrement des taxons observés durant une visite chiroptère', 'monitoring_chiro', 'cor_counting_contact', 'id_counting_contact', 'unique_id_sinp') ;
+
+
+
+
+ALTER TABLE gn_monitoring.t_base_sites ADD uuid_base_site UUID;
+ALTER TABLE gn_monitoring.t_base_sites DROP  meta_create_date;
+ALTER TABLE gn_monitoring.t_base_sites DROP  meta_update_date;
+DROP TRIGGER tri_meta_dates_change_base_sites ON gn_monitoring.t_base_sites;
+
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON gn_monitoring.t_base_sites
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
+
+
+
+ALTER TABLE gn_monitoring.t_base_visits ADD uuid_base_visits UUID;
+ALTER TABLE gn_monitoring.t_base_visits DROP  meta_create_date;
+ALTER TABLE gn_monitoring.t_base_visits DROP  meta_update_date;
+DROP TRIGGER tri_meta_dates_change_base_visits ON gn_monitoring.t_base_visits;
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON gn_monitoring.t_base_visits
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
+
+
+ALTER TABLE monitoring_chiro.t_visite_contact_taxons ADD uuid_chiro_visite_contact_taxon UUID;
+ALTER TABLE monitoring_chiro.t_visite_contact_taxons DROP  meta_create_date;
+ALTER TABLE monitoring_chiro.t_visite_contact_taxons DROP  meta_update_date;
+DROP TRIGGER trg_date_changes ON monitoring_chiro.t_visite_contact_taxons;
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON monitoring_chiro.t_visite_contact_taxons
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
+
+
+ALTER TABLE monitoring_chiro.cor_contact_taxons_nomenclature_indices ADD uuid_chiro_visite_contact_indices UUID;
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON monitoring_chiro.cor_contact_taxons_nomenclature_indices
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
+
+ALTER TABLE monitoring_chiro.t_visite_conditions ADD uuid_chiro_visite_conditions UUID;
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON monitoring_chiro.t_visite_conditions
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
+
+ALTER TABLE monitoring_chiro.t_site_infos ADD uuid_chiro_site_infos UUID;
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON monitoring_chiro.t_site_infos
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
+
+ALTER TABLE monitoring_chiro.cor_site_infos_nomenclature_menaces ADD uuid_chiro_site_menaces UUID;
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON monitoring_chiro.cor_site_infos_nomenclature_menaces
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
+
+ALTER TABLE monitoring_chiro.cor_site_infos_nomenclature_amenagements ADD uuid_chiro_site_amenagements UUID;
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON monitoring_chiro.cor_site_infos_nomenclature_amenagements
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
+
+ALTER TABLE monitoring_chiro.t_contact_taxon_biometries ADD uuid_chiro_biometrie UUID;
+ALTER TABLE monitoring_chiro.t_contact_taxon_biometries DROP  meta_create_date;
+ALTER TABLE monitoring_chiro.t_contact_taxon_biometries DROP  meta_update_date;
+DROP TRIGGER trg_date_changes ON monitoring_chiro.t_contact_taxon_biometries;
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON monitoring_chiro.t_contact_taxon_biometries
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
+
+ALTER TABLE monitoring_chiro.cor_counting_contact DROP  meta_create_date;
+ALTER TABLE monitoring_chiro.cor_counting_contact DROP  meta_update_date;
+ALTER TABLE monitoring_chiro.cor_counting_contact DROP  meta_validation_date;
+ALTER TABLE monitoring_chiro.cor_counting_contact DROP  id_nomenclature_valid_status;
+ALTER TABLE monitoring_chiro.cor_counting_contact DROP  id_validator;
+DROP TRIGGER tri_meta_dates_change_cor_counting_contact ON monitoring_chiro.cor_counting_contact;
+CREATE TRIGGER tri_log_changes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON monitoring_chiro.cor_counting_contact
+  FOR EACH ROW
+  EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
