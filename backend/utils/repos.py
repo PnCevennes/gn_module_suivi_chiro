@@ -4,10 +4,9 @@ des entités gn_monitoring
 
 À déplacer à terme dans Geonature/backend/gn_monitoring
 """
-from geonature.core.gn_monitoring.models import TBaseSites, corSiteApplication 
+from geonature.core.gn_monitoring.models import TBaseSites, corSiteApplication
 from sqlalchemy import and_
 
-import pprint # TODO remove
 
 class InvalidBaseSiteData(Exception):
     pass
@@ -64,6 +63,8 @@ class GNMonitoringSiteRepository:
         (ne devrait être utilisé qu'en cas d'erreur de saisie)
         params:
             base_site_id
+        Supprime la relation du site à l'application en cours
+        Supprime totalement le site s'il n'est plus lié à aucune application
         '''
 
         # 1 vérifier que le site n'existe pas pour plusieurs applications
@@ -71,20 +72,24 @@ class GNMonitoringSiteRepository:
         nb_apps = len(apps)
         if nb_apps == 0:
             # site dans aucune application
-            raise InvalidBaseSiteData() 
+            raise InvalidBaseSiteData()
+
         # 2 : rompre le lien site <-> application
         cur_link = list(filter(lambda x: x[1]==self.id_app, apps))
-        if len(cur_link):
-            stmt = (corSiteApplication.delete()
-                    .where(corSiteApplication.c.id_application==self.id_app)
-                    .where(corSiteApplication.c.id_base_site==base_site_id))
-            self.session.execute(stmt)
+        if not len(cur_link):
+            # site non référencé pour l'application
+            raise InvalidBaseSiteData()
+        stmt = (corSiteApplication.delete()
+                .where(corSiteApplication.c.id_application==self.id_app)
+                .where(corSiteApplication.c.id_base_site==base_site_id))
+        self.session.execute(stmt)
+
         # si le site n'existe pas pour une autre application :
         #   3 : supprimer le site
         if nb_apps == 1:
             model = self.session.query(TBaseSites).get(base_site_id)
             self.session.delete(model)
             return True  # vrai en cas de suppression du site
-        
+
         return False  # faux si le site est juste déréférencé pour l'application
 
