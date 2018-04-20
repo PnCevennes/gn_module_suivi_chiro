@@ -1,14 +1,24 @@
+'''
+Routes relatives aux sites
+'''
+
+import geojson
+
 from flask import request
+from sqlalchemy import and_
+from sqlalchemy.orm.exc import NoResultFound
+from shapely.geometry import Point
+from geoalchemy2.shape import to_shape, from_shape
 
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp
 from pypnnomenclature.models import TNomenclatures
 
-from ..blueprint import blueprint
-from ..models.site import InfoSite
+from ..blueprint import blueprint, ID_APP
+from ..models.site import InfoSite, RelChirositeTNomenclaturesAmenagement, RelChirositeTNomenclaturesMenace
 
-import geojson
-from geoalchemy2.shape import to_shape
+from ..utils.repos import GNMonitoringSiteRepository, InvalidBaseSiteData # TODO déplacement repos dans core
+from ..utils.relations import get_updated_relations
 
 
 def _format_site_data(data):
@@ -59,27 +69,6 @@ def get_one_site_chiro(id_site):
     return {'err': 'site introuvable', 'id_site': id_site}, 404
 
 
-@blueprint.route('/site', methods=['POST', 'PUT'])
-def create_site_chiro():
-    '''
-    Crée un nouveau site chiro
-    suggestion process :
-        data = request.get_json()
-        base_site = geonature.core.gn_monitoring.handle_base_site(data)
-        info_site = InfoSite(data)
-        info_site.base_site = base_site
-        ...
-    '''
-    #TODO
-    pass
-
-
-import pprint # TODO remove
-from ..utils.repos import GNMonitoringSiteRepository, InvalidBaseSiteData
-from shapely.geometry import Point
-from geoalchemy2.shape import from_shape
-
-
 def _prepare_site_data(data, db):
     """
     Prépare les données en vue d'une insertion en base de données
@@ -90,18 +79,61 @@ def _prepare_site_data(data, db):
 
     data['geom'] = from_shape(Point(*data['geom'][0]), srid=4326)
 
-    menaces = []
-    for menace_id in data['menaces_ids']:
-        menaces.append(db.query(TNomenclatures).get(menace_id))
-    data['menaces_ids'] = menaces
-
-    amenagements = []
-    for amenagement_id in data['amenagements_ids']:
-        amenagements.append(db.query(TNomenclatures).get(amenagement_id))
-
-    data['amenagements_ids'] = amenagements
+    data['menaces_ids'] = [rel for rel in get_updated_relations(
+        db,
+        RelChirositeTNomenclaturesMenace,
+        data['menaces_ids'],
+        data['id_site_infos'],
+        'id_site_infos',
+        'id_nomenclature_menaces'
+        )]
+    data['amenagements_ids'] = [rel for rel in get_updated_relations(
+        db,
+        RelChirositeTNomenclaturesAmenagement,
+        data['amenagements_ids'],
+        data['id_site_infos'],
+        'id_site_infos',
+        'id_nomenclature_amenagement')]
     return data
 
+
+
+
+@blueprint.route('/site', methods=['POST', 'PUT'])
+@json_resp
+def create_site_chiro():
+    '''
+    Crée un nouveau site chiro
+    '''
+    try:
+        db_sess = DB.session
+        req_data = request.get_json()
+        data = _prepare_site_data(req_data, db_sess)
+        base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_APP)
+        # creation site de base
+        base_site = base_repo.handle_write(data=data, base_site_id=data.get('id_base_site', None))
+
+        # creation infos_site
+        infos_site = InfoSite(base_site=base_site)
+        for field in data:
+            if hasattr(infos_site, field):
+                setattr(infos_site, field, data[field])
+
+        db_sess.add(infos_site)
+        db_sess.commit()
+        return infos_site.as_dict()
+    except InvalidBaseSiteData:
+        db.sess.rollback()
+        return ({
+                'data': data,
+                'errmsg': 'Données base site invalides'
+                }, 400)
+    except ValueError: #TODO vérifier type erreur
+        db_sess.rollback()
+        return ({
+                'data': data,
+                'errmsg': 'Données infos site invalides'
+                }, 400)
 
 
 @blueprint.route('/site/<id_site>', methods=['POST', 'PUT'])
@@ -109,32 +141,19 @@ def _prepare_site_data(data, db):
 def update_site_chiro(id_site):
     '''
     Met à jour un site chiro
-    suggestion process :
-        data = request.get_json()
-        base_site = geonature.core.gn_monitoring.handle_base_site(data)
-        info_site = DB.session.query(InfoSite).get(id_site)
-        ...
+    params :
+        id_site : id base site
     '''
 
     try:
         db_sess = DB.session
         data = _prepare_site_data(request.get_json(), db_sess)
-        pprint.pprint(data) #TODO remove
-        base_repo = GNMonitoringSiteRepository(db_sess)
+        base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_APP)
         base_site = base_repo.handle_write(
                 base_site_id=id_site,
                 data=data)
         infos_site = db_sess.query(InfoSite).get(data['id_site_infos'])
-        for menace in data.pop('menaces_ids', []):
-            infos_site.menaces_ids.append(menace)
-        for amenagement in data.pop('amenagements_ids', []):
-            infos_site.amenagements_ids.append(amenagement)
-        '''
-        for menace in infos_site.menaces_ids:
-            db_sess.delete(menace)
-        for amenagement in infos_site.amenagements_ids:
-            db_sess.delete(amenagement)
-        '''
+
         for field in data:
             if hasattr(infos_site, field):
                 setattr(infos_site, field, data[field])
@@ -154,14 +173,43 @@ def update_site_chiro(id_site):
                 }, 400)
 
 
-
 @blueprint.route('/site/<id_site>', methods=['DELETE'])
+@json_resp
 def delete_site_chiro(id_site):
     '''
     supprime un site chiro
-    suggestion process :
-        info_site = DB.session.query(InfoSite).get(id_site)
-        ...
+    params :
+        id_site : identifiant base site
+    args :
+        cascade : commande la suppression du base site si true
     '''
-    #TODO
-    pass
+    cascade = request.args.get('cascade', False)
+    try:
+        info_site = DB.session.query(InfoSite).filter(InfoSite.id_base_site==id_site).one()
+    except NoResultFound:
+        # Site introuvable
+        return {}, 404
+    else:
+        for amenagement in info_site.amenagements_ids:
+            DB.session.delete(amenagement)
+        for menace in info_site.menaces_ids:
+            DB.session.delete(menace)
+        base_site_id = info_site.id_base_site
+        DB.session.delete(info_site)
+        try:
+            if cascade:
+                base_repo = GNMonitoringSiteRepository(DB.session, id_app=ID_APP)
+                base_repo.handle_delete(base_site_id)
+            DB.session.commit()
+            return {'data': id_site}
+        except InvalidBaseSiteData:
+            # Données relatives à base site erronnéee
+            # ex : tentative de suppression d'un base site non lié
+            # à l'application
+            DB.session.rollback()
+            return ({
+                'data': id_site,
+                'errmsg': 'Erreur de suppression'
+                }, 400)
+
+
