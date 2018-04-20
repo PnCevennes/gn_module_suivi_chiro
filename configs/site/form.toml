@@ -32,6 +32,11 @@ deleteAccess = 5
         label = "ID"
 
     [[groups.fields]]
+        name = "uuid_base_site"
+        type = "hidden"
+        label = "uuid_base_site"
+
+    [[groups.fields]]
         name = "id_digitiser"
         type = "hidden"
         label = "Numerisateur"
@@ -214,3 +219,20 @@ deleteAccess = 5
         [groups.fields.options]
             maxLength = 1000
 
+
+[[groups]]
+    name = "Fichiers"
+
+
+    [[groups.fields]]
+        help = "Fichiers associés"
+        name = "obsTaxonFichiers"
+        type = "file"
+        label = "Photographies"
+
+        [groups.fields.options]
+            maxSize = 2048000
+            # accepted = [ "png", "jpg",]
+            attachedUUID = "uuid_base_site"
+            id_table_location = 6
+            url_nomenclature_media_type = "nomenclatures/nomenclature/117"
