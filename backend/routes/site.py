@@ -35,7 +35,7 @@ from ..utils.relations import get_updated_relations
 
 def _format_site_data(data):
     '''
-    Procédure de sérialisation non récursive des modèles
+        Procédure de sérialisation non récursive des modèles
     '''
     base = data.base_site.as_dict(recursif=False)
     base["id"] = data.base_site.id_base_site
