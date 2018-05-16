@@ -34,7 +34,7 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_sites_chiro AS
     ( SELECT count(*) AS count
            FROM gn_monitoring.t_base_visits v
           WHERE v.id_base_site = s.id_base_site) AS nb_obs,
-    '<h4><a href="#!/suivi_chiro/site/' || s.id_base_site || '">' || s.base_site_name || '</a></h4>'::varchar(500) as geom_popup
+    '<h4><a href="#/suivi_chiro/site/' || s.id_base_site || '">' || s.base_site_name || '</a></h4>'::varchar(500) as geom_popup
    FROM gn_monitoring.t_base_sites s
    JOIN gn_commons.v_meta_actions_on_object ma ON ma.uuid_attached_row = s.uuid_base_site
      JOIN gn_monitoring.cor_site_application csa ON s.id_base_site = csa.id_base_site AND csa.id_application = 101

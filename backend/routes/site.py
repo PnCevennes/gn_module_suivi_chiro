@@ -12,12 +12,24 @@ from geoalchemy2.shape import to_shape, from_shape
 
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp
-from pypnnomenclature.models import TNomenclatures
+
+from geonature.core.gn_commons.repositories import (
+    TMediumRepository,
+    TMediaRepository
+)
 
 from ..blueprint import blueprint, ID_APP
-from ..models.site import InfoSite, RelChirositeTNomenclaturesAmenagement, RelChirositeTNomenclaturesMenace
+from ..models.site import (
+    InfoSite,
+    RelChirositeTNomenclaturesAmenagement,
+    RelChirositeTNomenclaturesMenace
+)
 
-from ..utils.repos import GNMonitoringSiteRepository, InvalidBaseSiteData # TODO déplacement repos dans core
+from ..utils.repos import (
+    GNMonitoringSiteRepository,
+    InvalidBaseSiteData,
+    attach_uuid_to_medium
+ ) # TODO déplacement repos dans core
 from ..utils.relations import get_updated_relations
 
 
@@ -26,7 +38,10 @@ def _format_site_data(data):
     Procédure de sérialisation non récursive des modèles
     '''
     base = data.base_site.as_dict(recursif=False)
-    geometry = geojson.Feature(geometry=to_shape(getattr(data.base_site, 'geom')))
+    base["id"] = data.base_site.id_base_site
+    geometry = geojson.Feature(
+        geometry=to_shape(getattr(data.base_site, 'geom'))
+    )
     base['geom'] = [geometry['geometry']['coordinates']]
     result = data.as_dict(recursif=False)
     result['menaces_ids'] = [
@@ -36,6 +51,11 @@ def _format_site_data(data):
             amenagement.id_nomenclature_amenagement
             for amenagement in data.amenagements_ids]
     base.update(result)
+
+    # get medium
+    medium = TMediumRepository.get_medium_for_entity(data.base_site.uuid_base_site)
+    if (medium):
+        base['medium'] = [m.as_dict() for m in medium]
     return base
 
 
@@ -63,10 +83,13 @@ def get_one_site_chiro(id_site):
     '''
     Retourne le site chiro identifié par `id_site`
     '''
-    result = DB.session.query(InfoSite).filter_by(id_base_site=id_site).one()
-    if result:
-        return _format_site_data(result)
-    return {'err': 'site introuvable', 'id_site': id_site}, 404
+    try:
+        result = DB.session.query(InfoSite).filter_by(id_base_site=id_site).one()
+        if result:
+            return _format_site_data(result)
+    except NoResultFound:
+        return {'err': 'site introuvable', 'id_site': id_site}, 404
+
 
 
 def _prepare_site_data(data, db):
@@ -97,8 +120,6 @@ def _prepare_site_data(data, db):
     return data
 
 
-
-
 @blueprint.route('/site', methods=['POST', 'PUT'])
 @json_resp
 def create_site_chiro():
@@ -111,7 +132,9 @@ def create_site_chiro():
         data = _prepare_site_data(req_data, db_sess)
         base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_APP)
         # creation site de base
-        base_site = base_repo.handle_write(data=data, base_site_id=data.get('id_base_site', None))
+        base_site = base_repo.handle_write(
+            data=data, base_site_id=data.get('id_base_site', None)
+        )
 
         # creation infos_site
         infos_site = InfoSite(base_site=base_site)
@@ -121,14 +144,23 @@ def create_site_chiro():
 
         db_sess.add(infos_site)
         db_sess.commit()
-        return infos_site.as_dict()
+        infos_site.base_site = base_site
+
+        # Création des média
+        if (req_data['medium']):
+            attach_uuid_to_medium(
+                req_data['medium'],
+                base_site.uuid_base_site
+            )
+
+        return _format_site_data(infos_site)
     except InvalidBaseSiteData:
         db.sess.rollback()
         return ({
                 'data': data,
                 'errmsg': 'Données base site invalides'
                 }, 400)
-    except ValueError: #TODO vérifier type erreur
+    except ValueError: # TODO vérifier type erreur
         db_sess.rollback()
         return ({
                 'data': data,
@@ -150,15 +182,17 @@ def update_site_chiro(id_site):
         data = _prepare_site_data(request.get_json(), db_sess)
         base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_APP)
         base_site = base_repo.handle_write(
-                base_site_id=id_site,
-                data=data)
+            base_site_id=id_site,
+            data=data
+        )
         infos_site = db_sess.query(InfoSite).get(data['id_site_infos'])
 
         for field in data:
             if hasattr(infos_site, field):
                 setattr(infos_site, field, data[field])
         db_sess.commit()
-        return infos_site.as_dict()
+        infos_site.base_site = base_site
+        return _format_site_data(infos_site)
     except InvalidBaseSiteData:
         db.sess.rollback()
         return ({
@@ -185,7 +219,9 @@ def delete_site_chiro(id_site):
     '''
     cascade = request.args.get('cascade', False)
     try:
-        info_site = DB.session.query(InfoSite).filter(InfoSite.id_base_site==id_site).one()
+        info_site = DB.session.query(InfoSite).filter(
+            InfoSite.id_base_site == id_site
+        ).one()
     except NoResultFound:
         # Site introuvable
         return {}, 404
@@ -211,5 +247,3 @@ def delete_site_chiro(id_site):
                 'data': id_site,
                 'errmsg': 'Erreur de suppression'
                 }, 400)
-
-

@@ -4,8 +4,14 @@ des entités gn_monitoring
 
 À déplacer à terme dans Geonature/backend/gn_monitoring
 """
-from geonature.core.gn_monitoring.models import TBaseSites, corSiteApplication
+
 from sqlalchemy import and_
+
+from geonature.core.gn_monitoring.models import TBaseSites, corSiteApplication
+
+from geonature.core.gn_commons.repositories import (
+    TMediaRepository
+)
 
 
 class InvalidBaseSiteData(Exception):
@@ -43,14 +49,17 @@ class GNMonitoringSiteRepository:
                 if hasattr(model, field):
                     setattr(model, field, data[field])
 
-            self.session.flush() # génération de l'id de site
+            self.session.flush()  # génération de l'id de site
 
-            #insertion id application
+            # insertion id application
             app = self.session.query(corSiteApplication).filter(and_(
-                corSiteApplication.c.id_base_site==model.id_base_site,
-                corSiteApplication.c.id_application==self.id_app)).all()
+                corSiteApplication.c.id_base_site == model.id_base_site,
+                corSiteApplication.c.id_application == self.id_app)
+            ).all()
             if not len(app):
-                stmt = corSiteApplication.insert().values(id_base_site=model.id_base_site, id_application=self.id_app)
+                stmt = corSiteApplication.insert().values(
+                    id_base_site=model.id_base_site, id_application=self.id_app
+                )
                 self.session.execute(stmt)
 
             return model
@@ -93,3 +102,12 @@ class GNMonitoringSiteRepository:
 
         return False  # faux si le site est juste déréférencé pour l'application
 
+
+def attach_uuid_to_medium(medium, uuid_attached_row):
+    '''
+        Fonction permettant de ratacher à posteriori
+        une liste de media à une entité
+    '''
+    for m in medium:
+        m['uuid_attached_row'] = uuid_attached_row
+        TMediaRepository(m, m['id_media'])._persist_media_db()

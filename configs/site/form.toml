@@ -32,6 +32,16 @@ deleteAccess = 5
         label = "ID"
 
     [[groups.fields]]
+        name = "id_base_site"
+        type = "hidden"
+        label = "ID"
+
+    [[groups.fields]]
+        name = "id"
+        type = "hidden"
+        label = "ID"
+
+    [[groups.fields]]
         name = "uuid_base_site"
         type = "hidden"
         label = "uuid_base_site"
@@ -99,18 +109,6 @@ deleteAccess = 5
 
         [groups.fields.options]
             maxLength = 1000
-
-    [[groups.fields]]
-        help = "Fichiers relatifs au site"
-        name = "siteFichiers"
-        type = "file"
-        label = "Fichiers joints"
-
-        [groups.fields.options]
-            maxSize = 2048000
-            unique = true
-            accepted = [ "png", "jpg", "pdf",]
-            target = "chiro/site"
 
 [[groups]]
     name = "Etat"
@@ -226,7 +224,7 @@ deleteAccess = 5
 
     [[groups.fields]]
         help = "Fichiers associés"
-        name = "obsTaxonFichiers"
+        name = "medium"
         type = "file"
         label = "Photographies"
 
