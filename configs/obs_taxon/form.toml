@@ -14,6 +14,11 @@ name = "Informations"
         type = "hidden"
 
     [[groups.fields]]
+        name = "uuid_chiro_visite_contact_taxon"
+        type = "hidden"
+        label = "uuid_chiro_visite_contact_taxon"
+
+    [[groups.fields]]
         name = "id_base_visit"
         type = "hidden"
         [groups.fields.options]
@@ -76,16 +81,20 @@ name = "Informations"
         type = "text"
         label = "Commentaires"
 
+
     [[groups.fields]]
-        help = "Photographies pour identification"
-        name = "obsTaxonFichiers"
+        help = "Fichiers associés"
+        name = "medium"
         type = "file"
         label = "Photographies"
 
         [groups.fields.options]
             maxSize = 2048000
-            accepted = [ "png", "jpg",]
-            target = "chiro/obsTaxon"
+            # accepted = [ "png", "jpg",]
+            attachedUUID = "uuid_chiro_visite_contact_taxon"
+            id_table_location = 8
+            url_nomenclature_media_type = "nomenclatures/nomenclature/117"
+
 
 [[groups]]
     name = "Dénombrement"

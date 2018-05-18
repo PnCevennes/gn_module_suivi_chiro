@@ -83,7 +83,7 @@ class InfoSite(DB.Model):
         RelChirositeTNomenclaturesAmenagement,
         lazy='joined',
         passive_updates=False
-        )
+    )
     site_actif = DB.Column(DB.Boolean, default=False)
     contact_nom = DB.Column(DB.Unicode(25))
     contact_prenom = DB.Column(DB.Unicode(25))

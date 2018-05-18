@@ -4,11 +4,13 @@ Modeles de données propres aux observations de taxons suivi chiro
 
 
 from sqlalchemy import ForeignKey
+from sqlalchemy.sql import select, func
+from sqlalchemy.dialects.postgresql import UUID
 
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import serializable
-
 from geonature.core.gn_monitoring.models import TBaseVisits
+
 from pypnnomenclature.models import TNomenclatures
 
 from .counting_contact import CountingContact
@@ -28,7 +30,6 @@ class RelContactTaxonIndices(DB.Model):
     )
     id_nomenclature_indice = DB.Column(
         DB.Integer,
-        ForeignKey(TNomenclatures.id_nomenclature),
         primary_key=True
     )
 
@@ -54,9 +55,14 @@ class ContactTaxon(DB.Model):
     indices_cmt = DB.Column(DB.Unicode(250))
     commentaire = DB.Column(DB.Unicode(250))
     id_digitiser = DB.Column(DB.Integer)
+    uuid_chiro_visite_contact_taxon = DB.Column(
+        UUID(as_uuid=True),
+        default=select([func.uuid_generate_v4()])
+    )
 
     denombrements = DB.relationship("CountingContact")
     indices = DB.relationship(
-            RelContactTaxonIndices,
-            lazy='joined')
+        RelContactTaxonIndices,
+        lazy='joined'
+    )
 

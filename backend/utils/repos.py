@@ -156,4 +156,6 @@ def attach_uuid_to_medium(medium, uuid_attached_row):
     '''
     for m in medium:
         m['uuid_attached_row'] = uuid_attached_row
-        TMediaRepository(m, m['id_media'])._persist_media_db()
+        mr = TMediaRepository(data=m, id_media=m['id_media'])
+        mr.media.uuid_attached_row = uuid_attached_row
+        mr._persist_media_db()

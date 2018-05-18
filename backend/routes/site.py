@@ -29,34 +29,8 @@ from ..utils.repos import (
     GNMonitoringSiteRepository,
     InvalidBaseSiteData,
     attach_uuid_to_medium
- ) # TODO déplacement repos dans core
+)  # TODO déplacement repos dans core
 from ..utils.relations import get_updated_relations
-
-
-def _format_site_data(data):
-    '''
-        Procédure de sérialisation non récursive des modèles
-    '''
-    base = data.base_site.as_dict(recursif=False)
-    base["id"] = data.base_site.id_base_site
-    geometry = geojson.Feature(
-        geometry=to_shape(getattr(data.base_site, 'geom'))
-    )
-    base['geom'] = [geometry['geometry']['coordinates']]
-    result = data.as_dict(recursif=False)
-    result['menaces_ids'] = [
-            menace.id_nomenclature_menaces
-            for menace in data.menaces_ids]
-    result['amenagements_ids'] = [
-            amenagement.id_nomenclature_amenagement
-            for amenagement in data.amenagements_ids]
-    base.update(result)
-
-    # get medium
-    medium = TMediumRepository.get_medium_for_entity(data.base_site.uuid_base_site)
-    if (medium):
-        base['medium'] = [m.as_dict() for m in medium]
-    return base
 
 
 @blueprint.route('/sites', methods=['GET'])
@@ -91,65 +65,54 @@ def get_one_site_chiro(id_site):
         return {'err': 'site introuvable', 'id_site': id_site}, 404
 
 
-
-def _prepare_site_data(data, db):
-    """
-    Prépare les données en vue d'une insertion en base de données
-    params :
-        data : données à préparer (dict <- request.get_json())
-        db : session DB à utiliser pour charger les relations
-    """
-
-    data['geom'] = from_shape(Point(*data['geom'][0]), srid=4326)
-
-    data['menaces_ids'] = [rel for rel in get_updated_relations(
-        db,
-        RelChirositeTNomenclaturesMenace,
-        data['menaces_ids'],
-        data['id_site_infos'],
-        'id_site_infos',
-        'id_nomenclature_menaces'
-        )]
-    data['amenagements_ids'] = [rel for rel in get_updated_relations(
-        db,
-        RelChirositeTNomenclaturesAmenagement,
-        data['amenagements_ids'],
-        data['id_site_infos'],
-        'id_site_infos',
-        'id_nomenclature_amenagement')]
-    return data
-
-
-@blueprint.route('/site', methods=['POST', 'PUT'])
+@blueprint.route('/site', defaults={'id_site': None}, methods=['POST', 'PUT'])
+@blueprint.route('/site/<id_site>', methods=['POST', 'PUT'])
 @json_resp
-def create_site_chiro():
+def create_or_update_site_chiro(id_site=None):
     '''
-    Crée un nouveau site chiro
+    Met à jour ou créé un site chiro
+     - c-a-d création du base site si besoin
+     - création info site
+
+        params :
+            id_site : id base site
     '''
+
     try:
         db_sess = DB.session
         req_data = request.get_json()
         data = _prepare_site_data(req_data, db_sess)
         base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_APP)
-        # creation site de base
+
+        # Création du base site si besoin
+        if not id_site:
+            id_site = data.get('id_base_site', None)
+
         base_site = base_repo.handle_write(
-            data=data, base_site_id=data.get('id_base_site', None)
+            base_site_id=id_site,
+            data=data
         )
 
-        # creation infos_site
-        infos_site = InfoSite(base_site=base_site)
+        # Création de la données infos site propre à chiro
+        infos_site = None
+        if data['id_site_infos']:
+            infos_site = db_sess.query(InfoSite).get(data['id_site_infos'])
+
+        if not infos_site:
+            infos_site = InfoSite(base_site=base_site)
+            db_sess.add(infos_site)
+
         for field in data:
             if hasattr(infos_site, field):
                 setattr(infos_site, field, data[field])
 
-        db_sess.add(infos_site)
         db_sess.commit()
         infos_site.base_site = base_site
 
-        # Création des média
-        if (req_data['medium']):
+        # Création des médias
+        if (data['medium']):
             attach_uuid_to_medium(
-                req_data['medium'],
+                data['medium'],
                 base_site.uuid_base_site
             )
 
@@ -160,46 +123,7 @@ def create_site_chiro():
                 'data': data,
                 'errmsg': 'Données base site invalides'
                 }, 400)
-    except ValueError: # TODO vérifier type erreur
-        db_sess.rollback()
-        return ({
-                'data': data,
-                'errmsg': 'Données infos site invalides'
-                }, 400)
-
-
-@blueprint.route('/site/<id_site>', methods=['POST', 'PUT'])
-@json_resp
-def update_site_chiro(id_site):
-    '''
-    Met à jour un site chiro
-    params :
-        id_site : id base site
-    '''
-
-    try:
-        db_sess = DB.session
-        data = _prepare_site_data(request.get_json(), db_sess)
-        base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_APP)
-        base_site = base_repo.handle_write(
-            base_site_id=id_site,
-            data=data
-        )
-        infos_site = db_sess.query(InfoSite).get(data['id_site_infos'])
-
-        for field in data:
-            if hasattr(infos_site, field):
-                setattr(infos_site, field, data[field])
-        db_sess.commit()
-        infos_site.base_site = base_site
-        return _format_site_data(infos_site)
-    except InvalidBaseSiteData:
-        db.sess.rollback()
-        return ({
-                'data': data,
-                'errmsg': 'Données base site invalides'
-                }, 400)
-    except ValueError: #TODO vérifier type erreur
+    except ValueError:  # TODO vérifier type erreur
         db_sess.rollback()
         return ({
                 'data': data,
@@ -247,3 +171,60 @@ def delete_site_chiro(id_site):
                 'data': id_site,
                 'errmsg': 'Erreur de suppression'
                 }, 400)
+
+
+def _format_site_data(data):
+    '''
+        Procédure de sérialisation non récursive des modèles
+    '''
+    base = data.base_site.as_dict(recursif=False)
+    base["id"] = data.base_site.id_base_site
+    geometry = geojson.Feature(
+        geometry=to_shape(getattr(data.base_site, 'geom'))
+    )
+    base['geom'] = [geometry['geometry']['coordinates']]
+    result = data.as_dict(recursif=False)
+    result['menaces_ids'] = [
+            menace.id_nomenclature_menaces
+            for menace in data.menaces_ids]
+    result['amenagements_ids'] = [
+            amenagement.id_nomenclature_amenagement
+            for amenagement in data.amenagements_ids]
+    base.update(result)
+
+    # get medium
+    medium = TMediumRepository.get_medium_for_entity(data.base_site.uuid_base_site)
+    if (medium):
+        base['medium'] = [m.as_dict() for m in medium]
+
+    return base
+
+
+
+def _prepare_site_data(data, db):
+    """
+    Prépare les données en vue d'une insertion en base de données
+    params :
+        data : données à préparer (dict <- request.get_json())
+        db : session DB à utiliser pour charger les relations
+    """
+
+    data['geom'] = from_shape(Point(*data['geom'][0]), srid=4326)
+
+    data['menaces_ids'] = [rel for rel in get_updated_relations(
+        db,
+        RelChirositeTNomenclaturesMenace,
+        data['menaces_ids'],
+        data['id_site_infos'],
+        'id_site_infos',
+        'id_nomenclature_menaces'
+    )]
+    data['amenagements_ids'] = [rel for rel in get_updated_relations(
+        db,
+        RelChirositeTNomenclaturesAmenagement,
+        data['amenagements_ids'],
+        data['id_site_infos'],
+        'id_site_infos',
+        'id_nomenclature_amenagement'
+    )]
+    return data

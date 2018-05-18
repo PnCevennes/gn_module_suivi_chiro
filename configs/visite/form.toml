@@ -15,6 +15,11 @@ subSchemaAdd = "2"
         label = "Id"
 
     [[groups.fields]]
+        name = "id_visite_cond"
+        type = "hidden"
+        label = "id_visite_cond"
+
+    [[groups.fields]]
     name = "id_base_site"
     type = "xhr"
     label = "Site"

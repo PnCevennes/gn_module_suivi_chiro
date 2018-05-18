@@ -46,20 +46,32 @@ def get_one_visite_chiro(id_base_visit):
         return {'err': 'visite introuvable', 'id_base_visit': id_base_visit}, 404
 
 
-@blueprint.route('/visite', methods=['POST', 'PUT'])
+@blueprint.route('/visite', defaults={'id_visite': None}, methods=['POST', 'PUT'])
+@blueprint.route('/visite/<id_visite>', methods=['POST', 'PUT'])
 @json_resp
-def create_visite_chiro():
+def create_or_update_visite_chiro(id_visite=None):
     db_sess = DB.session
     data = request.get_json()
-    base_repo = GNMonitoringVisiteRepository(db_sess)
-    # creation site de base
 
+    if not id_visite:
+        id_site = data.get('id_visite', None)
+
+    # creation de base visite
+    base_repo = GNMonitoringVisiteRepository(db_sess)
     base_visit = base_repo.handle_write(
-        data=data, id_base_visite=None
+        id_base_visite=id_visite,
+        data=data
     )
 
-    # creation infos_site
-    visite = ConditionsVisite(base_visit=base_visit)
+    # creation condition visite
+    visite = None
+    if 'id_visite_cond' in data:
+        visite = db_sess.query(ConditionsVisite).get(data['id_visite_cond'])
+
+    if not visite:
+        visite = ConditionsVisite(base_visit=base_visit)
+        db_sess.add(visite)
+
     for field in data:
         if hasattr(visite, field):
             setattr(visite, field, data[field])
@@ -70,11 +82,6 @@ def create_visite_chiro():
     db_sess.commit()
 
     return  _format_visite_data(visite)
-
-
-@blueprint.route('/visite/<id_visite>', methods=['POST', 'PUT'])
-def update_visite_chiro(id_visite):
-    pass
 
 
 @blueprint.route('/visite/<id_visite>', methods=['DELETE'])
