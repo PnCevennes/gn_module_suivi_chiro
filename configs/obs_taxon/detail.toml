@@ -5,7 +5,7 @@ editAccess = 3
 subDataUrl = "genericview/monitoring_chiro/v_biometrie?id_contact_taxon="
 subSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=list"
 subEditRef = "id"
-subEditSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=form_many"
+subEditSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=form"
 subEditAccess = 3
 subEditSaveUrl = "suivi_chiro/biometrie/many"
 subSchemaAdd = 3

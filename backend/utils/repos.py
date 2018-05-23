@@ -16,6 +16,12 @@ from geonature.core.gn_commons.repositories import (
 )
 from geonature.core.users.models import TRoles
 
+from ..models.counting_contact import CountingContact
+from ..models.contact_taxon import RelContactTaxonIndices, ContactTaxon
+
+from ..utils.relations import get_updated_relations
+
+
 class InvalidBaseSiteData(Exception):
     pass
 
@@ -146,8 +152,116 @@ class GNMonitoringSiteRepository:
             self.session.delete(model)
             return True  # vrai en cas de suppression du site
 
-        return False  # faux si le site est juste déréférencé pour l'application
+        # faux si le site est juste déréférencé pour l'application
+        return False
 
+
+class GNMonitoringContactTaxon():
+    """
+    Création mise à jour des sites gn_monitoring
+    """
+    # tableau de correspondance dans le cadre de la saisie rapide
+    # @TODO mettre en parametre de configuration
+    cor_counting_life_stage = {
+        'indetermine': 3,
+        'adulte': 4,
+        'juvenile': 5
+    }
+    cor_counting_sex = {
+        'indetermine': 189,
+        'femelle': 190,
+        'male': 191
+    }
+
+    def __init__(self, db_sess, data, saisie_rapide=False):
+        """
+        params:
+            db_sess : session DB initialisée par la vue cliente
+            data : Données relative au contact taxons
+            saisie_rapide : Indique s'il y a eu une saisie rapide des taxons
+                implique un traitement particulier
+        """
+        self.session = db_sess
+        self.data = data
+        self.saisie_rapide = saisie_rapide
+
+        self.id_contact_taxon = (
+            data['id_contact_taxon'] if 'id_contact_taxon' in data else None
+        )
+
+        if saisie_rapide:
+            self.denombrements = self.prepare_data_sasie_rapide()
+        else:
+            if 'denombrements' in data:
+                self.denombrements = self.data['denombrements']
+        self.data.pop('denombrements', None)
+
+    def prepare_data_sasie_rapide(self):
+        denombrements = []
+        for key in self.data:
+            if key.startswith('denombrement.') and self.data[key]:
+                (sex, live_stage) = key[13:].split('_')
+                denombrement = {
+                    'id_nomenclature_life_stage': self.cor_counting_life_stage[live_stage],
+                    'id_nomenclature_sex': self.cor_counting_sex[sex],
+                    'count_min': self.data[key],
+                    'count_max': self.data[key]
+                }
+                denombrements.append(denombrement)
+
+        return denombrements
+
+    def handle_write(self):
+
+        # creation contact taxon
+        data_occ = {}
+
+        for field in self.data:
+            if hasattr(ContactTaxon, field):
+                data_occ[field] = self.data[field]
+        data_occ.pop('indices')
+        contact_taxon = ContactTaxon(**data_occ)
+
+
+        if 'indices' in self.data:
+            indices = [rel for rel in get_updated_relations(
+                self.session,
+                RelContactTaxonIndices,
+                self.data['indices'],
+                self.id_contact_taxon,
+                'id_contact_taxon',
+                'id_nomenclature_indice'
+            )]
+            contact_taxon.indices = indices
+
+        # creation dénombrement
+        self.data['denombrements'] = []
+        for d in self.denombrements:
+            attliste = [k for k in d]
+            for att in attliste:
+                if not getattr(CountingContact, att, False):
+                    d.pop(att)
+            counting = CountingContact(**d)
+            contact_taxon.denombrements.append(counting)
+
+        if self.id_contact_taxon:
+            self.session.merge(contact_taxon)
+        else:
+            self.session.add(contact_taxon)
+        try:
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise(e)
+
+        # Création des média
+        if 'medium' in self.data:
+            attach_uuid_to_medium(
+                self.data['medium'],
+                contact_taxon.uuid_chiro_visite_contact_taxon
+            )
+
+        return contact_taxon
 
 def attach_uuid_to_medium(medium, uuid_attached_row):
     '''
@@ -159,3 +273,5 @@ def attach_uuid_to_medium(medium, uuid_attached_row):
         mr = TMediaRepository(data=m, id_media=m['id_media'])
         mr.media.uuid_attached_row = uuid_attached_row
         mr._persist_media_db()
+
+

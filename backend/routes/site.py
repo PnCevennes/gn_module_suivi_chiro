@@ -5,7 +5,6 @@ Routes relatives aux sites
 import geojson
 
 from flask import request
-from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 from shapely.geometry import Point
 from geoalchemy2.shape import to_shape, from_shape
@@ -14,8 +13,7 @@ from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp
 
 from geonature.core.gn_commons.repositories import (
-    TMediumRepository,
-    TMediaRepository
+    TMediumRepository
 )
 
 from ..blueprint import blueprint, ID_APP

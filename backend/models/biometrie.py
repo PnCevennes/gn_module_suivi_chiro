@@ -19,7 +19,7 @@ class Biometrie(DB.Model):
     id_biometrie = DB.Column(DB.Integer, primary_key=True)
     id_contact_taxon = DB.Column(
         DB.Integer,
-        ForeignKey('monitoring_chiro.t_visite_contact_taxon.id_contact_taxon')
+        ForeignKey('monitoring_chiro.t_visite_contact_taxons.id_contact_taxon')
     )
     id_nomenclature_life_stage = DB.Column(DB.Integer)
     id_nomenclature_sex = DB.Column(DB.Integer)

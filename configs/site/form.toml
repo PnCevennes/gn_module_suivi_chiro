@@ -220,7 +220,7 @@ deleteAccess = 5
 
 [[groups]]
     name = "Fichiers"
-
+    
     [[groups.fields]]
         help = "Fichiers associés"
         name = "medium"
@@ -230,6 +230,6 @@ deleteAccess = 5
         [groups.fields.options]
             maxSize = 2048000
             # accepted = [ "png", "jpg",]
-            attachedUUID = "uuid_chiro_visite_contact_taxon"
+            attachedUUID = "uuid_base_site"
             id_table_location = 6
             url_nomenclature_media_type = "nomenclatures/nomenclature/117"

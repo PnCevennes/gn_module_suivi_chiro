@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, select, func
 from sqlalchemy.dialects.postgresql import UUID
 
 from geonature.utils.env import DB
@@ -16,15 +16,16 @@ class CountingContact(DB.Model):
         ForeignKey('monitoring_chiro.t_visite_contact_taxons.id_contact_taxon')
     )
     # Correspondance nomenclature INPN = stade_vie (10)
-    id_nomenclature_life_stage = DB.Column(
-        DB.Integer
-    )
-     # Correspondance nomenclature INPN = sexe (9)
+    id_nomenclature_life_stage = DB.Column(DB.Integer)
+    # Correspondance nomenclature INPN = sexe (9)
     id_nomenclature_sex = DB.Column(DB.Integer)
     # Correspondance nomenclature INPN = obj_denbr (6)
-    id_nomenclature_obj_count = DB.Column(DB.Integer)
+    id_nomenclature_obj_count = DB.Column(DB.Integer, default=166)
     # Correspondance nomenclature INPN = typ_denbr (21)
-    id_nomenclature_type_count = DB.Column(DB.Integer)
+    id_nomenclature_type_count = DB.Column(DB.Integer, default=109)
     count_min = DB.Column(DB.Integer)
     count_max = DB.Column(DB.Integer)
-    unique_id_sinp = DB.Column(UUID(as_uuid=True))
+    unique_id_sinp = DB.Column(
+        UUID(as_uuid=True),
+        default=select([func.uuid_generate_v4()])
+    )

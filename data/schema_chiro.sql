@@ -754,3 +754,24 @@ ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons
 --
 -- PostgreSQL database dump complete
 --
+
+
+CREATE OR REPLACE FUNCTION monitoring_chiro.fct_trg_get_nom_complet()
+  RETURNS trigger AS
+$BODY$
+DECLARE
+BEGIN
+  NEW.nom_complet = (SELECT nom_complet FROM taxonomie.taxref WHERE cd_nom = NEW.cd_nom);
+  RETURN NEW;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+
+
+CREATE TRIGGER trg_get_nom_complet
+  BEFORE INSERT OR UPDATE
+  ON  monitoring_chiro.t_visite_contact_taxons
+  FOR EACH ROW
+  EXECUTE PROCEDURE monitoring_chiro.fct_trg_get_nom_complet();

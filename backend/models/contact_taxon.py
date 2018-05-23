@@ -60,9 +60,13 @@ class ContactTaxon(DB.Model):
         default=select([func.uuid_generate_v4()])
     )
 
-    denombrements = DB.relationship("CountingContact")
+    denombrements = DB.relationship(
+        "CountingContact",
+        cascade="all, delete-orphan"
+    )
     indices = DB.relationship(
         RelContactTaxonIndices,
-        lazy='joined'
+        lazy='joined',
+        cascade="all, delete-orphan"
     )
 
