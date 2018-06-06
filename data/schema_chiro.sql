@@ -749,6 +749,15 @@ ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons
     ADD CONSTRAINT t_visite_contact_taxons_id_nomenclature_preuve_repro_fkey FOREIGN KEY (id_nomenclature_preuve_repro) REFERENCES ref_nomenclatures.t_nomenclatures(id_nomenclature) ON UPDATE CASCADE;
 
 
+ALTER TABLE monitoring_chiro.t_visite_conditions
+  ADD CONSTRAINT t_visite_condition_id_base_visit_fkey FOREIGN KEY (id_base_visit) REFERENCES gn_monitoring.t_base_visits (id_base_visit) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+
+ALTER TABLE monitoring_chiro.t_visite_contact_taxons
+  ADD CONSTRAINT t_visite_contact_taxons_id_base_visit_fkey FOREIGN KEY (id_base_visit) REFERENCES gn_monitoring.t_base_visits (id_base_visit) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
 -- Completed on 2018-04-18 10:06:54 CEST
 
 --

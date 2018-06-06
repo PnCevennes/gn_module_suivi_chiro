@@ -5,6 +5,8 @@ from sqlalchemy.orm.exc import NoResultFound
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp
 
+from geonature.core.gn_monitoring.models import TBaseVisits
+
 from ..blueprint import blueprint
 from ..models.visite import ConditionsVisite
 from ..utils.repos import (
@@ -45,7 +47,10 @@ def get_one_visite_chiro(id_base_visit):
         ).one()
         return _format_visite_data(result)
     except NoResultFound:
-        return {'err': 'visite introuvable', 'id_base_visit': id_base_visit}, 404
+        return (
+            {'err': 'visite introuvable', 'id_base_visit': id_base_visit},
+            404
+        )
 
 
 @blueprint.route('/visite', defaults={'id_visite': None}, methods=['POST', 'PUT'])
@@ -93,6 +98,30 @@ def create_or_update_visite_chiro(id_visite=None):
 
 
 @blueprint.route('/visite/<id_visite>', methods=['DELETE'])
+@json_resp
 def delete_visite_chiro(id_visite):
-    pass
+    '''
+        Suppression d'un enregistrement visite
+    '''
+    try:
+        visite = DB.session.query(TBaseVisits).filter(
+            TBaseVisits.id_base_visit == id_visite
+        ).one()
+    except NoResultFound:
+        return {}, 404
+
+    else:
+        try:
+            DB.session.delete(visite)
+            DB.session.commit()
+            return {'data': id_visite}
+        except Exception:
+            DB.session.rollback()
+            return ({
+                'data': id_visite,
+                'errmsg': 'Erreur de suppression'
+                }, 400)
+
+
+
 

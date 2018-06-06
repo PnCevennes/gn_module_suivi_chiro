@@ -3,7 +3,6 @@ from sqlalchemy.dialects.postgresql import UUID
 
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import serializable
-from pypnnomenclature.models import TNomenclatures
 
 
 @serializable
