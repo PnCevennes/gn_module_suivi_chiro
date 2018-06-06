@@ -3,7 +3,7 @@ from flask import request
 from sqlalchemy.orm.exc import NoResultFound
 
 from geonature.utils.env import DB
-from geonature.utils.utilssqlalchemy import json_resp
+from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
 from geonature.core.gn_monitoring.models import TBaseVisits
 
@@ -27,15 +27,14 @@ def _format_visite_data(data):
 
 @blueprint.route('/visites/<id_base_site>', methods=['GET'])
 @json_resp
-def get_visites_chiro(id_base_site):
-    results = (
-        DB.session.query(ConditionsVisite)
-        .filter(ConditionsVisite.base_visit.has(
-            id_base_site=id_base_site)
-        )
-        .all()
-    )
-    return list(map(_format_visite_data, results))
+def get_all_visites_chiro(id_base_site):
+    data = GenericQuery(
+        DB.session, 'v_visites_chiro', 'monitoring_chiro', None,
+        {"id_base_site": id_base_site}, 1000, 0
+    ).return_query()
+
+    data["total"] = data["total_filtered"]
+    return data
 
 
 @blueprint.route('/visite/<id_base_visit>', methods=['GET'])

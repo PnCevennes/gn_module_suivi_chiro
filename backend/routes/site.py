@@ -10,7 +10,7 @@ from shapely.geometry import Point
 from geoalchemy2.shape import to_shape, from_shape
 
 from geonature.utils.env import DB
-from geonature.utils.utilssqlalchemy import json_resp
+from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
 from geonature.core.gn_commons.repositories import (
     TMediumRepository
@@ -37,16 +37,17 @@ def get_sites_chiro():
     '''
     Retourne la liste des sites chiro
     '''
-    limit = int(request.args.get('limit', 10))
-    offset = int(request.args.get('offset', 1))
-    results = (
-        DB.session.query(InfoSite)
-        .order_by(InfoSite.id_site_infos)
-        .limit(limit)
-        .offset((offset-1)*limit)
-        .all()
-    )
-    return list(map(_format_site_data, results))
+    limit = int(request.args.get('limit', 1000))
+    offset = int(request.args.get('offset', 0))
+
+    data = GenericQuery(
+        DB.session, 'v_sites_chiro', 'monitoring_chiro', "geom",
+        {}, limit, offset
+    ).return_query()
+
+    data["total"] = data["total_filtered"]
+    return data
+
 
 
 @blueprint.route('/site/<id_site>', methods=['GET'])

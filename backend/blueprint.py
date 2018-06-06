@@ -13,7 +13,7 @@ from .models.contact_taxon import ContactTaxon
 from .models.biometrie import Biometrie
 
 
-ID_APP = 101 # TODO récupérer l'identifiant d'application par le front
+ID_APP = 101  # TODO récupérer l'identifiant d'application par le front
 
 
 blueprint = Blueprint('gn_module_suivi_chiro', __name__)
@@ -55,6 +55,7 @@ def load_taxon(id_taxon):
         'label': str(result.nom_complet)
     })
     return bread
+
 
 def load_biometrie(id_biometrie):
     result = DB.session.query(

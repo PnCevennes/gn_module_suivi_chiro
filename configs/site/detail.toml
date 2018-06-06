@@ -1,11 +1,11 @@
-subDataUrl = "genericview/monitoring_chiro/v_visites_chiro?id_base_site="
+subDataUrl = "suivi_chiro/visites/"
 subSchemaUrl = "config?app=suivi_chiro&vue=visite&vue=list"
 formUrl = "config?app=suivi_chiro&vue=site&vue=form"
 mapSize = "large"
 dataUrl = "suivi_chiro/site/"
 mapConfig = "static/configs/suivi_chiro/resources/chiro_site.json"
 editAccess = 3
-mapData = "genericview/monitoring_chiro/v_sites_chiro?geometry_field=geom"
+mapData = "suivi_chiro/sites"
 subEditAccess = 2
 
 [[groups]]

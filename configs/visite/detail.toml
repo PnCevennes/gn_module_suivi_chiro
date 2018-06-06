@@ -1,5 +1,5 @@
 editAccessOverride = "id_digitiser"
-subDataUrl = "genericview/monitoring_chiro/v_obs_taxons?id_base_visit="
+subDataUrl = "suivi_chiro/contact_taxons/"
 subSchemaUrl = "config?app=suivi_chiro&vue=obs_taxon&vue=list"
 subEditRef = "id"
 editAccess = 3

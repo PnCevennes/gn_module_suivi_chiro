@@ -2,7 +2,7 @@ emptyMsg = "Aucun site pour le moment"
 createUrl = "suivi_chiro/edit/site/"
 detailUrl = "suivi_chiro/site/"
 mapSize = "large"
-dataUrl = "genericview/monitoring_chiro/v_sites_chiro?geometry_field=geom"
+dataUrl = "suivi_chiro/sites"
 mapConfig = "static/configs/suivi_chiro/resources/chiro_site.json"
 editAccess = 5
 createBtnLabel = "Nouveau site"

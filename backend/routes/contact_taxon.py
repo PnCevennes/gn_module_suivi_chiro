@@ -7,7 +7,7 @@ from flask import request
 from sqlalchemy.orm.exc import NoResultFound
 
 from geonature.utils.env import DB
-from geonature.utils.utilssqlalchemy import json_resp
+from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 from geonature.core.gn_commons.repositories import TMediumRepository
 
 
@@ -53,12 +53,13 @@ def get_contact_taxons_chiro(id_base_visit):
         retourne toutes les observations de taxons liées à une visite
         identifiée par `id_base_visit`
     '''
-    results = (
-        DB.session.query(ContactTaxon)
-        .filter(ContactTaxon.id_base_visit == id_base_visit)
-        .all()
-    )
-    return [otx.as_dict(recursif=False) for otx in results]
+    data = GenericQuery(
+        DB.session, 'v_obs_taxons', 'monitoring_chiro', "geom",
+        {"id_base_visit": id_base_visit}, 1000, 0
+    ).return_query()
+
+    data["total"] = data["total_filtered"]
+    return data
 
 
 @blueprint.route('/contact_taxon/<id_contact_taxon>', methods=['GET'])

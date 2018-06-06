@@ -21,7 +21,7 @@ deleteAccess = 5
             geometryType = "point"
             dataUrl = "chiro/site"
             mapConfig = "static/configs/suivi_chiro/resources/chiro_site.json"
-            mapData = "genericview/monitoring_chiro/v_sites_chiro?geometry_field=geom"
+            mapData = "suivi_chiro/sites"
 
 [[groups]]
     name = "Informations"
@@ -220,7 +220,7 @@ deleteAccess = 5
 
 [[groups]]
     name = "Fichiers"
-    
+
     [[groups.fields]]
         help = "Fichiers associés"
         name = "medium"

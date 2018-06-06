@@ -2,12 +2,11 @@ editAccessOverride = "id_digitiser"
 dataUrl = "suivi_chiro/contact_taxon/"
 editAccess = 3
 
-subDataUrl = "genericview/monitoring_chiro/v_biometrie?id_contact_taxon="
+subDataUrl = "suivi_chiro/biometries/"
 subSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=list"
 subEditRef = "id"
 subEditSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=form"
 subEditAccess = 3
-subEditSaveUrl = "suivi_chiro/biometrie/many"
 subSchemaAdd = 3
 
 [[groups]]

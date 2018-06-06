@@ -1,13 +1,18 @@
+'''
+    Routes permettant de manipuler les objets biometrie
+'''
 from flask import request
 
+from sqlalchemy.orm.exc import NoResultFound
+
 from geonature.utils.env import DB
-from geonature.utils.utilssqlalchemy import json_resp
+from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
 from ..blueprint import blueprint
 from ..models.biometrie import Biometrie
 
 
-def _format_biometrie_data (data):
+def _format_biometrie_data(data):
     biom = data.as_dict()
     biom['id'] = data.id_biometrie
     return biom
@@ -16,25 +21,37 @@ def _format_biometrie_data (data):
 @blueprint.route('/biometries/<id_contact_taxon>', methods=['GET'])
 @json_resp
 def get_biometries_chiro(id_contact_taxon):
-    bioms = (
-        DB.session.query(Biometrie).filter(
-            Biometrie.id_contact_taxon == id_contact_taxon
-        ).all()
-    )
-    return [biom.as_dict() for biom in bioms]
+    '''
+        Récupération de l'ensemble des biométries
+        associé à un contact taxon
+    '''
+
+    data = GenericQuery(
+        DB.session, 'v_biometrie', 'monitoring_chiro', None,
+        {"id_contact_taxon": id_contact_taxon}, 1000, 0
+    ).return_query()
+
+    data["total"] = data["total_filtered"]
+    return data
 
 
 @blueprint.route('/biometrie/<id_biometrie>', methods=['GET'])
 @json_resp
 def get_one_biometrie_chiro(id_biometrie):
+    '''
+        Récupération du détail d'une biométrie
+    '''
     biom = DB.session.query(Biometrie).get(id_biometrie)
-    return biom.as_dict()
+    return _format_biometrie_data(biom)
 
 
 @blueprint.route('/biometrie', methods=['POST', 'PUT'])
 @blueprint.route('/biometrie/<id_biometrie>', methods=['POST', 'PUT'])
 @json_resp
 def create_or_update_biometrie_chiro(id_biometrie=None):
+    '''
+        Création ou mise à jour d'une biométrie
+    '''
     db_sess = DB.session
     data = request.get_json()
 
@@ -53,15 +70,35 @@ def create_or_update_biometrie_chiro(id_biometrie=None):
         db_sess.commit()
     except Exception as e:
         db_sess.rollback()
-        raise(e)
         return {e.args}, 500
 
-    response = biom.as_dict()
-    response['id'] = biom.id_biometrie
+    return _format_biometrie_data(biom)
 
-    return response
 
 @blueprint.route('/biometrie/<id_biometrie>', methods=['DELETE'])
+@json_resp
 def delete_biometrie_chiro(id_biometrie):
-    pass
+    '''
+        Suppression d'une biométrie
+    '''
+    try:
+        visite = DB.session.query(Biometrie).filter(
+            Biometrie.id_biometrie == id_biometrie
+        ).one()
+    except NoResultFound:
+        return {}, 404
 
+    else:
+        try:
+            DB.session.delete(visite)
+            DB.session.commit()
+            return {'data': id_biometrie}
+        except Exception:
+            DB.session.rollback()
+            return (
+                {
+                    'data': id_biometrie,
+                    'errmsg': 'Erreur de suppression'
+                },
+                400
+            )
