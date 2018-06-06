@@ -175,3 +175,11 @@ subEditAccess = 2
         label = "Dernière mise à jour"
 
 
+[[groups]]
+    name = "Médias"
+    glyphicon = "glyphicon-file"
+
+  [[groups.fields]]
+      name = "medium"
+      type = "file"
+      label = "Fichiers associés"
