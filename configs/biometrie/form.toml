@@ -11,6 +11,10 @@ deleteAccess = 3
     type = "hidden"
 
     [[groups.fields]]
+    name = "id"
+    type = "hidden"
+
+    [[groups.fields]]
     name = "id_nomenclature_life_stage"
     thesaurusID = 10
     type = "select"

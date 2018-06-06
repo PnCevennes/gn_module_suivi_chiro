@@ -183,15 +183,19 @@ def _format_site_data(data):
     base['geom'] = [geometry['geometry']['coordinates']]
     result = data.as_dict(recursif=False)
     result['menaces_ids'] = [
-            menace.id_nomenclature_menaces
-            for menace in data.menaces_ids]
+        menace.id_nomenclature_menaces
+        for menace in data.menaces_ids
+    ]
     result['amenagements_ids'] = [
-            amenagement.id_nomenclature_amenagement
-            for amenagement in data.amenagements_ids]
+        amenagement.id_nomenclature_amenagement
+        for amenagement in data.amenagements_ids
+    ]
     base.update(result)
 
     # get medium
-    medium = TMediumRepository.get_medium_for_entity(data.base_site.uuid_base_site)
+    medium = TMediumRepository.get_medium_for_entity(
+        data.base_site.uuid_base_site
+    )
     if (medium):
         base['medium'] = [m.as_dict() for m in medium]
 

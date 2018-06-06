@@ -129,20 +129,22 @@ class GNMonitoringSiteRepository:
         '''
 
         # 1 vérifier que le site n'existe pas pour plusieurs applications
-        apps = self.session.query(corSiteApplication).filter(corSiteApplication.c.id_base_site==base_site_id).all()
+        apps = self.session.query(corSiteApplication).filter(
+            corSiteApplication.c.id_base_site == base_site_id
+        ).all()
         nb_apps = len(apps)
         if nb_apps == 0:
             # site dans aucune application
             raise InvalidBaseSiteData()
 
         # 2 : rompre le lien site <-> application
-        cur_link = list(filter(lambda x: x[1]==self.id_app, apps))
+        cur_link = list(filter(lambda x: x[1] == self.id_app, apps))
         if not len(cur_link):
             # site non référencé pour l'application
             raise InvalidBaseSiteData()
         stmt = (corSiteApplication.delete()
-                .where(corSiteApplication.c.id_application==self.id_app)
-                .where(corSiteApplication.c.id_base_site==base_site_id))
+                .where(corSiteApplication.c.id_application == self.id_app)
+                .where(corSiteApplication.c.id_base_site == base_site_id))
         self.session.execute(stmt)
 
         # si le site n'existe pas pour une autre application :
@@ -219,7 +221,9 @@ class GNMonitoringContactTaxon():
         for field in self.data:
             if hasattr(ContactTaxon, field):
                 data_occ[field] = self.data[field]
-        data_occ.pop('indices')
+
+        if 'indices' in data_occ:
+            data_occ.pop('indices')
         contact_taxon = ContactTaxon(**data_occ)
 
 

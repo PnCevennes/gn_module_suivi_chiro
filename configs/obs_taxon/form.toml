@@ -1,12 +1,9 @@
 editAccessOverride = "id_digitiser"
 deleteAccessOverride = "id_digitiser"
 deleteAccess = 5
-subDataRef = "__biometries__"
 dataUrl = "chiro/obs_taxon/"
 editAccess = 3
-subSchemaUrl = "config?app=suivi_chiro&vue=biometrie&vue=form_many"
-subTitle = "Ajout rapide de biometries"
-subSchemaAdd = 3
+
 [[groups]]
 name = "Informations"
     [[groups.fields]]

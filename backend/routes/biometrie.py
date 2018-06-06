@@ -6,10 +6,12 @@ from geonature.utils.utilssqlalchemy import json_resp
 from ..blueprint import blueprint
 from ..models.biometrie import Biometrie
 
+
 def _format_biometrie_data (data):
     biom = data.as_dict()
     biom['id'] = data.id_biometrie
     return biom
+
 
 @blueprint.route('/biometries/<id_contact_taxon>', methods=['GET'])
 @json_resp
@@ -19,14 +21,14 @@ def get_biometries_chiro(id_contact_taxon):
             Biometrie.id_contact_taxon == id_contact_taxon
         ).all()
     )
-    return [_format_biometrie_data(biom) for biom in bioms]
+    return [biom.as_dict() for biom in bioms]
 
 
 @blueprint.route('/biometrie/<id_biometrie>', methods=['GET'])
 @json_resp
 def get_one_biometrie_chiro(id_biometrie):
     biom = DB.session.query(Biometrie).get(id_biometrie)
-    return _format_biometrie_data(biom)
+    return biom.as_dict()
 
 
 @blueprint.route('/biometrie', methods=['POST', 'PUT'])
@@ -54,7 +56,10 @@ def create_or_update_biometrie_chiro(id_biometrie=None):
         raise(e)
         return {e.args}, 500
 
-    return _format_biometrie_data(biom)
+    response = biom.as_dict()
+    response['id'] = biom.id_biometrie
+
+    return response
 
 @blueprint.route('/biometrie/<id_biometrie>', methods=['DELETE'])
 def delete_biometrie_chiro(id_biometrie):
