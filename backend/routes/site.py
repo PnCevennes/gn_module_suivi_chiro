@@ -16,7 +16,7 @@ from geonature.core.gn_commons.repositories import (
     TMediumRepository
 )
 
-from ..blueprint import blueprint, ID_APP
+from ..blueprint import blueprint, ID_MODULE
 from ..models.site import (
     InfoSite,
     RelChirositeTNomenclaturesAmenagement,
@@ -81,7 +81,7 @@ def create_or_update_site_chiro(id_site=None):
         db_sess = DB.session
         req_data = request.get_json()
         data = _prepare_site_data(req_data, db_sess)
-        base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_APP)
+        base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_MODULE)
 
         # Création du base site si besoin
         if not id_site:
@@ -117,7 +117,7 @@ def create_or_update_site_chiro(id_site=None):
 
         return _format_site_data(infos_site)
     except InvalidBaseSiteData:
-        db.sess.rollback()
+        db_sess.rollback()
         return ({
                 'data': data,
                 'errmsg': 'Données base site invalides'
@@ -157,7 +157,9 @@ def delete_site_chiro(id_site):
         DB.session.delete(info_site)
         try:
             if cascade:
-                base_repo = GNMonitoringSiteRepository(DB.session, id_app=ID_APP)
+                base_repo = GNMonitoringSiteRepository(
+                    DB.session, id_app=ID_MODULE
+                )
                 base_repo.handle_delete(base_site_id)
             DB.session.commit()
             return {'data': id_site}

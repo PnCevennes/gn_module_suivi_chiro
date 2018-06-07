@@ -2,9 +2,9 @@
 point d'entrée du module chiro
 '''
 
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 
-from geonature.utils.env import DB
+from geonature.utils.env import DB, get_module_id
 from geonature.utils.utilssqlalchemy import json_resp
 
 from geonature.core.gn_monitoring.models import TBaseVisits
@@ -12,9 +12,7 @@ from .models.site import InfoSite
 from .models.contact_taxon import ContactTaxon
 from .models.biometrie import Biometrie
 
-
-ID_APP = 101  # TODO récupérer l'identifiant d'application par le front
-
+ID_MODULE = get_module_id('suivi_chiro')
 
 blueprint = Blueprint('gn_module_suivi_chiro', __name__)
 
