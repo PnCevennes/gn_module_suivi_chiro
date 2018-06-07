@@ -43,6 +43,8 @@ name = "Informations"
         thesaurusID = 14
         type = "multisel"
         label = "Indices"
+        regne = "Animalia"
+        group2_inpn = "Mammifères"
 
     [[groups.fields]]
         name = "indices_cmt"
@@ -54,6 +56,8 @@ name = "Informations"
         label = "Activité"
         name = "id_nomenclature_activite"
         type = "select"
+        regne = "Animalia"
+        group2_inpn = "Mammifères"
 
         [groups.fields.options]
             nullable = true
@@ -64,6 +68,8 @@ name = "Informations"
         label = "Preuves de reproduction"
         name = "id_nomenclature_preuve_repro"
         type = "select"
+        regne = "Animalia"
+        group2_inpn = "Mammifères"
         [groups.fields.options]
             nullable = true
 
@@ -79,6 +85,9 @@ name = "Informations"
         label = "Commentaires"
 
 
+[[groups]]
+    name = "Fichiers"
+
     [[groups.fields]]
         help = "Fichiers associés"
         name = "medium"
@@ -91,7 +100,6 @@ name = "Informations"
             attachedUUID = "uuid_chiro_visite_contact_taxon"
             id_table_location = 8
             url_nomenclature_media_type = "nomenclatures/nomenclature/117"
-
 
 [[groups]]
     name = "Dénombrement"
@@ -106,12 +114,16 @@ name = "Informations"
             label = "Age"
             thesaurusID = 10
             type = "select"
+            regne = "Animalia"
+            group2_inpn = "Mammifères"
 
         [[groups.fields.fields]]
             name = "id_nomenclature_sex"
             label = "Sexe"
             thesaurusID = 9
             type = "select"
+            regne = "Animalia"
+            group2_inpn = "Mammifères"
 
         [[groups.fields.fields]]
             name = "count_min"

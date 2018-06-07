@@ -46,6 +46,8 @@ glyphicon = "glyphicon-info-sign"
     thesaurusID = 115
     type = "select"
     label = "Mode d'observation"
+    regne = "Animalia"
+    group2_inpn = "Mammifères"
 
     [[groups.fields]]
     name = "comments"

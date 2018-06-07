@@ -97,106 +97,14 @@ subSchemaAdd = 3
             type = "string"
 
 
-# [[groups]]
-#     name = "Détail"
-#     glyphicon = "glyphicon-search"
-#     [[groups.fields]]
-#         name = "denombrements"
-#         label = "Dénombrement"
-#         titles = [ "Adultes", "Juvéniles", "Indéterminés",]
-#         type = "group"
+[[groups]]
+    name = "Médias"
+    glyphicon = "glyphicon-file"
 
-#     [[groups.fields.fields]]
-#         name = "males"
-#         label = "Mâles"
-
-#     [[groups.fields.fields.fields]]
-#         name = "cotxNbMaleAdulte"
-#         default = 0
-#         type = "num"
-#         label = "Adultes"
-#         [groups.fields.fields.fields.options]
-#             min = 0
-
-#     [[groups.fields.fields.fields]]
-#         name = "cotxNbMaleJuvenile"
-#         default = 0
-#         type = "num"
-#         label = "Juveniles"
-#         [groups.fields.fields.fields.options]
-#             min = 0
-
-#     [[groups.fields.fields.fields]]
-#         name = "cotxNbMaleIndetermine"
-#         default = 0
-#         type = "num"
-#         label = "Age indeterminé"
-
-#         [groups.fields.fields.fields.options]
-#             min = 0
-
-#     [[groups.fields.fields]]
-#         name = "femelles"
-#         label = "Femelles"
-
-#     [[groups.fields.fields.fields]]
-#         name = "cotxNbFemelleAdulte"
-#         default = 0
-#         type = "num"
-#         label = "Adultes"
-#         [groups.fields.fields.fields.options]
-#             min = 0
-
-#     [[groups.fields.fields.fields]]
-#         name = "cotxNbFemelleJuvenile"
-#         default = 0
-#         type = "num"
-#         label = "Juveniles"
-#         [groups.fields.fields.fields.options]
-#             min = 0
-
-#     [[groups.fields.fields.fields]]
-#         name = "cotxNbFemelleIndetermine"
-#         default = 0
-#         type = "num"
-#         label = "Age indeterminé"
-#         [groups.fields.fields.fields.options]
-#             min = 0
-
-#     [[groups.fields.fields]]
-#         name = "indetermines"
-#         label = "Sexe indéterminé"
-
-#     [[groups.fields.fields.fields]]
-#         name = "cotxNbIndetermineAdulte"
-#         default = 0
-#         type = "num"
-#         label = "Adultes"
-#         [groups.fields.fields.fields.options]
-#             min = 0
-
-#     [[groups.fields.fields.fields]]
-#         name = "cotxNbIndetermineJuvenile"
-#         default = 0
-#         type = "num"
-#         label = "Juvéniles"
-#         [groups.fields.fields.fields.options]
-#             min = 0
-
-#     [[groups.fields.fields.fields]]
-#         name = "cotxNbIndetermineIndetermine"
-#         default = 0
-#         type = "num"
-#         label = "Age indeterminé"
-#         [groups.fields.fields.fields.options]
-#             min = 0
-
-
-#     [[groups.fields]]
-#         name = "cotxCommentaire"
-#         type = "string"
-#         label = "Commentaires"
-
+  [[groups.fields]]
+      name = "medium"
+      type = "file"
+      label = "Fichiers associés"
 
 [[groups]]
     name = "Metadonnées"
