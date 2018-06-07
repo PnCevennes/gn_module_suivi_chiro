@@ -54,7 +54,7 @@ def get_contact_taxons_chiro(id_base_visit):
         identifiée par `id_base_visit`
     '''
     data = GenericQuery(
-        DB.session, 'v_obs_taxons', 'monitoring_chiro', "geom",
+        DB.session, 'v_obs_taxons', 'monitoring_chiro', None,
         {"id_base_visit": id_base_visit}, 1000, 0
     ).return_query()
 
