@@ -1,5 +1,8 @@
 from flask import request
 
+from shapely.geometry import Point
+from geoalchemy2.shape import to_shape, from_shape
+
 from sqlalchemy.orm.exc import NoResultFound
 
 from geonature.utils.env import DB
@@ -58,11 +61,12 @@ def get_one_visite_chiro(id_base_visit):
 def create_or_update_visite_chiro(id_visite=None):
     db_sess = DB.session
     data = request.get_json()
+    print(data)
 
+    # creation de base visite
     if not id_visite:
         id_visite = data.get('id_visite', None)
 
-    # creation de base visite
     base_repo = GNMonitoringVisiteRepository(db_sess)
     base_visit = base_repo.handle_write(
         id_base_visite=id_visite,
@@ -74,17 +78,27 @@ def create_or_update_visite_chiro(id_visite=None):
     id_visite_cond = (
         data['id_visite_cond'] if 'id_visite_cond' in data else None
     )
-    if id_visite_cond:
-        visite = db_sess.query(ConditionsVisite).get(id_visite_cond)
 
-    if not visite:
-        visite = ConditionsVisite(base_visit=base_visit)
-        # db_sess.add(visite)
+    if 'geom' in data:
+        data['geom'] = from_shape(Point(*data['geom'][0]), srid=4326)
 
-    db_sess.add(visite)
-    db_sess.commit()
+    data_visite = {}
+    for field in data:
+        if hasattr(ConditionsVisite, field):
+            data_visite[field] = data[field]
 
+    visite = ConditionsVisite(**data_visite)
     visite.base_visit = base_visit
+
+    if id_visite_cond:
+        db_sess.merge(visite)
+    else:
+        db_sess.add(visite)
+    try:
+        db_sess.commit()
+    except Exception as e:
+        db_sess.rollback()
+        raise(e)
 
     # creation ajout rapide de taxons
     __taxons__ = data['__taxons__'] if '__taxons__' in data else None
@@ -122,5 +136,13 @@ def delete_visite_chiro(id_visite):
                 }, 400)
 
 
+@blueprint.route('/inventaires', methods=['GET'])
+@json_resp
+def get_all_inventaires_chiro():
+    data = GenericQuery(
+        DB.session, 'v_inventaires_chiro', 'monitoring_chiro', "geom",
+        {}, 1000, 0
+    ).return_query()
 
-
+    data["total"] = data["total_filtered"]
+    return data

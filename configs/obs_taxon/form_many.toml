@@ -19,6 +19,8 @@
     name = "cd_nom"
     type = "taxhub"
     label = "Nom taxon"
+    [fields.options]
+        required = true
 
 [[fields]]
     name = "tx_presume"

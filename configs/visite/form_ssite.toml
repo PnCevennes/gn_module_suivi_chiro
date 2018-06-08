@@ -1,85 +1,183 @@
 editAccessOverride = "id_digitiser"
-deleteAccessOverride = "numerisateurId"
+deleteAccessOverride = "id_digitiser"
 deleteAccess = 5
 subDataRef = "__taxons__"
 editAccess = 3
-subSchemaUrl = "chiro/config/obstaxon/form/many"
+subSchemaUrl = "config?app=suivi_chiro&vue=obs_taxon&vue=form_many"
 subTitle = "Ajout rapide de taxons"
-subSchemaAdd = "2,"
-[[groups]]
-name = "Localisation"
-[[groups.fields]]
-name = "geom"
-type = "geom"
-label = "Coordonnées GPS"
-
-[groups.fields.options]
-geometryType = "point"
-dataUrl = "chiro/observation"
-mapConfig = "js/resources/chiro_obs.json"
+subSchemaAdd = "2"
 
 [[groups]]
-name = "Observation"
-[[groups.fields]]
-name = "id"
-type = "hidden"
-label = "Id"
+    name = "Localisation"
+    [[groups.fields]]
+        name = "geom"
+        type = "geom"
+        label = "Coordonnées GPS"
+
+    [groups.fields.options]
+        geometryType = "point"
+        dataUrl = "chiro/inventaire"
+        mapConfig = "static/configs/suivi_chiro/resources/chiro_site.json"
+        mapData = "suivi_chiro/inventaires"
+
+[[groups]]
+    name = "Visite"
+    [[groups.fields]]
+        name = "id"
+        type = "hidden"
+        label = "Id"
+
+    [[groups.fields]]
+        name = "id_visite_cond"
+        type = "hidden"
+        label = "id_visite_cond"
+
+    [[groups.fields]]
+        name = "id_digitiser"
+        type = "hidden"
+        label = "Numerisateur"
+        [groups.fields.options]
+            ref = "userId"
+
 
 [[groups.fields]]
-name = "fkBsId"
-type = "hidden"
-label = "Site"
+    name = "observers"
+    type = "xhr"
+    label = "Observateur"
+
+        [groups.fields.options]
+            url = "users/menu/10"
+            reverseurl = "users/role"
+            displayField = ["nom_role", "prenom_role"]
+            idField = "id_role"
+            searchField = "nom_complet"
+            multi = true
+            # ref = "nomComplet"
+
+    # [groups.fields.options]
+    #     url = "users/menu/1000001"
+    #     reverseurl = "users/role"
 
 [[groups.fields]]
-name = "id_digitiser"
-type = "hidden"
-label = "Numerisateur"
+    name = "visit_date"
+    type = "date"
+    label = "Date"
 
-[groups.fields.options]
-ref = "userId"
-[[groups.fields]]
-name = "observateurs"
-type = "xhr"
-label = "Observateurs"
-
-[groups.fields.options]
-url = "users/menu/1000001"
-reverseurl = "users/role"
-ref = "nomComplet"
-multi = true
-[[groups.fields]]
-name = "bvDate"
-type = "date"
-label = "Date"
-
-[groups.fields.options]
-required = true
-[[groups.fields]]
-name = "cvcModId"
-thesaurusID = 4
-type = "select"
-default = 18
-label = "Mode d'observation"
+    [groups.fields.options]
+        required = true
 
 [[groups.fields]]
-name = "bvCommentaire"
-type = "text"
-label = "Commentaires"
+    name = "id_nomenclature_mod_id"
+    thesaurusID = 115
+    type = "select"
+    default = 1004
+    label = "Mode d'observation"
 
 [[groups.fields]]
-name = "cvcTemperature"
-type = "num"
-label = "Température (°C)"
+    name = "comments"
+    type = "text"
+    label = "Commentaires"
 
-[groups.fields.options]
-step = 0.1
-max = 100
 [[groups.fields]]
-name = "cvcHumidite"
-type = "num"
-label = "Humidité (%)"
+    name = "temperature"
+    type = "num"
+    label = "Température (°C)"
+    [groups.fields.options]
+        stp = 0.1
+        maxe = 100
 
-[groups.fields.options]
-step = 0.1
-max = 100
+[[groups.fields]]
+    name = "humidite"
+    type = "num"
+    label = "Humidité (%)"
+    [groups.fields.options]
+        step = 0.1
+        max = 100
+
+
+
+# editAccessOverride = "id_digitiser"
+# deleteAccessOverride = "numerisateurId"
+# deleteAccess = 5
+# subDataRef = "__taxons__"
+# editAccess = 3
+# subSchemaUrl = "chiro/config/obstaxon/form/many"
+# subTitle = "Ajout rapide de taxons"
+# subSchemaAdd = "2,"
+# [[groups]]
+# name = "Localisation"
+# [[groups.fields]]
+# name = "geom"
+# type = "geom"
+# label = "Coordonnées GPS"
+
+# [groups.fields.options]
+# geometryType = "point"
+# dataUrl = "chiro/observation"
+# mapConfig = "js/resources/chiro_obs.json"
+
+# [[groups]]
+# name = "Observation"
+# [[groups.fields]]
+# name = "id"
+# type = "hidden"
+# label = "Id"
+
+# [[groups.fields]]
+# name = "fkBsId"
+# type = "hidden"
+# label = "Site"
+
+# [[groups.fields]]
+# name = "id_digitiser"
+# type = "hidden"
+# label = "Numerisateur"
+
+# [groups.fields.options]
+# ref = "userId"
+# [[groups.fields]]
+# name = "observateurs"
+# type = "xhr"
+# label = "Observateurs"
+
+# [groups.fields.options]
+# url = "users/menu/1000001"
+# reverseurl = "users/role"
+# ref = "nomComplet"
+# multi = true
+# [[groups.fields]]
+# name = "bvDate"
+# type = "date"
+# label = "Date"
+
+# [groups.fields.options]
+# required = true
+# [[groups.fields]]
+# name = "cvcModId"
+# thesaurusID = 4
+# type = "select"
+# default = 18
+# label = "Mode d'observation"
+
+# [[groups.fields]]
+# name = "bvCommentaire"
+# type = "text"
+# label = "Commentaires"
+
+# [[groups.fields]]
+# name = "cvcTemperature"
+# type = "num"
+# label = "Température (°C)"
+
+# [groups.fields.options]
+# step = 0.1
+# max = 100
+# [[groups.fields]]
+# name = "cvcHumidite"
+# type = "num"
+# label = "Humidité (%)"
+
+# [groups.fields.options]
+# step = 0.1
+# max = 100
 
