@@ -10,6 +10,8 @@ from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
 from geonature.core.gn_monitoring.models import TBaseVisits
 
+from pypnusershub import routes as fnauth
+
 from ..blueprint import blueprint
 from ..models.visite import ConditionsVisite
 from ..utils.repos import (
@@ -29,11 +31,16 @@ def _format_visite_data(data):
 
 
 @blueprint.route('/visites/<id_base_site>', methods=['GET'])
+@fnauth.check_auth(3)
 @json_resp
 def get_all_visites_chiro(id_base_site):
+
+    limit = int(request.args.get('limit', 1000))
+    offset = int(request.args.get('offset', 0))
+
     data = GenericQuery(
         DB.session, 'v_visites_chiro', 'monitoring_chiro', None,
-        {"id_base_site": id_base_site}, 1000, 0
+        {"id_base_site": id_base_site}, limit, offset
     ).return_query()
 
     data["total"] = data["total_filtered"]
@@ -41,6 +48,7 @@ def get_all_visites_chiro(id_base_site):
 
 
 @blueprint.route('/visite/<id_base_visit>', methods=['GET'])
+@fnauth.check_auth(3)
 @json_resp
 def get_one_visite_chiro(id_base_visit):
     try:
@@ -57,6 +65,7 @@ def get_one_visite_chiro(id_base_visit):
 
 @blueprint.route('/visite', defaults={'id_visite': None}, methods=['POST', 'PUT'])
 @blueprint.route('/visite/<id_visite>', methods=['POST', 'PUT'])
+@fnauth.check_auth(3)
 @json_resp
 def create_or_update_visite_chiro(id_visite=None):
     db_sess = DB.session
@@ -111,6 +120,7 @@ def create_or_update_visite_chiro(id_visite=None):
 
 
 @blueprint.route('/visite/<id_visite>', methods=['DELETE'])
+@fnauth.check_auth(3)
 @json_resp
 def delete_visite_chiro(id_visite):
     '''
@@ -137,6 +147,7 @@ def delete_visite_chiro(id_visite):
 
 
 @blueprint.route('/inventaires', methods=['GET'])
+@fnauth.check_auth(3)
 @json_resp
 def get_all_inventaires_chiro():
     data = GenericQuery(

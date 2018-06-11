@@ -8,6 +8,8 @@ from sqlalchemy.orm.exc import NoResultFound
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
+from pypnusershub import routes as fnauth
+
 from ..blueprint import blueprint
 from ..models.biometrie import Biometrie
 
@@ -19,6 +21,7 @@ def _format_biometrie_data(data):
 
 
 @blueprint.route('/biometries/<id_contact_taxon>', methods=['GET'])
+@fnauth.check_auth(3)
 @json_resp
 def get_biometries_chiro(id_contact_taxon):
     '''
@@ -26,9 +29,11 @@ def get_biometries_chiro(id_contact_taxon):
         associé à un contact taxon
     '''
 
+    limit = int(request.args.get('limit', 1000))
+    offset = int(request.args.get('offset', 0))
     data = GenericQuery(
         DB.session, 'v_biometrie', 'monitoring_chiro', None,
-        {"id_contact_taxon": id_contact_taxon}, 1000, 0
+        {"id_contact_taxon": id_contact_taxon}, limit, offset
     ).return_query()
 
     data["total"] = data["total_filtered"]
@@ -36,6 +41,7 @@ def get_biometries_chiro(id_contact_taxon):
 
 
 @blueprint.route('/biometrie/<id_biometrie>', methods=['GET'])
+@fnauth.check_auth(3)
 @json_resp
 def get_one_biometrie_chiro(id_biometrie):
     '''
@@ -47,6 +53,7 @@ def get_one_biometrie_chiro(id_biometrie):
 
 @blueprint.route('/biometrie', methods=['POST', 'PUT'])
 @blueprint.route('/biometrie/<id_biometrie>', methods=['POST', 'PUT'])
+@fnauth.check_auth(3)
 @json_resp
 def create_or_update_biometrie_chiro(id_biometrie=None):
     '''
@@ -76,6 +83,7 @@ def create_or_update_biometrie_chiro(id_biometrie=None):
 
 
 @blueprint.route('/biometrie/<id_biometrie>', methods=['DELETE'])
+@fnauth.check_auth(3)
 @json_resp
 def delete_biometrie_chiro(id_biometrie):
     '''

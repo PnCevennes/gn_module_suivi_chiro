@@ -95,6 +95,7 @@ class GNMonitoringSiteRepository:
                 model = TBaseSites()
                 self.session.add(model)
             else:
+                data['id_base_site'] = base_site_id
                 model = self.session.query(TBaseSites).get(base_site_id)
 
             for field in data:
@@ -118,7 +119,7 @@ class GNMonitoringSiteRepository:
         except ValueError:  # vérifier type erreur
             raise InvalidBaseSiteData()
 
-    def handle_delete(self, base_site_id):
+    def handle_delete(self, base_site_id, cascade):
         '''
         suppression de la donnée
         (ne devrait être utilisé qu'en cas d'erreur de saisie)
@@ -138,6 +139,7 @@ class GNMonitoringSiteRepository:
             raise InvalidBaseSiteData()
 
         # 2 : rompre le lien site <-> application
+        print(apps)
         cur_link = list(filter(lambda x: x[1] == self.id_app, apps))
         if not len(cur_link):
             # site non référencé pour l'application
@@ -149,7 +151,7 @@ class GNMonitoringSiteRepository:
 
         # si le site n'existe pas pour une autre application :
         #   3 : supprimer le site
-        if nb_apps == 1:
+        if nb_apps == 1 and cascade is True:
             model = self.session.query(TBaseSites).get(base_site_id)
             self.session.delete(model)
             return True  # vrai en cas de suppression du site

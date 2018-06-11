@@ -10,6 +10,7 @@ from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 from geonature.core.gn_commons.repositories import TMediumRepository
 
+from pypnusershub import routes as fnauth
 
 from ..blueprint import blueprint
 from ..models.contact_taxon import ContactTaxon, RelContactTaxonIndices
@@ -47,15 +48,18 @@ def _format_occtax_data(data):
 
 
 @blueprint.route('/contact_taxons/<id_base_visit>', methods=['GET'])
+@fnauth.check_auth(3)
 @json_resp
 def get_contact_taxons_chiro(id_base_visit):
     '''
         retourne toutes les observations de taxons liées à une visite
         identifiée par `id_base_visit`
     '''
+    limit = int(request.args.get('limit', 1000))
+    offset = int(request.args.get('offset', 0))
     data = GenericQuery(
         DB.session, 'v_obs_taxons', 'monitoring_chiro', None,
-        {"id_base_visit": id_base_visit}, 1000, 0
+        {"id_base_visit": id_base_visit}, limit, offset
     ).return_query()
 
     data["total"] = data["total_filtered"]
@@ -63,6 +67,7 @@ def get_contact_taxons_chiro(id_base_visit):
 
 
 @blueprint.route('/contact_taxon/<id_contact_taxon>', methods=['GET'])
+@fnauth.check_auth(3)
 @json_resp
 def get_one_contact_taxon_chiro(id_contact_taxon):
     '''
@@ -77,6 +82,7 @@ def get_one_contact_taxon_chiro(id_contact_taxon):
 
 @blueprint.route('/contact_taxon', methods=['POST', 'PUT'])
 @blueprint.route('/contact_taxon/<id_contact_taxon>', methods=['POST', 'PUT'])
+@fnauth.check_auth(3)
 @json_resp
 def create_or_update_contact_taxon_chiro(id_contact_taxon=None):
     '''
@@ -96,6 +102,7 @@ def create_or_update_contact_taxon_chiro(id_contact_taxon=None):
 
 
 @blueprint.route('/obs_taxon/many', methods=['POST', 'PUT'])
+@fnauth.check_auth(3)
 @json_resp
 def create_many_contact_taxon_chiro():
     '''
@@ -116,8 +123,8 @@ def create_many_contact_taxon_chiro():
     return {"ids": ids}
 
 
-
 @blueprint.route('/contact_taxon/<id_contact_taxon>', methods=['DELETE'])
+@fnauth.check_auth(3)
 @json_resp
 def delete_contact_taxon_chiro(id_contact_taxon):
     '''

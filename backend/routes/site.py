@@ -12,9 +12,12 @@ from geoalchemy2.shape import to_shape, from_shape
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
+from geonature.core.gn_monitoring.models import TBaseSites, corSiteApplication
 from geonature.core.gn_commons.repositories import (
     TMediumRepository
 )
+
+from pypnusershub import routes as fnauth
 
 from ..blueprint import blueprint, ID_MODULE
 from ..models.site import (
@@ -32,6 +35,7 @@ from ..utils.relations import get_updated_relations
 
 
 @blueprint.route('/sites', methods=['GET'])
+@fnauth.check_auth(3)
 @json_resp
 def get_sites_chiro():
     '''
@@ -51,6 +55,7 @@ def get_sites_chiro():
 
 
 @blueprint.route('/site/<id_site>', methods=['GET'])
+@fnauth.check_auth(3)
 @json_resp
 def get_one_site_chiro(id_site):
     '''
@@ -61,11 +66,26 @@ def get_one_site_chiro(id_site):
         if result:
             return _format_site_data(result)
     except NoResultFound:
-        return {'err': 'site introuvable', 'id_site': id_site}, 404
+        # Si le site n'a toujours pas d'info site associé mais qu'il a un base site
+        try:
+            basesite = DB.session.query(TBaseSites).filter_by(
+                id_base_site=id_site
+            ).filter(
+                TBaseSites.applications.any(
+                    corSiteApplication.c.id_application == ID_MODULE
+                )
+            ).one()
+            result = InfoSite()
+            result.base_site = basesite
+            if result:
+                return _format_site_data(result)
+        except NoResultFound:
+            return {'err': 'site introuvable', 'id_site': id_site}, 404
 
 
 @blueprint.route('/site', defaults={'id_site': None}, methods=['POST', 'PUT'])
 @blueprint.route('/site/<id_site>', methods=['POST', 'PUT'])
+@fnauth.check_auth(3)
 @json_resp
 def create_or_update_site_chiro(id_site=None):
     '''
@@ -131,6 +151,7 @@ def create_or_update_site_chiro(id_site=None):
 
 
 @blueprint.route('/site/<id_site>', methods=['DELETE'])
+@fnauth.check_auth(5)
 @json_resp
 def delete_site_chiro(id_site):
     '''
@@ -140,7 +161,7 @@ def delete_site_chiro(id_site):
     args :
         cascade : commande la suppression du base site si true
     '''
-    cascade = request.args.get('cascade', False)
+    cascade = request.args.get('cascade', True)
     try:
         info_site = DB.session.query(InfoSite).filter(
             InfoSite.id_base_site == id_site
@@ -156,11 +177,10 @@ def delete_site_chiro(id_site):
         base_site_id = info_site.id_base_site
         DB.session.delete(info_site)
         try:
-            if cascade:
-                base_repo = GNMonitoringSiteRepository(
-                    DB.session, id_app=ID_MODULE
-                )
-                base_repo.handle_delete(base_site_id)
+            base_repo = GNMonitoringSiteRepository(
+                DB.session, id_app=ID_MODULE
+            )
+            base_repo.handle_delete(base_site_id, cascade)
             DB.session.commit()
             return {'data': id_site}
         except InvalidBaseSiteData:
