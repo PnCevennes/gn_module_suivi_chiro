@@ -13,7 +13,12 @@ from geonature.utils.utilssqlalchemy import json_resp
 from geonature.core.gn_monitoring.models import TBaseVisits
 from .models.models import InfoSite, ContactTaxon, Biometrie
 
-ID_MODULE = get_module_id('suivi_chiro')
+try:
+    ID_MODULE = get_module_id('suivi_chiro')
+except Exception as e:
+    # @TODO gérer erreur lors de l'installation
+    ID_MODULE = -1
+
 
 blueprint = Blueprint('gn_module_suivi_chiro', __name__)
 
