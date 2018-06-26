@@ -1,5 +1,5 @@
 # Configs
-configs/conf_schema_toml.py
+config/conf_gn_module.toml
 
 #IDE
 .vscode
