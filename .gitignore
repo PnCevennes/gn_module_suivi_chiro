@@ -1,3 +1,6 @@
+# Configs
+configs/conf_schema_toml.py
+
 #IDE
 .vscode
 
