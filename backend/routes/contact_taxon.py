@@ -13,8 +13,9 @@ from geonature.core.gn_commons.repositories import TMediumRepository
 from pypnusershub import routes as fnauth
 
 from ..blueprint import blueprint
-from ..models.contact_taxon import ContactTaxon, RelContactTaxonIndices
-from ..models.counting_contact import CountingContact
+from ..models.models import (
+    ContactTaxon, RelContactTaxonIndices, CountingContact
+)
 
 from ..utils.relations import get_updated_relations
 

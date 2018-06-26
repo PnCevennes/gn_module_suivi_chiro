@@ -11,7 +11,7 @@ from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 from pypnusershub import routes as fnauth
 
 from ..blueprint import blueprint
-from ..models.biometrie import Biometrie
+from ..models.models import Biometrie
 
 
 def _format_biometrie_data(data):

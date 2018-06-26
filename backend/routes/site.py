@@ -20,7 +20,7 @@ from geonature.core.gn_commons.repositories import (
 from pypnusershub import routes as fnauth
 
 from ..blueprint import blueprint, ID_MODULE
-from ..models.site import (
+from ..models.models import (
     InfoSite,
     RelChirositeTNomenclaturesAmenagement,
     RelChirositeTNomenclaturesMenace

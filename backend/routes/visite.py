@@ -13,7 +13,7 @@ from geonature.core.gn_monitoring.models import TBaseVisits
 from pypnusershub import routes as fnauth
 
 from ..blueprint import blueprint
-from ..models.visite import ConditionsVisite
+from ..models.models import ConditionsVisite
 from ..utils.repos import (
     GNMonitoringVisiteRepository,
     GNMonitoringContactTaxon

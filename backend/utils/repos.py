@@ -16,8 +16,11 @@ from geonature.core.gn_commons.repositories import (
 )
 from geonature.core.users.models import TRoles
 
-from ..models.counting_contact import CountingContact
-from ..models.contact_taxon import RelContactTaxonIndices, ContactTaxon
+from ..models.models import (
+    CountingContact,
+    RelContactTaxonIndices,
+    ContactTaxon
+)
 
 from ..utils.relations import get_updated_relations
 

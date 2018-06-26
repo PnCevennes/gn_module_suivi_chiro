@@ -11,9 +11,7 @@ from geonature.utils.env import DB, get_module_id
 from geonature.utils.utilssqlalchemy import json_resp
 
 from geonature.core.gn_monitoring.models import TBaseVisits
-from .models.site import InfoSite
-from .models.contact_taxon import ContactTaxon
-from .models.biometrie import Biometrie
+from .models.models import InfoSite, ContactTaxon, Biometrie
 
 ID_MODULE = get_module_id('suivi_chiro')
 
