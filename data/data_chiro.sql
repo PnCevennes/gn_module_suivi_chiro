@@ -11,4 +11,3 @@ VALUES
 ('Aménagements relevés sur un site à chiroptère', 'monitoring_chiro', 'cor_site_infos_nomenclature_amenagements', 'uuid_chiro_site_amenagements', 'uuid_chiro_site_amenagements'),
 ('Données de biométrie des chiroptères mesurés lors d''une capture', 'monitoring_chiro', 't_contact_taxon_biometries', 'id_biometrie', 'uuid_chiro_biometrie'),
 ('Données dénombrement des taxons observés durant une visite chiroptère', 'monitoring_chiro', 'cor_counting_contact', 'id_counting_contact', 'unique_id_sinp') ;
-

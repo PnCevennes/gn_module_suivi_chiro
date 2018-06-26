@@ -11,16 +11,18 @@ def scriptexecution(filename, gn_db):
         gn_db.session.execute(sql_script)
     s.closed
     gn_db.session.commit()
- 
+
 
 def gnmodule_install_db(gn_db, gn_app):
     scriptexecution(str(ROOT_DIR / 'data/schema_chiro.sql'), gn_db)
-        
+    scriptexecution(str(ROOT_DIR / 'data/data_chiro.sql'), gn_db)
+    scriptexecution(str(ROOT_DIR / 'data/views.sql'), gn_db)
+
 
 
 def gnmodule_install_app(gn_db, gn_app):
     '''
-        Fonction principale permettant de réaliser les opérations d'installation du module : 
+        Fonction principale permettant de réaliser les opérations d'installation du module :
             - Base de données
             - Module (pour le moment rien)
     '''
@@ -39,4 +41,4 @@ def gnmodule_install_app(gn_db, gn_app):
         # Installation du module de la base
         gnmodule_install_db(gn_db, gn_app)
 
-        
+
