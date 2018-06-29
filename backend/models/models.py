@@ -135,11 +135,10 @@ class ConditionsVisite(DB.Model):
     __tablename__ = 't_visite_conditions'
     __table_args__ = {'schema': 'monitoring_chiro'}
 
-    id_visite_cond = DB.Column(DB.Integer, primary_key=True)
-    # fk gn_monitoring.base_visite
     id_base_visit = DB.Column(
         DB.Integer,
-        ForeignKey(TBaseVisits.id_base_visit)
+        ForeignKey(TBaseVisits.id_base_visit),
+        primary_key=True
     )
     base_visit = DB.relationship(TBaseVisits)
     geom = DB.Column(Geometry('GEOMETRY', 4326))
@@ -158,9 +157,9 @@ class RelChirositeTNomenclaturesMenace(DB.Model):
     '''
     __tablename__ = 'cor_site_infos_nomenclature_menaces'
     __table_args__ = {'schema': 'monitoring_chiro'}
-    id_site_infos = DB.Column(
+    id_base_site = DB.Column(
         DB.Integer,
-        ForeignKey('monitoring_chiro.t_site_infos.id_site_infos'),
+        ForeignKey('monitoring_chiro.t_site_infos.id_base_site'),
         primary_key=True
     )
     id_nomenclature_menaces = DB.Column(
@@ -177,10 +176,10 @@ class RelChirositeTNomenclaturesAmenagement(DB.Model):
     Correspondances entre id nomenclatures des amenagements et sites
     '''
     __tablename__ = 'cor_site_infos_nomenclature_amenagements'
-    __table_args__ = {'schema':'monitoring_chiro'}
-    id_site_infos = DB.Column(
+    __table_args__ = {'schema': 'monitoring_chiro'}
+    id_base_site = DB.Column(
         DB.Integer,
-        ForeignKey('monitoring_chiro.t_site_infos.id_site_infos'),
+        ForeignKey('monitoring_chiro.t_site_infos.id_base_site'),
         primary_key=True
     )
     id_nomenclature_amenagement = DB.Column(
@@ -200,11 +199,10 @@ class InfoSite(DB.Model):
     __tablename__ = 't_site_infos'
     __table_args__ = {'schema': 'monitoring_chiro'}
 
-    id_site_infos = DB.Column(DB.Integer, primary_key=True)
-    # fk gn_monitoring.base_site
     id_base_site = DB.Column(
         DB.Integer,
-        ForeignKey(TBaseSites.id_base_site)
+        ForeignKey(TBaseSites.id_base_site),
+        primary_key=True
     )
     base_site = DB.relationship(TBaseSites)
     description = DB.Column(DB.UnicodeText)

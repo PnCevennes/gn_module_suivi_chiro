@@ -114,8 +114,8 @@ def create_or_update_site_chiro(id_site=None):
 
         # Création de la données infos site propre à chiro
         infos_site = None
-        if data['id_site_infos']:
-            infos_site = db_sess.query(InfoSite).get(data['id_site_infos'])
+        if id_site:
+            infos_site = db_sess.query(InfoSite).get(id_site)
 
         if not infos_site:
             infos_site = InfoSite(base_site=base_site)
@@ -240,16 +240,16 @@ def _prepare_site_data(data, db):
         db,
         RelChirositeTNomenclaturesMenace,
         data['menaces_ids'],
-        data['id_site_infos'],
-        'id_site_infos',
+        data['id_base_site'],
+        'id_base_site',
         'id_nomenclature_menaces'
     )]
     data['amenagements_ids'] = [rel for rel in get_updated_relations(
         db,
         RelChirositeTNomenclaturesAmenagement,
         data['amenagements_ids'],
-        data['id_site_infos'],
-        'id_site_infos',
+        data['id_base_site'],
+        'id_base_site',
         'id_nomenclature_amenagement'
     )]
     return data
