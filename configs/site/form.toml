@@ -27,11 +27,6 @@ deleteAccess = 5
     name = "Informations"
 
     [[groups.fields]]
-        name = "id_site_infos"
-        type = "hidden"
-        label = "ID"
-
-    [[groups.fields]]
         name = "id_base_site"
         type = "hidden"
         label = "ID"
@@ -61,7 +56,7 @@ deleteAccess = 5
         label = "Nom"
 
         [groups.fields.options]
-            minLength = 5
+            minLength = 1
             maxLength = 250
 
     [[groups.fields]]
@@ -72,6 +67,9 @@ deleteAccess = 5
         help = "Type de lieu"
         type = "select"
         name = "id_nomenclature_type_site"
+
+        [groups.fields.options]
+            required = true
 
     [[groups.fields]]
         name = "id_inventor"

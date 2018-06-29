@@ -32,6 +32,9 @@ name = "Informations"
         name = "cd_nom"
         type = "taxhub"
         label = "Nom taxon"
+        [groups.fields.options]
+            required = true
+            id_liste = 1000001
 
     [[groups.fields]]
         name = "tx_presume"
