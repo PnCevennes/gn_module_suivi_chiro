@@ -21,6 +21,7 @@
     label = "Nom taxon"
     [fields.options]
         required = true
+        id_liste = 1000001
 
 [[fields]]
     name = "tx_presume"
@@ -37,6 +38,8 @@
     label = "Activité"
     name = "id_nomenclature_activite"
     type = "select"
+    regne = "Animalia"
+    group2_inpn = "Mammifères"
     [fields.options]
         nullable = true
 
@@ -46,6 +49,8 @@
     label = "Preuves de reproduction"
     name = "id_nomenclature_preuve_repro"
     type = "select"
+    regne = "Animalia"
+    group2_inpn = "Mammifères"
     [fields.options]
         nullable = true
 

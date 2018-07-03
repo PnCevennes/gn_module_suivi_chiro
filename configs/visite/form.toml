@@ -72,6 +72,8 @@ subSchemaAdd = "2"
     type = "select"
     default = 1004
     label = "Mode d'observation"
+    regne = "Animalia"
+    group2_inpn = "Mammifères"
 
 [[groups.fields]]
     name = "comments"

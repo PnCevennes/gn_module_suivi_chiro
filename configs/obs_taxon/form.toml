@@ -43,7 +43,7 @@ name = "Informations"
 
     [[groups.fields]]
         name = "indices"
-        thesaurusID = 14
+        thesaurus_code_type = "METH_OBS"
         type = "multisel"
         label = "Indices"
         regne = "Animalia"
@@ -55,7 +55,7 @@ name = "Informations"
         label = "Description indices"
 
     [[groups.fields]]
-        thesaurusID = 13
+        thesaurus_code_type = "STATUT_BIO"
         label = "Activité"
         name = "id_nomenclature_activite"
         type = "select"
@@ -66,7 +66,7 @@ name = "Informations"
             nullable = true
 
     [[groups.fields]]
-        thesaurusID = 13
+        thesaurus_code_type = "STATUT_BIO"
         default = 0
         label = "Preuves de reproduction"
         name = "id_nomenclature_preuve_repro"
@@ -115,7 +115,7 @@ name = "Informations"
         [[groups.fields.fields]]
             name = "id_nomenclature_life_stage"
             label = "Age"
-            thesaurusID = 10
+            thesaurus_code_type = "STADE_VIE"
             type = "select"
             regne = "Animalia"
             group2_inpn = "Mammifères"
@@ -123,7 +123,7 @@ name = "Informations"
         [[groups.fields.fields]]
             name = "id_nomenclature_sex"
             label = "Sexe"
-            thesaurusID = 9
+            thesaurus_code_type = "SEXE"
             type = "select"
             regne = "Animalia"
             group2_inpn = "Mammifères"

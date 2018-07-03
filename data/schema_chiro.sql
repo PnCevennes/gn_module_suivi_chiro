@@ -4,7 +4,7 @@ CREATE SCHEMA monitoring_chiro;
 
 CREATE TABLE monitoring_chiro.cor_contact_taxons_nomenclature_indices (
     id_contact_taxon integer NOT NULL,
-    id_nomenclature_indice integer NOT NULL,
+    id_nomenclature_indice integer NOT NULL ,
     uuid_chiro_visite_contact_indices uuid DEFAULT public.uuid_generate_v4()
 );
 
@@ -166,25 +166,26 @@ ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons ALTER COLUMN id_contac
 -- ################### --
 -- CONSTRAINTS --
 ALTER TABLE monitoring_chiro.cor_counting_contact
-    ADD CONSTRAINT check_cor_counting_contact_life_stage CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_life_stage, 10)) NOT VALID;
+    ADD CONSTRAINT check_cor_counting_contact_life_stage CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_life_stage, 'STADE_VIE')) NOT VALID;
 
 ALTER TABLE monitoring_chiro.t_contact_taxon_biometries
-    ADD CONSTRAINT check_cor_counting_contact_life_stage CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_life_stage, 10)) NOT VALID;
+    ADD CONSTRAINT check_cor_counting_contact_life_stage CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_life_stage, 'STADE_VIE')) NOT VALID;
 
 
 ALTER TABLE monitoring_chiro.cor_counting_contact
-    ADD CONSTRAINT check_cor_counting_contact_obj_count CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_obj_count, 6)) NOT VALID;
-
+    ADD CONSTRAINT check_cor_counting_contact_obj_count CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_obj_count, 'OBJ_DENBR')) NOT VALID;
 
 ALTER TABLE monitoring_chiro.cor_counting_contact
-    ADD CONSTRAINT check_cor_counting_contact_sexe CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_sex, 9)) NOT VALID;
+    ADD CONSTRAINT check_cor_counting_contact_sexe CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_sex, 'SEXE')) NOT VALID;
+
+ALTER TABLE monitoring_chiro.cor_counting_contact
+    ADD CONSTRAINT check_cor_counting_contact_type_count CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_type_count, 'TYP_DENBR')) NOT VALID;
+
 
 ALTER TABLE monitoring_chiro.t_contact_taxon_biometries
-    ADD CONSTRAINT check_cor_counting_contact_sexe CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_sex, 9)) NOT VALID;
+    ADD CONSTRAINT check_cor_counting_contact_sexe CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_sex, 'SEXE')) NOT VALID;
 
-ALTER TABLE monitoring_chiro.cor_counting_contact
-    ADD CONSTRAINT check_cor_counting_contact_type_count CHECK (ref_nomenclatures.check_nomenclature_type(id_nomenclature_type_count, 21)) NOT VALID;
-
+-- @TODO Finalize check constraints
 
 -- ################### --
 --- PRIMARY KEY --

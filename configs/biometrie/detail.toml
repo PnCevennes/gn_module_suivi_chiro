@@ -6,12 +6,16 @@ editAccess = 3
         thesaurusID = 10
         type = "select"
         label = "Âge"
+        regne = "Animalia"
+        group2_inpn = "Mammifères"
 
     [[groups.fields]]
         name = "id_nomenclature_sex"
         thesaurusID = 9
         type = "select"
         label = "Sexe"
+        regne = "Animalia"
+        group2_inpn = "Mammifères"
 
     [[groups.fields]]
         name = "poids"
