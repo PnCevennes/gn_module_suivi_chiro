@@ -1,4 +1,4 @@
-import os
+import shutil, os
 import subprocess
 from pathlib import Path
 
@@ -26,10 +26,11 @@ def gnmodule_install_app(gn_db, gn_app):
             - Base de données
             - Module (pour le moment rien)
     '''
-    with gn_app.app_context() :
+    with gn_app.app_context():
         # Création des liens symboliques pour la configuration
         try :
             config_path = Path(gn_app.config['BASE_DIR']) / 'static/configs'
+            shutil.copytree(str(ROOT_DIR / 'configs.sample'), str(ROOT_DIR / 'configs'))
             if config_path.is_dir():
                 os.symlink(str(ROOT_DIR / 'configs'), str(config_path / 'suivi_chiro'))
             else:
