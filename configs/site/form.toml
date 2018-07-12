@@ -60,7 +60,7 @@ deleteAccess = 5
             maxLength = 250
 
     [[groups.fields]]
-        thesaurusID = 116
+        thesaurus_code_type = "TYPE_SITE"
         #thesaurusHierarchyID = "012.001"
         #default = 37
         label = "Type"
@@ -114,14 +114,14 @@ deleteAccess = 5
     [[groups.fields]]
         help = "Type de menace pesant sur le site"
         name = "menaces_ids"
-        thesaurusID = 502
+        thesaurus_code_type = "CHI_MENACES"
         type = "multisel"
         label = "Types de menace"
 
     [[groups.fields]]
-        help = "Type de menace pesant sur le site"
+        help = "Type d'aménagements présents sur le site"
         name = "amenagements_ids"
-        thesaurusID = 501
+        thesaurus_code_type = "CHI_AMENAGEMENT"
         type = "multisel"
         label = "Types d'aménagements"
 
@@ -132,7 +132,7 @@ deleteAccess = 5
         label = "Informations menaces"
 
     [[groups.fields]]
-        thesaurusID = 500
+        thesaurus_code_type = "CHI_FREQUENTATION"
         default = 0
         label = "Fréquentation"
         help = "Estimation de la fréquentation du site"
@@ -229,5 +229,6 @@ deleteAccess = 5
             maxSize = 2048000
             # accepted = [ "png", "jpg",]
             attachedUUID = "uuid_base_site"
-            id_table_location = 6
-            url_nomenclature_media_type = "nomenclatures/nomenclature/117"
+            # id_table_location = 6
+            attached_table_location = "gn_monitoring.t_base_sites"
+            url_nomenclature_media_type = "nomenclatures/nomenclature/TYPE_MEDIA"

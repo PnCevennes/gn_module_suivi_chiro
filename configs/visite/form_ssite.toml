@@ -68,7 +68,7 @@ subSchemaAdd = "2"
 
 [[groups.fields]]
     name = "id_nomenclature_mod_id"
-    thesaurusID = 115
+    thesaurus_code_type = "METHO_RECUEIL"
     type = "select"
     default = 1004
     label = "Mode d'observation"
@@ -154,7 +154,7 @@ subSchemaAdd = "2"
 # required = true
 # [[groups.fields]]
 # name = "cvcModId"
-# thesaurusID = 4
+# thesaurus_code_type = 4
 # type = "select"
 # default = 18
 # label = "Mode d'observation"

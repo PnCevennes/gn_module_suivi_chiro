@@ -35,7 +35,7 @@ subSchemaAdd = 3
 
     [[groups.fields]]
         name = "indices"
-        thesaurusID = 14
+        thesaurus_code_type = "METH_OBS"
         type = "multisel"
         label = "Indices"
 
@@ -46,13 +46,13 @@ subSchemaAdd = 3
 
     [[groups.fields]]
         name = "id_nomenclature_activite"
-        thesaurusID = 13
+        thesaurus_code_type = "STATUT_BIO"
         type = "select"
         label = "Activité"
 
     [[groups.fields]]
         name = "id_nomenclature_preuve_repro"
-        thesaurusID = 13
+        thesaurus_code_type = "STATUT_BIO"
         type = "select"
         label = "Preuves de reproduction"
 
@@ -77,13 +77,13 @@ subSchemaAdd = 3
         [[groups.fields.fields]]
             name = "id_nomenclature_life_stage"
             label = "Age"
-            thesaurusID = 10
+            thesaurus_code_type = "STADE_VIE"
             type = "select"
 
         [[groups.fields.fields]]
             name = "id_nomenclature_sex"
             label = "Sexe"
-            thesaurusID = 9
+            thesaurus_code_type =  "SEXE"
             type = "select"
 
         [[groups.fields.fields]]

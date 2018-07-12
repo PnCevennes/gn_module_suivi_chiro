@@ -35,7 +35,7 @@ subEditAccess = 2
     [[groups.fields]]
         help = "Type de lieu"
         name = "id_nomenclature_type_site"
-        thesaurusID = 116
+        thesaurus_code_type = "TYPE_SITE"
         type = "select"
         label = "Type"
 
@@ -74,14 +74,14 @@ subEditAccess = 2
     [[groups.fields]]
         help = "Fréquentation du site"
         name = "id_nomenclature_frequentation"
-        thesaurusID = 500
+        thesaurus_code_type = "CHI_FREQUENTATION"
         type = "select"
         label = "Fréquentation"
 
     [[groups.fields]]
         help = "Menaces pesant sur le site"
         name = "menaces_ids"
-        thesaurusID = 502
+        thesaurus_code_type = "CHI_MENACES"
         type = "multisel"
         label = "Menaces"
 
@@ -94,7 +94,7 @@ subEditAccess = 2
     [[groups.fields]]
         help = "Aménagements effectués sur le site"
         name = "amenagements_ids"
-        thesaurusID = 501
+        thesaurus_code_type = "CHI_AMENAGEMENT"
         type = "multisel"
         label = "Aménagements"
 

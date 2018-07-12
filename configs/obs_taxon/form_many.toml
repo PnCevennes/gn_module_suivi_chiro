@@ -34,7 +34,7 @@
     label = "Espece incertaine"
 
 [[fields]]
-    thesaurusID = 13
+    thesaurus_code_type = "STATUT_BIO"
     label = "Activité"
     name = "id_nomenclature_activite"
     type = "select"
@@ -44,7 +44,7 @@
         nullable = true
 
 [[fields]]
-    thesaurusID = 13
+    thesaurus_code_type = "STATUT_BIO"
     default = 0
     label = "Preuves de reproduction"
     name = "id_nomenclature_preuve_repro"

@@ -3,7 +3,7 @@ editAccess = 3
     name = "Général"
     [[groups.fields]]
         name = "id_nomenclature_life_stage"
-        thesaurusID = 10
+        thesaurus_code_type = "STADE_VIE"
         type = "select"
         label = "Âge"
         regne = "Animalia"
@@ -11,7 +11,7 @@ editAccess = 3
 
     [[groups.fields]]
         name = "id_nomenclature_sex"
-        thesaurusID = 9
+        thesaurus_code_type =  "SEXE"
         type = "select"
         label = "Sexe"
         regne = "Animalia"

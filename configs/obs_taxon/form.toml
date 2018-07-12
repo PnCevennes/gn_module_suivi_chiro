@@ -102,7 +102,7 @@ name = "Informations"
             # accepted = [ "png", "jpg",]
             attachedUUID = "uuid_chiro_visite_contact_taxon"
             id_table_location = 8
-            url_nomenclature_media_type = "nomenclatures/nomenclature/117"
+            url_nomenclature_media_type = "nomenclatures/nomenclature/TYPE_MEDIA"
 
 [[groups]]
     name = "Dénombrement"
@@ -123,7 +123,7 @@ name = "Informations"
         [[groups.fields.fields]]
             name = "id_nomenclature_sex"
             label = "Sexe"
-            thesaurus_code_type = "SEXE"
+            thesaurus_code_type = "STADE_VIE"
             type = "select"
             regne = "Animalia"
             group2_inpn = "Mammifères"

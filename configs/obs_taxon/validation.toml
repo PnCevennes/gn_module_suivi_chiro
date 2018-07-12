@@ -44,7 +44,7 @@ type = "list"
 style = "l"
 [[fields]]
 name = "cotxObjStatusValidation"
-thesaurusID = 9
+thesaurus_code_type =  "SEXE"
 label = "Validation"
 
 [fields.filter]
@@ -140,7 +140,7 @@ type = "date"
 label = "Date de l'observation"
 
 [[filtering.fields]]
-thesaurusID = 9
+thesaurus_code_type =  "SEXE"
 zeroNull = true
 default = 0
 label = "Statut validation"

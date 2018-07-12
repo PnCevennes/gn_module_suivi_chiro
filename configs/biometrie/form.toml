@@ -16,7 +16,7 @@ deleteAccess = 3
 
     [[groups.fields]]
     name = "id_nomenclature_life_stage"
-    thesaurusID = 10
+    thesaurus_code_type = "STADE_VIE"
     type = "select"
     label = "Âge"
     regne = "Animalia"
@@ -24,7 +24,7 @@ deleteAccess = 3
 
     [[groups.fields]]
     name = "id_nomenclature_sex"
-    thesaurusID = 9
+    thesaurus_code_type =  "SEXE"
     type = "select"
     label = "Sexe"
     regne = "Animalia"

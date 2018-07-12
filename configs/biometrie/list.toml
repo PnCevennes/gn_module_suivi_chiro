@@ -16,7 +16,7 @@ title = "Biométries"
         style = "xl"
 
 [[fields]]
-    thesaurusID = 10
+    thesaurus_code_type = "STADE_VIE"
     label = "Âge"
     name = "id_nomenclature_life_stage"
     type = "select"
@@ -29,7 +29,7 @@ title = "Biométries"
         style = "xl"
 
 [[fields]]
-    thesaurusID = 9
+    thesaurus_code_type =  "SEXE"
     label = "Sexe"
     name = "id_nomenclature_sex"
     type = "select"

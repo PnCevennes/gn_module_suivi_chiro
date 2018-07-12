@@ -74,7 +74,7 @@ title = "Sites"
         visible = true
         style = "xs"
 [[fields]]
-    thesaurusID = 116
+    thesaurus_code_type = "TYPE_SITE"
     default = 0
     label = "Type"
     type = "select"
@@ -108,7 +108,7 @@ title = "Sites"
         label = "Nombre d'observations"
 
     [[filtering.fields]]
-        thesaurusID = 116
+        thesaurus_code_type = "TYPE_SITE"
         zeroNull = true
         default = 0
         label = "Type de site"
