@@ -1,5 +1,6 @@
-import shutil, os
-import subprocess
+import shutil
+import os
+# import subprocess
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).absolute().parent
@@ -19,10 +20,10 @@ def gnmodule_install_db(gn_db, gn_app):
     scriptexecution(str(ROOT_DIR / 'data/views.sql'), gn_db)
 
 
-
 def gnmodule_install_app(gn_db, gn_app):
     '''
-        Fonction principale permettant de réaliser les opérations d'installation du module :
+        Fonction principale permettant de réaliser les opérations
+        d'installation du module :
             - Base de données
             - Module (pour le moment rien)
     '''
@@ -30,16 +31,23 @@ def gnmodule_install_app(gn_db, gn_app):
         # Création des liens symboliques pour la configuration
         try :
             config_path = Path(gn_app.config['BASE_DIR']) / 'static/configs'
-            shutil.copytree(str(ROOT_DIR / 'configs.sample'), str(ROOT_DIR / 'configs'))
+            try:
+                shutil.copytree(
+                    str(ROOT_DIR / 'configs.sample'),
+                    str(ROOT_DIR / 'configs')
+                )
+            except OSError as e:
+                print(e)
             if config_path.is_dir():
-                os.symlink(str(ROOT_DIR / 'configs'), str(config_path / 'suivi_chiro'))
+                os.symlink(
+                    str(ROOT_DIR / 'configs'),
+                    str(config_path / 'suivi_chiro')
+                )
             else:
-                raise Exception ('''
+                raise Exception('''
                     unable to create config file symlink : config_path doesn't exists
                 ''')
         except Exception as e:
             print(e)
         # Installation du module de la base
         gnmodule_install_db(gn_db, gn_app)
-
-
