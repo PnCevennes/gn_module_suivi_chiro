@@ -1,6 +1,6 @@
 # Configs
 config/conf_gn_module.toml
-
+configs
 #IDE
 .vscode
 
