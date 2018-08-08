@@ -16,6 +16,7 @@ from geonature.utils.utilssqlalchemy import (
 from geonature.core.gn_monitoring.models import TBaseSites, TBaseVisits
 from pypnnomenclature.models import TNomenclatures
 
+
 @serializable
 class Biometrie(DB.Model):
     '''
@@ -59,9 +60,15 @@ class CountingContact(DB.Model):
     # Correspondance nomenclature INPN = sexe (9)
     id_nomenclature_sex = DB.Column(DB.Integer)
     # Correspondance nomenclature INPN = obj_denbr (6)
-    id_nomenclature_obj_count = DB.Column(DB.Integer, default=166)
+    id_nomenclature_obj_count = DB.Column(
+        DB.Integer,
+        default=select([func.ref_nomenclatures.get_id_nomenclature('OBJ_DENBR', 'IND')])
+    )
     # Correspondance nomenclature INPN = typ_denbr (21)
-    id_nomenclature_type_count = DB.Column(DB.Integer, default=109)
+    id_nomenclature_type_count = DB.Column(
+        DB.Integer,
+        default=select([func.ref_nomenclatures.get_id_nomenclature('TYP_DENBR', 'Co')])
+    )
     count_min = DB.Column(DB.Integer)
     count_max = DB.Column(DB.Integer)
     unique_id_sinp = DB.Column(

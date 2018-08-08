@@ -21,8 +21,10 @@ from ..models.models import (
     RelContactTaxonIndices,
     ContactTaxon
 )
+from ..models import COR_COUNTING_VALUE
 
 from ..utils.relations import get_updated_relations
+
 
 
 class InvalidBaseSiteData(Exception):
@@ -169,16 +171,8 @@ class GNMonitoringContactTaxon():
     """
     # tableau de correspondance dans le cadre de la saisie rapide
     # @TODO mettre en parametre de configuration
-    cor_counting_life_stage = {
-        'indetermine': 3,
-        'adulte': 4,
-        'juvenile': 5
-    }
-    cor_counting_sex = {
-        'indetermine': 189,
-        'femelle': 190,
-        'male': 191
-    }
+    cor_counting_life_stage = COR_COUNTING_VALUE["STADE_VIE"]
+    cor_counting_sex = COR_COUNTING_VALUE["SEXE"]
 
     def __init__(self, db_sess, data, saisie_rapide=False):
         """
