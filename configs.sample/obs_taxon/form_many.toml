@@ -45,7 +45,7 @@
 
 [[fields]]
     thesaurus_code_type = "STATUT_BIO"
-    default = 0
+    default = "0"
     label = "Preuves de reproduction"
     name = "id_nomenclature_preuve_repro"
     type = "select"
