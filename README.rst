@@ -37,3 +37,12 @@ Sur la base de données lancer la commande suivante
 Ajouter ce module comme une application dans le fichier de configuration du frontend
 
 
+Trucs en "dur" dans les fichiers de configuration
+-------------------------------------------------
+Id menu observateur = 10
+Id liste taxhub des chiroptères = 1000001
+
+
+
+
+
