@@ -16,6 +16,7 @@ Installation
 !! adapter les chemins si besoins
 
 ::
+
    cd ~/Geonature
    source backend/venv/bin/activate
    geonature install_gn_module ~/gn_modules/gn_module_suivi_chiro/ suivi_chiro
