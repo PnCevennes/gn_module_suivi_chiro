@@ -39,9 +39,11 @@ Ajouter ce module comme une application dans le fichier de configuration du fron
 
 Trucs en "dur" dans les fichiers de configuration
 -------------------------------------------------
+
 * Id menu observateur = 10
 * Id liste taxhub des chiroptères = 1000001
 
+Au choix il faut modifier les fichiers de configuration (.toml) ou adapter les données dans la base
 
 
 
