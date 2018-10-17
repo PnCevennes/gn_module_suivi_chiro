@@ -28,7 +28,7 @@ title = "Inventaire"
         style = "xs"
 
 [[fields]]
-    name = "visit_date"
+    name = "visit_date_min"
     label = "Date d'inventaire"
     [fields.filter]
         bvDate = "text"

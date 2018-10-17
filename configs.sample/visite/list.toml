@@ -13,10 +13,10 @@ title = "Visites"
     [fields.options]
         visible = false
 [[fields]]
-    name = "visit_date"
+    name = "visit_date_min"
     label = "Date de visite"
     [fields.filter]
-        visit_date = "text"
+        visit_date_min = "text"
     [fields.options]
         visible = true
         type = "date"
@@ -50,7 +50,7 @@ title = "Visites"
 [filtering]
     limit = 200
     [[filtering.fields]]
-        name = "visit_date"
+        name = "visit_date_min"
         type = "date"
         label = "Date d'observation"
 
