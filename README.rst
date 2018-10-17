@@ -1,41 +1,48 @@
-Fichiers relatifs à l'installation
-==================================
-
-* manifest.tml (Obligatoire): fichier contenant la description du module (nom, version de gn supportée, ...)
-* install_env.sh: installation des paquets debian
-* install_gn_module.py: installation du module :
-    * commande sql
-    * extra commandes python
-    * ce fichier doit contenir la méthode suivante : gnmodule_install_app(gn_db, gn_app)
-* requirements.txt: liste des paquets python
+Sous module de Geonature2 correspondant à une API de gestion des données de suivis de "gites" pourles chiroptères
 
 
-* conf_schema_toml.py : Schéma Marshmallow de spécification des paramètres du module
-* conf_gn_module.toml.sample : Fichier de configuration du module
+Installation
+============
 
-Fichiers relatifs au bon fonctionnement du module
-=================================================
+Prerequis
+---------
 
+* avoir Geonature installé et fonctionnel
+* avoir installé l'application cliente (si besoin) : https://github.com/PnCevennes/projet_suivis_frontend/
 
-Backend
--------
-Si votre module comporte des routes il doit comporter le fichier suivant : backend/blueprint.py
-avec une variable blueprint qui contient toutes les routes
+Installation
+------------
+
+!! adapter les chemins si besoins
 
 ::
 
-    blueprint = Blueprint('gn_module_validation', __name__)
+   cd ~/Geonature
+   source backend/venv/bin/activate
+   geonature install_gn_module ~/gn_modules/gn_module_suivi_chiro/ suivi_chiro
+   
+
+Post installation
+-----------------
+Sur la base de données lancer la commande suivante
+
+::
+   
+   UPDATE utilisateurs.t_applications a SET id_parent = p.id_application
+   FROM  utilisateurs.t_applications p
+   WHERE p.nom_application='suivi' AND a.nom_application='suivi_chiro'
 
 
-Frontend
---------
 
-Le dossier ``frontend`` comprend les élements suivant:
+Ajouter ce module comme une application dans le fichier de configuration du frontend
 
-- le dossier ``app``: comprend le code typescript du module
 
-     Il doit inclure le "module Angular racine", celui-ci doit impérativement s'appeler ``gnModule.module.ts`` 
+Trucs en "dur" dans les fichiers de configuration
+-------------------------------------------------
+* Id menu observateur = 10
+* Id liste taxhub des chiroptères = 1000001
 
-- le dossier ``assets`` l'ensemble des médias (images, son).
-    
-- Un fichier package.json qui décrit l'ensemble des librairies JS necessaire au module.
+
+
+
+
