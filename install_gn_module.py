@@ -1,23 +1,10 @@
 import shutil
 import os
-# import subprocess
+import subprocess
+
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).absolute().parent
-
-
-def scriptexecution(filename, gn_db):
-    with open(filename, 'r') as s:
-        sql_script = s.read()
-        gn_db.session.execute(sql_script)
-    s.closed
-    gn_db.session.commit()
-
-
-def gnmodule_install_db(gn_db, gn_app):
-    scriptexecution(str(ROOT_DIR / 'data/schema_chiro.sql'), gn_db)
-    scriptexecution(str(ROOT_DIR / 'data/data_chiro.sql'), gn_db)
-    scriptexecution(str(ROOT_DIR / 'data/views.sql'), gn_db)
 
 
 def gnmodule_install_app(gn_db, gn_app):
@@ -28,6 +15,15 @@ def gnmodule_install_app(gn_db, gn_app):
             - Module (pour le moment rien)
     '''
     with gn_app.app_context():
+
+        subprocess.call(
+            [
+                ROOT_DIR / 'install_db.sh', 
+                str(Path(gn_app.config['BASE_DIR']).parent)
+            ], 
+            cwd=gn_app.config['BASE_DIR']
+        )
+
         # Création des liens symboliques pour la configuration
         try :
             config_path = Path(gn_app.config['BASE_DIR']) / 'static/configs'
@@ -37,7 +33,9 @@ def gnmodule_install_app(gn_db, gn_app):
                     str(ROOT_DIR / 'configs')
                 )
             except OSError as e:
+                print('Erreur de copie')
                 print(e)
+                pass
             if config_path.is_dir():
                 os.symlink(
                     str(ROOT_DIR / 'configs'),
@@ -49,5 +47,18 @@ def gnmodule_install_app(gn_db, gn_app):
                 ''')
         except Exception as e:
             print(e)
-        # Installation du module de la base
-        gnmodule_install_db(gn_db, gn_app)
+
+        
+        # Ajout de l'application en tant que module du frontend
+        suivi_app_file_dir = Path(
+            gn_app.config.get('BASE_DIR') + gn_app.static_url_path, 
+            'configs/suivis', 
+            'apps.toml'
+        )
+
+        with open(str(ROOT_DIR / 'configs/apps.toml')) as config_chiro:
+            with open(suivi_app_file_dir, "a") as suivi_app_file:
+                suivi_app_file.write("\n\n")
+                suivi_app_file.writelines(config_chiro)
+            suivi_app_file.close()
+        config_chiro.close()

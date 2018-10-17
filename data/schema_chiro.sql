@@ -1,5 +1,3 @@
-DROP SCHEMA IF EXISTS monitoring_chiro CASCADE;
-
 CREATE SCHEMA monitoring_chiro;
 
 CREATE TABLE monitoring_chiro.cor_contact_taxons_nomenclature_indices (
