@@ -60,7 +60,7 @@ def load_visite(id_visite):
     bread.append({
         'id': id_visite,
         'link': '#/suivi_chiro/{}/{}'.format(link, id_visite),
-        'label': str(result.visit_date)
+        'label': str(result.visit_date_min)
     })
     return bread
 
