@@ -1,5 +1,7 @@
-Sous module de Geonature2 correspondant à une API de gestion des données de suivis de "gites" pourles chiroptères
 
+Module `GeoNature <https://github.com/PnX-SI/GeoNature>`_ permettant de gérer les spécificités du backend du protocole Suivi des chiroptères. Il s'agit d'une API de gestion des données de suivi de "gites" pour les chiroptères.
+
+Ce module est intégré à l'environnement à GeoNature mais dispose de son propre frontend autonome : https://github.com/PnCevennes/projet_suivis_frontend
 
 Installation
 ============
@@ -7,13 +9,13 @@ Installation
 Prerequis
 ---------
 
-* avoir Geonature installé et fonctionnel
-* avoir installé l'application cliente (si besoin) : https://github.com/PnCevennes/projet_suivis_frontend/
+* Avoir GeoNature installé et fonctionnel
+* Avoir installé l'application cliente (si besoin) : https://github.com/PnCevennes/projet_suivis_frontend/
 
 Installation
 ------------
 
-!! adapter les chemins si besoins
+!! Adapter les chemins si besoin
 
 ::
 
@@ -24,7 +26,8 @@ Installation
 
 Post installation
 -----------------
-Sur la base de données lancer la commande suivante
+
+Sur la base de données, lancer la commande suivante :
 
 ::
    
@@ -33,8 +36,7 @@ Sur la base de données lancer la commande suivante
    WHERE p.nom_application='suivi' AND a.nom_application='suivi_chiro'
 
 
-
-Ajouter ce module comme une application dans le fichier de configuration du frontend
+Ajouter ce module comme une application dans le fichier de configuration du frontend.
 
 
 Trucs en "dur" dans les fichiers de configuration
@@ -43,8 +45,22 @@ Trucs en "dur" dans les fichiers de configuration
 * Id menu observateur = 10
 * Id liste taxhub des chiroptères = 1000001
 
-Au choix il faut modifier les fichiers de configuration (.toml) ou adapter les données dans la base
+Au choix, il faut modifier les fichiers de configuration (.toml) ou adapter les données dans la base
+
+Auteurs
+-------
+
+Parc national des Cévennes
+
+* Frédéric FIDON
+* Amandine SAHL
 
 
+Licence
+-------
 
+* OpenSource - GPL V3
+* Copyleft 2018 - Parc national des Cévennes
 
+.. image:: http://geonature.fr/img/logo-pnc.jpg
+    :target: http://www.cevennes-parcnational.fr
