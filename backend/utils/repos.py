@@ -8,13 +8,13 @@ des entités gn_monitoring
 from sqlalchemy import and_
 
 from geonature.core.gn_monitoring.models import (
-    TBaseSites, corSiteApplication, TBaseVisits
+    TBaseSites, corSiteModule, TBaseVisits
 )
 
 from geonature.core.gn_commons.repositories import (
     TMediaRepository
 )
-from geonature.core.users.models import TRoles
+from pypnusershub.db.models import User
 
 from ..models.models import (
     CountingContact,
@@ -52,8 +52,8 @@ class GNMonitoringVisiteRepository:
         try:
 
             if "observers" in data:
-                observers = self.session.query(TRoles).\
-                    filter(TRoles.id_role.in_(data['observers'])).all()
+                observers = self.session.query(User).\
+                    filter(User.id_role.in_(data['observers'])).all()
 
             if observers:
                 data['observers'] = observers
@@ -110,12 +110,12 @@ class GNMonitoringSiteRepository:
             self.session.flush()  # génération de l'id de site
 
             # insertion id application
-            app = self.session.query(corSiteApplication).filter(and_(
-                corSiteApplication.c.id_base_site == model.id_base_site,
-                corSiteApplication.c.id_application == self.id_app)
+            app = self.session.query(corSiteModule).filter(and_(
+                corSiteModule.c.id_base_site == model.id_base_site,
+                corSiteModule.c.id_module == self.id_app)
             ).all()
             if not len(app):
-                stmt = corSiteApplication.insert().values(
+                stmt = corSiteModule.insert().values(
                     id_base_site=model.id_base_site, id_application=self.id_app
                 )
                 self.session.execute(stmt)
@@ -135,8 +135,8 @@ class GNMonitoringSiteRepository:
         '''
 
         # 1 vérifier que le site n'existe pas pour plusieurs applications
-        apps = self.session.query(corSiteApplication).filter(
-            corSiteApplication.c.id_base_site == base_site_id
+        apps = self.session.query(corSiteModule).filter(
+            corSiteModule.c.id_base_site == base_site_id
         ).all()
         nb_apps = len(apps)
         if nb_apps == 0:
@@ -149,9 +149,9 @@ class GNMonitoringSiteRepository:
         if not len(cur_link):
             # site non référencé pour l'application
             raise InvalidBaseSiteData()
-        stmt = (corSiteApplication.delete()
-                .where(corSiteApplication.c.id_application == self.id_app)
-                .where(corSiteApplication.c.id_base_site == base_site_id))
+        stmt = (corSiteModule.delete()
+                .where(corSiteModule.c.id_module == self.id_app)
+                .where(corSiteModule.c.id_base_site == base_site_id))
         self.session.execute(stmt)
 
         # si le site n'existe pas pour une autre application :

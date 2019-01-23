@@ -4,7 +4,7 @@ Routes relatives aux sites
 
 import geojson
 
-from flask import request
+from flask import request, current_app
 from sqlalchemy.orm.exc import NoResultFound
 from shapely.geometry import Point
 from geoalchemy2.shape import to_shape, from_shape
@@ -12,14 +12,14 @@ from geoalchemy2.shape import to_shape, from_shape
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
-from geonature.core.gn_monitoring.models import TBaseSites, corSiteApplication
+from geonature.core.gn_monitoring.models import TBaseSites, corSiteModule
 from geonature.core.gn_commons.repositories import (
     TMediumRepository
 )
 
 from pypnusershub import routes as fnauth
 
-from ..blueprint import blueprint, ID_MODULE
+from ..blueprint import blueprint
 from ..models.models import (
     InfoSite,
     RelChirositeTNomenclaturesAmenagement,
@@ -72,7 +72,7 @@ def get_one_site_chiro(id_site):
                 id_base_site=id_site
             ).filter(
                 TBaseSites.applications.any(
-                    corSiteApplication.c.id_application == ID_MODULE
+                    corSiteModule.c.id_module == current_app.config['SUIVI_CHIRO']['ID_MODULE']
                 )
             ).one()
             result = InfoSite()
@@ -101,7 +101,7 @@ def create_or_update_site_chiro(id_site=None):
         db_sess = DB.session
         req_data = request.get_json()
         data = _prepare_site_data(req_data, db_sess)
-        base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_MODULE)
+        base_repo = GNMonitoringSiteRepository(db_sess, id_app=current_app.config['SUIVI_CHIRO']['ID_MODULE'])
 
         # Création du base site si besoin
         if not id_site:
@@ -178,7 +178,7 @@ def delete_site_chiro(id_site):
         DB.session.delete(info_site)
         try:
             base_repo = GNMonitoringSiteRepository(
-                DB.session, id_app=ID_MODULE
+                DB.session, id_app=current_app.config['SUIVI_CHIRO']['ID_MODULE']
             )
             base_repo.handle_delete(base_site_id, cascade)
             DB.session.commit()
