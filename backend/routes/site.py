@@ -72,7 +72,7 @@ def get_one_site_chiro(id_site):
                 id_base_site=id_site
             ).filter(
                 TBaseSites.applications.any(
-                    corSiteApplication.c.id_application == ID_MODULE
+                    corSiteApplication.id_application == ID_MODULE
                 )
             ).one()
             result = InfoSite()
