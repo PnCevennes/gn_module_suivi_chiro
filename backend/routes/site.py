@@ -12,7 +12,7 @@ from geoalchemy2.shape import to_shape, from_shape
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
-from geonature.core.gn_monitoring.models import TBaseSites, corSiteApplication
+from geonature.core.gn_monitoring.models import TBaseSites, corSiteModule
 from geonature.core.gn_commons.repositories import (
     TMediumRepository
 )
@@ -71,8 +71,8 @@ def get_one_site_chiro(id_site):
             basesite = DB.session.query(TBaseSites).filter_by(
                 id_base_site=id_site
             ).filter(
-                TBaseSites.applications.any(
-                    corSiteApplication.id_application == ID_MODULE
+                TBaseSites.modules.any(
+                    corSiteModule.id_module == ID_MODULE
                 )
             ).one()
             result = InfoSite()
