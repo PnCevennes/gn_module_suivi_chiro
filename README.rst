@@ -1,41 +1,66 @@
-Fichiers relatifs à l'installation
-==================================
 
-* manifest.tml (Obligatoire): fichier contenant la description du module (nom, version de gn supportée, ...)
-* install_env.sh: installation des paquets debian
-* install_gn_module.py: installation du module :
-    * commande sql
-    * extra commandes python
-    * ce fichier doit contenir la méthode suivante : gnmodule_install_app(gn_db, gn_app)
-* requirements.txt: liste des paquets python
+Module `GeoNature <https://github.com/PnX-SI/GeoNature>`_ permettant de gérer les spécificités du backend du protocole Suivi des chiroptères. Il s'agit d'une API de gestion des données de suivi de "gites" pour les chiroptères.
 
+Ce module est intégré à l'environnement à GeoNature mais dispose de son propre frontend autonome : https://github.com/PnCevennes/projet_suivis_frontend
 
-* conf_schema_toml.py : Schéma Marshmallow de spécification des paramètres du module
-* conf_gn_module.toml.sample : Fichier de configuration du module
+Installation
+============
 
-Fichiers relatifs au bon fonctionnement du module
-=================================================
+Prerequis
+---------
 
+* Avoir GeoNature installé et fonctionnel
+* Avoir installé l'application cliente (si besoin) : https://github.com/PnCevennes/projet_suivis_frontend/
 
-Backend
--------
-Si votre module comporte des routes il doit comporter le fichier suivant : backend/blueprint.py
-avec une variable blueprint qui contient toutes les routes
+Installation
+------------
+
+!! Adapter les chemins si besoin
 
 ::
 
-    blueprint = Blueprint('gn_module_validation', __name__)
+   cd ~/Geonature
+   source backend/venv/bin/activate
+   geonature install_gn_module ~/gn_modules/gn_module_suivi_chiro/ suivi_chiro
+   
+
+Post installation
+-----------------
+
+Sur la base de données, lancer la commande suivante :
+
+::
+   
+   UPDATE utilisateurs.t_applications a SET id_parent = p.id_application
+   FROM  utilisateurs.t_applications p
+   WHERE p.nom_application='suivi' AND a.nom_application='suivi_chiro'
 
 
-Frontend
---------
+Ajouter ce module comme une application dans le fichier de configuration du frontend.
 
-Le dossier ``frontend`` comprend les élements suivant:
 
-- le dossier ``app``: comprend le code typescript du module
+Trucs en "dur" dans les fichiers de configuration
+-------------------------------------------------
 
-     Il doit inclure le "module Angular racine", celui-ci doit impérativement s'appeler ``gnModule.module.ts`` 
+* Id menu observateur = 10
+* Id liste taxhub des chiroptères = 1000001
 
-- le dossier ``assets`` l'ensemble des médias (images, son).
-    
-- Un fichier package.json qui décrit l'ensemble des librairies JS necessaire au module.
+Au choix, il faut modifier les fichiers de configuration (.toml) ou adapter les données dans la base
+
+Auteurs
+-------
+
+Parc national des Cévennes
+
+* Frédéric FIDON
+* Amandine SAHL
+
+
+Licence
+-------
+
+* OpenSource - GPL V3
+* Copyleft 2018 - Parc national des Cévennes
+
+.. image:: http://geonature.fr/img/logo-pnc.jpg
+    :target: http://www.cevennes-parcnational.fr

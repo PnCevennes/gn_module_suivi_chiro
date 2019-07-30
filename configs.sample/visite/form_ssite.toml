@@ -59,7 +59,7 @@ subSchemaAdd = "2"
     #     reverseurl = "users/role"
 
 [[groups.fields]]
-    name = "visit_date"
+    name = "visit_date_min"
     type = "date"
     label = "Date"
 

@@ -24,7 +24,7 @@ subSchemaAdd = "2"
     type = "xhr"
     label = "Site"
         [groups.fields.options]
-        url = "gn_monitoring/siteslist?id_app=101"
+        url = "gn_monitoring/siteslist?name_app=suivi_chiro"
         displayField = ["base_site_name"]
         idField = "id_base_site"
         searchField = "base_site_name"
@@ -59,7 +59,7 @@ subSchemaAdd = "2"
     #     reverseurl = "users/role"
 
 [[groups.fields]]
-    name = "visit_date"
+    name = "visit_date_min"
     type = "date"
     label = "Date"
 

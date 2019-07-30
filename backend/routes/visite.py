@@ -74,7 +74,7 @@ def create_or_update_visite_chiro(id_visite=None):
 
     # creation de base visite
     if not id_visite:
-        id_visite = data.get('id_visite', None)
+        id_visite = data.get('id', None)
 
     base_repo = GNMonitoringVisiteRepository(db_sess)
     base_visit = base_repo.handle_write(
@@ -84,25 +84,21 @@ def create_or_update_visite_chiro(id_visite=None):
 
     # creation condition visite
     visite = None
-    id_visite_cond = (
-        data['id_visite_cond'] if 'id_visite_cond' in data else None
-    )
 
     if 'geom' in data:
         data['geom'] = from_shape(Point(*data['geom'][0]), srid=4326)
 
-    data_visite = {}
+    if id_visite:
+        visite = db_sess.query(ConditionsVisite).get(id_visite)
+    else:
+        visite = ConditionsVisite()
+
     for field in data:
         if hasattr(ConditionsVisite, field):
-            data_visite[field] = data[field]
-
-    visite = ConditionsVisite(**data_visite)
+            setattr(visite, field, data[field])
     visite.base_visit = base_visit
 
-    if id_visite_cond:
-        db_sess.merge(visite)
-    else:
-        db_sess.add(visite)
+    db_sess.add(visite)
     try:
         db_sess.commit()
     except Exception as e:

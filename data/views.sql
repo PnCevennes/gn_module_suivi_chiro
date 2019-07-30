@@ -28,7 +28,7 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_sites_chiro AS
     c.contact_commentaire,
     c.site_actif,
     c.actions,
-    ( SELECT max(v.visit_date) AS max
+    ( SELECT max(v.visit_date_min) AS max
            FROM gn_monitoring.t_base_visits v
           WHERE v.id_base_site = s.id_base_site) AS dern_obs,
     ( SELECT count(*) AS count
@@ -37,7 +37,7 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_sites_chiro AS
     '<h4><a href="#/suivi_chiro/site/' || s.id_base_site || '">' || s.base_site_name || '</a></h4>'::varchar(500) as geom_popup
    FROM gn_monitoring.t_base_sites s
    JOIN gn_commons.v_meta_actions_on_object ma ON ma.uuid_attached_row = s.uuid_base_site
-     JOIN gn_monitoring.cor_site_application csa ON s.id_base_site = csa.id_base_site AND csa.id_application = 101
+     JOIN gn_monitoring.cor_site_application csa ON s.id_base_site = csa.id_base_site AND csa.id_application =  (SELECT id_application FROM utilisateurs.t_applications WHERE nom_application = 'suivi_chiro')
      LEFT JOIN monitoring_chiro.t_site_infos c ON c.id_base_site = s.id_base_site
      LEFT JOIN utilisateurs.t_roles obr ON obr.id_role = s.id_inventor
      LEFT JOIN ref_nomenclatures.t_nomenclatures l ON l.id_nomenclature = s.id_nomenclature_type_site
@@ -50,7 +50,7 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_inventaires_chiro AS
  SELECT obs.id_base_visit AS id,
     obs.id_base_visit,
     cco.geom,
-    obs.visit_date,
+    obs.visit_date_min,
     obs.comments,
     ma.meta_create_date,
     ma.meta_update_date,
@@ -66,13 +66,13 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_inventaires_chiro AS
            FROM monitoring_chiro.t_visite_contact_taxons a
              JOIN monitoring_chiro.cor_counting_contact c ON a.id_contact_taxon = c.id_contact_taxon
           WHERE a.id_base_visit = obs.id_base_visit) AS abondance,
-   '<h4><a href="#/suivi_chiro/inventaire/' || obs.id_base_visit || '">' || obs.visit_date::text ||  '</a></h4>'  AS geom_popup
+   '<h4><a href="#/suivi_chiro/inventaire/' || obs.id_base_visit || '">' || obs.visit_date_min::text ||  '</a></h4>'  AS geom_popup
    FROM gn_monitoring.t_base_visits obs
      JOIN gn_commons.v_meta_actions_on_object ma ON ma.uuid_attached_row = obs.uuid_base_visit
      JOIN monitoring_chiro.t_visite_conditions cco ON cco.id_base_visit = obs.id_base_visit
      LEFT JOIN utilisateurs.t_roles num ON num.id_role = obs.id_digitiser
   WHERE obs.id_base_site IS NULL
-  ORDER BY obs.visit_date DESC;
+  ORDER BY obs.visit_date_min DESC;
 
 
 --- chiro.vue_chiro_obs
@@ -83,7 +83,7 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_visites_chiro AS
     s.id_base_site,
     s.base_site_name,
     s.geom,
-    obs.visit_date,
+    obs.visit_date_min,
     obs.comments,
     ma.meta_create_date,
     ma.meta_update_date,
@@ -105,7 +105,7 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_visites_chiro AS
      JOIN monitoring_chiro.t_visite_conditions cco ON cco.id_base_visit = obs.id_base_visit
      JOIN gn_monitoring.t_base_sites s ON s.id_base_site = obs.id_base_site
      LEFT JOIN utilisateurs.t_roles num ON num.id_role = obs.id_digitiser
-  ORDER BY obs.visit_date DESC;
+  ORDER BY obs.visit_date_min DESC;
 
 
 
