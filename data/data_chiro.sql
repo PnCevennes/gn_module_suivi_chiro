@@ -1,4 +1,8 @@
 
+-- ###########################
+-- Insertion des métadonnées sur l'historisation
+-- ###########################
+
 INSERT INTO gn_commons.bib_tables_location(table_desc, schema_name, table_name, pk_field, uuid_field_name)
 VALUES
 ('Liste des taxons observés durant une visite chiroptère', 'monitoring_chiro', 't_visite_contact_taxons', 'id_contact_taxon', 'uuid_chiro_visite_contact_taxon'),

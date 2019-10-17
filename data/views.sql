@@ -34,16 +34,16 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_sites_chiro AS
     ( SELECT count(*) AS count
            FROM gn_monitoring.t_base_visits v
           WHERE v.id_base_site = s.id_base_site) AS nb_obs,
-    '<h4><a href="#/suivi_chiro/site/' || s.id_base_site || '">' || s.base_site_name || '</a></h4>'::varchar(500) as geom_popup
+    ((('<h4><a href="#/suivi_chiro/site/'::text || s.id_base_site) || '">'::text) || s.base_site_name::text) || '</a></h4>'::character varying(500)::text AS geom_popup
    FROM gn_monitoring.t_base_sites s
-   JOIN gn_commons.v_meta_actions_on_object ma ON ma.uuid_attached_row = s.uuid_base_site
-     JOIN gn_monitoring.cor_site_application csa ON s.id_base_site = csa.id_base_site AND csa.id_application =  (SELECT id_application FROM utilisateurs.t_applications WHERE nom_application = 'suivi_chiro')
+     JOIN gn_commons.v_meta_actions_on_object ma ON ma.uuid_attached_row = s.uuid_base_site
+     JOIN gn_monitoring.cor_site_module csa ON s.id_base_site = csa.id_base_site AND csa.id_module = (( SELECT m.id_module
+           FROM gn_commons.t_modules m
+          WHERE m.module_code = 'SUIVI_CHIRO'::text))
      LEFT JOIN monitoring_chiro.t_site_infos c ON c.id_base_site = s.id_base_site
      LEFT JOIN utilisateurs.t_roles obr ON obr.id_role = s.id_inventor
      LEFT JOIN ref_nomenclatures.t_nomenclatures l ON l.id_nomenclature = s.id_nomenclature_type_site
   ORDER BY s.id_base_site DESC;
-
-
 
 
 CREATE OR REPLACE VIEW monitoring_chiro.v_inventaires_chiro AS

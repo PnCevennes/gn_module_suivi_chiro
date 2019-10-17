@@ -1,6 +1,7 @@
 package_format_version = '1'
-module_name = 'suivi_chiro'
+module_code = 'SUIVI_CHIRO'
 module_version = '1.0.0'
 min_geonature_version = '2.0.0'
 max_geonature_version = '2.0.0'
 exclude_geonature_versions = [ '2.0.1', '2.0.3' ]
+
