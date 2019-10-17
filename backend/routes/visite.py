@@ -72,7 +72,6 @@ def get_one_visite_chiro(id_base_visit):
 def create_or_update_visite_chiro(id_visite=None):
     db_sess = DB.session
     data = request.get_json()
-    print(data)
 
     # creation de base visite
     if not id_visite:

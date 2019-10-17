@@ -106,14 +106,10 @@ class GNMonitoringSiteRepository:
                 model = self.session.query(TBaseSites).get(base_site_id)
 
             # gestion de la géometrie
-            print(data)
             for field in data:
                 if hasattr(model, field):
                     setattr(model, field, data[field])
 
-
-
-            print(model)
             self.session.flush()  # génération de l'id de site
 
             # insertion id application
