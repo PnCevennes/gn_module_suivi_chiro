@@ -1,0 +1,8 @@
+# Fichier listant les paramètres du module et leurs valeurs par défaut
+
+# Paramètres créés automatiquement au moment de l'installation du module
+
+api_url = '/suivi_chiro'
+id_application = 101
+
+# Paramètres du module
