@@ -119,6 +119,8 @@ name = "Informations"
             type = "select"
             regne = "Animalia"
             group2_inpn = "Mammifères"
+            default = "1"
+
 
         [[groups.fields.fields]]
             name = "id_nomenclature_sex"
@@ -127,13 +129,16 @@ name = "Informations"
             type = "select"
             regne = "Animalia"
             group2_inpn = "Mammifères"
+            default = "1"
 
         [[groups.fields.fields]]
             name = "count_min"
             label = "Nb min"
             type = "string"
+            default = "1"
 
         [[groups.fields.fields]]
             name = "count_max"
             label = "Nb max"
             type = "string"
+            default = "1"
