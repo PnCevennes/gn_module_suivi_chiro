@@ -56,8 +56,8 @@ def gnmodule_install_app(gn_db, gn_app):
 
         # Ajout de l'application en tant que module du frontend
 
-        if not os.path.exists(config_path / 'suivis'):
-            os.makedirs(config_path / 'suivis')
+        if not os.path.exists(os.path.join(str(config_path), 'suivis')):
+            os.makedirs(os.path.join(str(config_path), 'suivis'))
 
         suivi_app_file_dir = Path(
             gn_app.config.get('BASE_DIR') + gn_app.static_url_path,
