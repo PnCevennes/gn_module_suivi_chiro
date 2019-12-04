@@ -13,10 +13,16 @@ voc_util = {
         "indetermine": "1",
         "femelle": "2",
         "male": "3"
+    },
+    "OBJ_DENBR": {
+        "individu": "IND"
+    },
+    "TYP_DENBR": {
+        "Compté": "Co"
     }
 }
 
-COR_COUNTING_VALUE={}
+COR_COUNTING_VALUE = {}
 
 for cd_type in voc_util:
     for k, cd_term in voc_util[cd_type].items():

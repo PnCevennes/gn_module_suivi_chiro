@@ -10,8 +10,8 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_sites_chiro AS
     s.first_use_date,
     s.id_inventor,
     (((obr.nom_role::text || ' '::text) || obr.prenom_role::text))::character varying(255) AS nom_observateur,
-    ma.meta_create_date,
-    ma.meta_update_date,
+    s.meta_create_date,
+    s.meta_update_date,
     NULL::character varying AS ref_commune,
     s.geom,
     s.id_nomenclature_type_site,
@@ -36,7 +36,6 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_sites_chiro AS
           WHERE v.id_base_site = s.id_base_site) AS nb_obs,
     ((('<h4><a href="#/suivi_chiro/site/'::text || s.id_base_site) || '">'::text) || s.base_site_name::text) || '</a></h4>'::character varying(500)::text AS geom_popup
    FROM gn_monitoring.t_base_sites s
-     JOIN gn_commons.v_meta_actions_on_object ma ON ma.uuid_attached_row = s.uuid_base_site
      JOIN gn_monitoring.cor_site_module csa ON s.id_base_site = csa.id_base_site AND csa.id_module = (( SELECT m.id_module
            FROM gn_commons.t_modules m
           WHERE m.module_code = 'SUIVI_CHIRO'::text))
@@ -52,13 +51,14 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_inventaires_chiro AS
     cco.geom,
     obs.visit_date_min,
     obs.comments,
-    ma.meta_create_date,
-    ma.meta_update_date,
+    obs.meta_create_date,
+    obs.meta_update_date,
     NULL::text AS ref_commune, --TODO
     (upper(num.nom_role::text) || ' '::text) || num.prenom_role::text AS numerisateur,
     cco.temperature,
     cco.humidite,
     cco.id_nomenclature_mod_id,
+    obr.observers,
     ( SELECT count(*) AS count
            FROM monitoring_chiro.t_visite_contact_taxons a
           WHERE a.id_base_visit = obs.id_base_visit) AS nb_taxons,
@@ -68,15 +68,19 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_inventaires_chiro AS
           WHERE a.id_base_visit = obs.id_base_visit) AS abondance,
    '<h4><a href="#/suivi_chiro/inventaire/' || obs.id_base_visit || '">' || obs.visit_date_min::text ||  '</a></h4>'  AS geom_popup
    FROM gn_monitoring.t_base_visits obs
-     JOIN gn_commons.v_meta_actions_on_object ma ON ma.uuid_attached_row = obs.uuid_base_visit
      JOIN monitoring_chiro.t_visite_conditions cco ON cco.id_base_visit = obs.id_base_visit
      LEFT JOIN utilisateurs.t_roles num ON num.id_role = obs.id_digitiser
+     LEFT JOIN LATERAL (
+        SELECT array_agg(CONCAT(nom_role, ' ', prenom_role)) as observers as observers
+        FROM  gn_monitoring.cor_visit_observer crole
+        JOIN utilisateurs.t_roles r ON crole.id_role = r.id_role
+        WHERE crole.id_base_visit = obs.id_base_visit
+     ) obr ON true
   WHERE obs.id_base_site IS NULL
   ORDER BY obs.visit_date_min DESC;
 
 
 --- chiro.vue_chiro_obs
-
 CREATE OR REPLACE VIEW monitoring_chiro.v_visites_chiro AS
  SELECT obs.id_base_visit AS id,
     obs.id_base_visit,
@@ -85,14 +89,15 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_visites_chiro AS
     s.geom,
     obs.visit_date_min,
     obs.comments,
-    ma.meta_create_date,
-    ma.meta_update_date,
+    obs.meta_create_date,
+    obs.meta_update_date,
     obs.id_digitiser,
     (upper(num.nom_role::text) || ' '::text) || num.prenom_role::text AS numerisateur,
     NULL::text AS ref_commune,
     cco.temperature,
     cco.humidite,
     cco.id_nomenclature_mod_id,
+    observers,
     ( SELECT count(*) AS count
            FROM monitoring_chiro.t_visite_contact_taxons a
           WHERE a.id_base_visit = obs.id_base_visit) AS nb_taxons,
@@ -101,14 +106,16 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_visites_chiro AS
              JOIN monitoring_chiro.cor_counting_contact c ON a.id_contact_taxon = c.id_contact_taxon
           WHERE a.id_base_visit = obs.id_base_visit) AS abondance
    FROM gn_monitoring.t_base_visits obs
-   JOIN gn_commons.v_meta_actions_on_object ma ON ma.uuid_attached_row = obs.uuid_base_visit
      JOIN monitoring_chiro.t_visite_conditions cco ON cco.id_base_visit = obs.id_base_visit
      JOIN gn_monitoring.t_base_sites s ON s.id_base_site = obs.id_base_site
      LEFT JOIN utilisateurs.t_roles num ON num.id_role = obs.id_digitiser
+     LEFT JOIN LATERAL (
+        SELECT array_agg(CONCAT(nom_role, ' ', prenom_role)) as observers
+        FROM  gn_monitoring.cor_visit_observer crole
+        JOIN utilisateurs.t_roles r ON crole.id_role = r.id_role
+        WHERE crole.id_base_visit = obs.id_base_visit
+     ) obr ON true
   ORDER BY obs.visit_date_min DESC;
-
-
-
 
 CREATE OR REPLACE VIEW monitoring_chiro.v_obs_taxons AS
 SELECT

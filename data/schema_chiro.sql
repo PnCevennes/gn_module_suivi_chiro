@@ -1,3 +1,4 @@
+DROP SCHEMA  IF EXISTS monitoring_chiro CASCADE;
 CREATE SCHEMA monitoring_chiro;
 
 CREATE TABLE monitoring_chiro.cor_contact_taxons_nomenclature_indices (
@@ -18,8 +19,6 @@ CREATE TABLE monitoring_chiro.cor_counting_contact (
     count_max integer,
     validation_comment text,
     unique_id_sinp uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    db_suivi_id integer,
-    app character varying,
     CONSTRAINT check_cor_counting_contact_count_max CHECK (((count_max >= count_min) AND (count_max > 0))),
     CONSTRAINT check_cor_counting_contact_count_min CHECK ((count_min > 0))
 );
@@ -74,8 +73,6 @@ CREATE TABLE monitoring_chiro.t_contact_taxon_biometries (
     oreille double precision,
     commentaire character varying(1000),
     id_digitiser integer,
-    db_suivi_id integer,
-    app character varying,
     uuid_chiro_biometrie uuid DEFAULT public.uuid_generate_v4()
 );
 
@@ -117,8 +114,6 @@ CREATE TABLE monitoring_chiro.t_visite_conditions (
     temperature numeric(4,2),
     humidite numeric(4,2),
     id_nomenclature_mod_id integer,
-    db_suivi_id integer,
-    app character varying,
     uuid_chiro_visite_conditions uuid DEFAULT public.uuid_generate_v4(),
     CONSTRAINT enforce_dims_geom CHECK ((public.st_ndims(geom) = 2)),
     CONSTRAINT enforce_srid_geom CHECK ((public.st_srid(geom) = 4326))
@@ -134,11 +129,10 @@ CREATE TABLE monitoring_chiro.t_visite_contact_taxons (
     espece_incertaine boolean DEFAULT false NOT NULL,
     id_nomenclature_preuve_repro integer,
     id_nomenclature_activite integer,
+    id_nomenclature_etat_bio integer,
     indices_cmt character varying(1000),
     commentaire character varying(1000),
     id_digitiser integer,
-    db_suivi_id integer,
-    app character varying,
     uuid_chiro_visite_contact_taxon uuid DEFAULT public.uuid_generate_v4()
 );
 
@@ -168,6 +162,15 @@ ALTER TABLE monitoring_chiro.cor_counting_contact
 
 ALTER TABLE monitoring_chiro.t_contact_taxon_biometries
     ADD CONSTRAINT check_cor_counting_contact_life_stage CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_life_stage, 'STADE_VIE')) NOT VALID;
+
+ALTER TABLE monitoring_chiro.t_visite_contact_taxons
+    ADD CONSTRAINT check_t_visite_contact_taxons_etat_bio CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_etat_bio, 'ETA_BIO')) NOT VALID;
+
+ALTER TABLE monitoring_chiro.t_visite_contact_taxons
+    ADD CONSTRAINT check_t_visite_contact_taxons_preuve_repro CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_preuve_repro, 'CHI_REPRO')) NOT VALID;
+
+ALTER TABLE monitoring_chiro.t_visite_contact_taxons
+    ADD CONSTRAINT check_t_visite_contact_taxons_activite CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_activite, 'CHI_ACTIVITE')) NOT VALID;
 
 
 ALTER TABLE monitoring_chiro.cor_counting_contact

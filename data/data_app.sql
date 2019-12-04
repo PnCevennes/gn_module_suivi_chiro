@@ -4,9 +4,6 @@
 -- ###########################
 
 INSERT INTO utilisateurs.t_applications(nom_application, desc_application, code_application)
-VALUES('suivi', 'Méta application concernant les protocoles de suivis', 'qsdqsdqsd');
-
-INSERT INTO utilisateurs.t_applications(nom_application, desc_application, code_application)
 SELECT 'suivi', 'Méta application concernant les protocoles de suivis', 'SUIVIS'
 WHERE
     NOT EXISTS (

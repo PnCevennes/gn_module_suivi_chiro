@@ -46,13 +46,19 @@ subSchemaAdd = 3
 
     [[groups.fields]]
         name = "id_nomenclature_activite"
-        thesaurus_code_type = "STATUT_BIO"
+        thesaurus_code_type = "CHI_ACTIVITE"
         type = "select"
-        label = "Activité"
+        label = "Statut biologique"
+
+    [[groups.fields]]
+        name = "id_nomenclature_eta_bio"
+        thesaurus_code_type = "ETA_BIO"
+        type = "select"
+        label = "Etat biologique"
 
     [[groups.fields]]
         name = "id_nomenclature_preuve_repro"
-        thesaurus_code_type = "STATUT_BIO"
+        thesaurus_code_type = "CHI_REPRO"
         type = "select"
         label = "Preuves de reproduction"
 

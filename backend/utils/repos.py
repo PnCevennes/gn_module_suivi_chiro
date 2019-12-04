@@ -28,7 +28,6 @@ from ..models import COR_COUNTING_VALUE
 from ..utils.relations import get_updated_relations
 
 
-
 class InvalidBaseSiteData(Exception):
     pass
 
@@ -208,7 +207,9 @@ class GNMonitoringContactTaxon():
                     'id_nomenclature_life_stage': self.cor_counting_life_stage[live_stage],
                     'id_nomenclature_sex': self.cor_counting_sex[sex],
                     'count_min': self.data[key],
-                    'count_max': self.data[key]
+                    'count_max': self.data[key],
+                    'id_nomenclature_obj_count': COR_COUNTING_VALUE["OBJ_DENBR"]["individu"],
+                    'id_nomenclature_type_count': COR_COUNTING_VALUE["TYP_DENBR"]["Compté"]
                 }
                 denombrements.append(denombrement)
 
@@ -226,7 +227,6 @@ class GNMonitoringContactTaxon():
         if 'indices' in data_occ:
             data_occ.pop('indices')
         contact_taxon = ContactTaxon(**data_occ)
-
 
         if 'indices' in self.data:
             indices = [rel for rel in get_updated_relations(
@@ -267,6 +267,7 @@ class GNMonitoringContactTaxon():
             )
 
         return contact_taxon
+
 
 def attach_uuid_to_medium(medium, uuid_attached_row):
     '''

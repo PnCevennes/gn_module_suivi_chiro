@@ -73,7 +73,7 @@ def get_one_site_chiro(id_site):
             basesite = DB.session.query(TBaseSites).filter_by(
                 id_base_site=id_site
             ).filter(
-                TBaseSites.applications.any(
+                TBaseSites.modules.any(
                     corSiteModule.c.id_module == ID_MODULE
                 )
             ).one()

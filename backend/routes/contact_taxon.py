@@ -120,7 +120,9 @@ def create_many_contact_taxon_chiro():
     if __taxons__:
         for contact in __taxons__:
             contact['id_base_visit'] = id_base_visit
-            data = GNMonitoringContactTaxon(db_sess, contact, True).handle_write()
+            data = GNMonitoringContactTaxon(
+                db_sess, contact, True
+            ).handle_write()
             ids.append(data.id_contact_taxon)
     return {"ids": ids}
 

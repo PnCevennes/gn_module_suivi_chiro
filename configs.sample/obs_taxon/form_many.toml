@@ -34,23 +34,33 @@
     label = "Espece incertaine"
 
 [[fields]]
-    thesaurus_code_type = "STATUT_BIO"
-    label = "Activité"
-    name = "id_nomenclature_activite"
+    thesaurus_code_type = "ETA_BIO"
+    label = "Etat bio"
+    name = "id_nomenclature_eta_bio"
     type = "select"
     regne = "Animalia"
     group2_inpn = "Mammifères"
+    default = "1"
     [fields.options]
         nullable = true
 
 [[fields]]
-    thesaurus_code_type = "STATUT_BIO"
+    thesaurus_code_type = "CHI_ACTIVITE"
+    label = "Statut bio"
+    name = "id_nomenclature_activite"
+    type = "select"
+    regne = "Animalia"
+    group2_inpn = "Mammifères"
+    default = "1"
+    [fields.options]
+        nullable = true
+
+[[fields]]
+    thesaurus_code_type = "CHI_REPRO"
     default = "0"
     label = "Preuves de reproduction"
     name = "id_nomenclature_preuve_repro"
     type = "select"
-    regne = "Animalia"
-    group2_inpn = "Mammifères"
     [fields.options]
         nullable = true
 
@@ -88,7 +98,6 @@
     type = "num"
     [fields.options]
         min = 0
-
 
 [[fields]]
     label = "Indeterminés juvéniles"
