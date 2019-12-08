@@ -7,20 +7,17 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from flask import Blueprint, request, current_app
 
-from geonature.utils.env import DB, get_module_id
+from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp
 
 from geonature.core.gn_monitoring.models import TBaseVisits
 from .models.models import InfoSite, ContactTaxon, Biometrie
 
-try:
-    ID_MODULE = get_module_id('suivi_chiro')
-except Exception as e:
-    # @TODO gérer erreur lors de l'installation
-    ID_MODULE = -1
-
-
 blueprint = Blueprint('gn_module_suivi_chiro', __name__)
+
+ID_MODULE = current_app.config.get('SUIVI_CHIRO', {}).get('ID_MODULE')
+# CODE_MODULE = blueprint.config['MODULE_CODE']
+
 
 def base_breadcrumb(type):
     if type == 'site':

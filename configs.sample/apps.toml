@@ -1,8 +1,7 @@
 [[app]]
-    id = 1
     name = "Chiroptères"
     base_url = "suivi_chiro/site"
-    appId = "suivi_chiro"
+    appId = "SUIVI_CHIRO"
     img = "img/chiro.png"
 
     [[app.menu]]

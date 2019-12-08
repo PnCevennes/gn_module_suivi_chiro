@@ -55,24 +55,33 @@ name = "Informations"
         label = "Description indices"
 
     [[groups.fields]]
-        thesaurus_code_type = "STATUT_BIO"
-        label = "Activité"
-        name = "id_nomenclature_activite"
+        thesaurus_code_type = "ETA_BIO"
+        label = "Etat bio"
+        name = "id_nomenclature_eta_bio"
         type = "select"
         regne = "Animalia"
         group2_inpn = "Mammifères"
-
+        default = "1"
         [groups.fields.options]
             nullable = true
 
     [[groups.fields]]
-        thesaurus_code_type = "STATUT_BIO"
-        default = 0
-        label = "Preuves de reproduction"
-        name = "id_nomenclature_preuve_repro"
+        thesaurus_code_type = "CHI_ACTIVITE"
+        label = "Statut biologique"
+        name = "id_nomenclature_activite"
         type = "select"
         regne = "Animalia"
         group2_inpn = "Mammifères"
+        default = "1"
+        [groups.fields.options]
+            nullable = true
+
+    [[groups.fields]]
+        thesaurus_code_type = "CHI_REPRO"
+        default = "0"
+        label = "Preuves de reproduction"
+        name = "id_nomenclature_preuve_repro"
+        type = "select"
         [groups.fields.options]
             nullable = true
 
@@ -119,6 +128,7 @@ name = "Informations"
             type = "select"
             regne = "Animalia"
             group2_inpn = "Mammifères"
+            default = "1"
 
         [[groups.fields.fields]]
             name = "id_nomenclature_sex"
@@ -127,13 +137,34 @@ name = "Informations"
             type = "select"
             regne = "Animalia"
             group2_inpn = "Mammifères"
+            default = "1"
+
+        [[groups.fields.fields]]
+            name = "id_nomenclature_type_count"
+            label = "Type de dénombrement"
+            thesaurus_code_type = "TYP_DENBR"
+            type = "select"
+            regne = "Animalia"
+            group2_inpn = "Mammifères"
+            default = "Co"
+
+        [[groups.fields.fields]]
+            name = "id_nomenclature_obj_count"
+            label = "Objet du dénombrement"
+            thesaurus_code_type = "OBJ_DENBR"
+            type = "select"
+            regne = "Animalia"
+            group2_inpn = "Mammifères"
+            default = "IND"
 
         [[groups.fields.fields]]
             name = "count_min"
             label = "Nb min"
             type = "string"
+            default = "1"
 
         [[groups.fields.fields]]
             name = "count_max"
             label = "Nb max"
             type = "string"
+            default = "1"

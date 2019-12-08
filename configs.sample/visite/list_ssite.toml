@@ -39,10 +39,10 @@ title = "Inventaire"
         primary = true
 
 [[fields]]
-    name = "observateurs"
+    name = "observers"
     label = "Observateurs"
     [fields.filter]
-        observateurs = "text"
+        observers = "text"
     [fields.options]
         visible = true
         type = "list"

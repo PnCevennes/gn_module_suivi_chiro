@@ -7,8 +7,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
-
-from pypnusershub import routes as fnauth
+from geonature.core.gn_permissions import decorators as permissions
 
 from ..blueprint import blueprint
 from ..models.models import Biometrie
@@ -21,7 +20,7 @@ def _format_biometrie_data(data):
 
 
 @blueprint.route('/biometries/<id_contact_taxon>', methods=['GET'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp
 def get_biometries_chiro(id_contact_taxon):
     '''
@@ -41,7 +40,7 @@ def get_biometries_chiro(id_contact_taxon):
 
 
 @blueprint.route('/biometrie/<id_biometrie>', methods=['GET'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp
 def get_one_biometrie_chiro(id_biometrie):
     '''
@@ -53,7 +52,7 @@ def get_one_biometrie_chiro(id_biometrie):
 
 @blueprint.route('/biometrie', methods=['POST', 'PUT'])
 @blueprint.route('/biometrie/<id_biometrie>', methods=['POST', 'PUT'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("C", False, module_code="SUIVI_CHIRO")
 @json_resp
 def create_or_update_biometrie_chiro(id_biometrie=None):
     '''
@@ -83,7 +82,7 @@ def create_or_update_biometrie_chiro(id_biometrie=None):
 
 
 @blueprint.route('/biometrie/<id_biometrie>', methods=['DELETE'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("D", False, module_code="SUIVI_CHIRO")
 @json_resp
 def delete_biometrie_chiro(id_biometrie):
     '''

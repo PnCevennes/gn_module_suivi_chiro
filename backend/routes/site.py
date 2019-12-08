@@ -6,13 +6,15 @@ import geojson
 
 from flask import request
 from sqlalchemy.orm.exc import NoResultFound
-from shapely.geometry import Point
+from shapely.geometry import Point, asShape
 from geoalchemy2.shape import to_shape, from_shape
 
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
-from geonature.core.gn_monitoring.models import TBaseSites, corSiteApplication
+from geonature.core.gn_permissions import decorators as permissions
+
+from geonature.core.gn_monitoring.models import TBaseSites, corSiteModule
 from geonature.core.gn_commons.repositories import (
     TMediumRepository
 )
@@ -35,7 +37,7 @@ from ..utils.relations import get_updated_relations
 
 
 @blueprint.route('/sites', methods=['GET'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp
 def get_sites_chiro():
     '''
@@ -55,7 +57,7 @@ def get_sites_chiro():
 
 
 @blueprint.route('/site/<id_site>', methods=['GET'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp
 def get_one_site_chiro(id_site):
     '''
@@ -71,8 +73,8 @@ def get_one_site_chiro(id_site):
             basesite = DB.session.query(TBaseSites).filter_by(
                 id_base_site=id_site
             ).filter(
-                TBaseSites.applications.any(
-                    corSiteApplication.c.id_application == ID_MODULE
+                TBaseSites.modules.any(
+                    corSiteModule.c.id_module == ID_MODULE
                 )
             ).one()
             result = InfoSite()
@@ -85,7 +87,7 @@ def get_one_site_chiro(id_site):
 
 @blueprint.route('/site', defaults={'id_site': None}, methods=['POST', 'PUT'])
 @blueprint.route('/site/<id_site>', methods=['POST', 'PUT'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("C", False, module_code="SUIVI_CHIRO")
 @json_resp
 def create_or_update_site_chiro(id_site=None):
     '''
@@ -151,7 +153,7 @@ def create_or_update_site_chiro(id_site=None):
 
 
 @blueprint.route('/site/<id_site>', methods=['DELETE'])
-@fnauth.check_auth(5)
+@permissions.check_cruved_scope("D", False, module_code="SUIVI_CHIRO")
 @json_resp
 def delete_site_chiro(id_site):
     '''

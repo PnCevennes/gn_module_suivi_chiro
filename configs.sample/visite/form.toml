@@ -68,12 +68,10 @@ subSchemaAdd = "2"
 
 [[groups.fields]]
     name = "id_nomenclature_mod_id"
-    thesaurus_code_type = "METHO_RECUEIL"
+    thesaurus_code_type = "CHI_TECHNIQUE_OBS"
     type = "select"
-    default = "1"
+    default = "133"
     label = "Mode d'observation"
-    regne = "Animalia"
-    group2_inpn = "Mammifères"
 
 [[groups.fields]]
     name = "comments"

@@ -8,13 +8,15 @@ des entités gn_monitoring
 from sqlalchemy import and_
 
 from geonature.core.gn_monitoring.models import (
-    TBaseSites, corSiteApplication, TBaseVisits
+    TBaseSites, corSiteModule, TBaseVisits
 )
 
 from geonature.core.gn_commons.repositories import (
     TMediaRepository
 )
-from geonature.core.users.models import TRoles
+# from geonature.core.users.models import TRoles
+
+from pypnusershub.db.models import User
 
 from ..models.models import (
     CountingContact,
@@ -24,7 +26,6 @@ from ..models.models import (
 from ..models import COR_COUNTING_VALUE
 
 from ..utils.relations import get_updated_relations
-
 
 
 class InvalidBaseSiteData(Exception):
@@ -52,8 +53,8 @@ class GNMonitoringVisiteRepository:
         try:
 
             if "observers" in data:
-                observers = self.session.query(TRoles).\
-                    filter(TRoles.id_role.in_(data['observers'])).all()
+                observers = self.session.query(User).\
+                    filter(User.id_role.in_(data['observers'])).all()
 
             if observers:
                 data['observers'] = observers
@@ -103,6 +104,7 @@ class GNMonitoringSiteRepository:
                 data['id_base_site'] = base_site_id
                 model = self.session.query(TBaseSites).get(base_site_id)
 
+            # gestion de la géometrie
             for field in data:
                 if hasattr(model, field):
                     setattr(model, field, data[field])
@@ -110,13 +112,13 @@ class GNMonitoringSiteRepository:
             self.session.flush()  # génération de l'id de site
 
             # insertion id application
-            app = self.session.query(corSiteApplication).filter(and_(
-                corSiteApplication.c.id_base_site == model.id_base_site,
-                corSiteApplication.c.id_application == self.id_app)
+            app = self.session.query(corSiteModule).filter(and_(
+                corSiteModule.c.id_base_site == model.id_base_site,
+                corSiteModule.c.id_module == self.id_app)
             ).all()
             if not len(app):
-                stmt = corSiteApplication.insert().values(
-                    id_base_site=model.id_base_site, id_application=self.id_app
+                stmt = corSiteModule.insert().values(
+                    id_base_site=model.id_base_site, id_module=self.id_app
                 )
                 self.session.execute(stmt)
 
@@ -135,8 +137,8 @@ class GNMonitoringSiteRepository:
         '''
 
         # 1 vérifier que le site n'existe pas pour plusieurs applications
-        apps = self.session.query(corSiteApplication).filter(
-            corSiteApplication.c.id_base_site == base_site_id
+        apps = self.session.query(corSiteModule).filter(
+            corSiteModule.c.id_base_site == base_site_id
         ).all()
         nb_apps = len(apps)
         if nb_apps == 0:
@@ -144,14 +146,13 @@ class GNMonitoringSiteRepository:
             raise InvalidBaseSiteData()
 
         # 2 : rompre le lien site <-> application
-        print(apps)
         cur_link = list(filter(lambda x: x[1] == self.id_app, apps))
         if not len(cur_link):
             # site non référencé pour l'application
             raise InvalidBaseSiteData()
-        stmt = (corSiteApplication.delete()
-                .where(corSiteApplication.c.id_application == self.id_app)
-                .where(corSiteApplication.c.id_base_site == base_site_id))
+        stmt = (corSiteModule.delete()
+                .where(corSiteModule.c.id_module == self.id_app)
+                .where(corSiteModule.c.id_base_site == base_site_id))
         self.session.execute(stmt)
 
         # si le site n'existe pas pour une autre application :
@@ -206,7 +207,9 @@ class GNMonitoringContactTaxon():
                     'id_nomenclature_life_stage': self.cor_counting_life_stage[live_stage],
                     'id_nomenclature_sex': self.cor_counting_sex[sex],
                     'count_min': self.data[key],
-                    'count_max': self.data[key]
+                    'count_max': self.data[key],
+                    'id_nomenclature_obj_count': COR_COUNTING_VALUE["OBJ_DENBR"]["individu"],
+                    'id_nomenclature_type_count': COR_COUNTING_VALUE["TYP_DENBR"]["Compté"]
                 }
                 denombrements.append(denombrement)
 
@@ -224,7 +227,6 @@ class GNMonitoringContactTaxon():
         if 'indices' in data_occ:
             data_occ.pop('indices')
         contact_taxon = ContactTaxon(**data_occ)
-
 
         if 'indices' in self.data:
             indices = [rel for rel in get_updated_relations(
@@ -265,6 +267,7 @@ class GNMonitoringContactTaxon():
             )
 
         return contact_taxon
+
 
 def attach_uuid_to_medium(medium, uuid_attached_row):
     '''

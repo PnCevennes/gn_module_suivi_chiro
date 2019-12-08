@@ -8,6 +8,8 @@ from sqlalchemy.orm.exc import NoResultFound
 from geonature.utils.env import DB
 from geonature.utils.utilssqlalchemy import json_resp, GenericQuery
 
+from geonature.core.gn_permissions import decorators as permissions
+
 from geonature.core.gn_monitoring.models import TBaseVisits
 
 from pypnusershub import routes as fnauth
@@ -31,7 +33,7 @@ def _format_visite_data(data):
 
 
 @blueprint.route('/visites/<id_base_site>', methods=['GET'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp
 def get_all_visites_chiro(id_base_site):
 
@@ -48,7 +50,7 @@ def get_all_visites_chiro(id_base_site):
 
 
 @blueprint.route('/visite/<id_base_visit>', methods=['GET'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp
 def get_one_visite_chiro(id_base_visit):
     try:
@@ -65,12 +67,11 @@ def get_one_visite_chiro(id_base_visit):
 
 @blueprint.route('/visite', defaults={'id_visite': None}, methods=['POST', 'PUT'])
 @blueprint.route('/visite/<id_visite>', methods=['POST', 'PUT'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp
 def create_or_update_visite_chiro(id_visite=None):
     db_sess = DB.session
     data = request.get_json()
-    print(data)
 
     # creation de base visite
     if not id_visite:
@@ -116,7 +117,7 @@ def create_or_update_visite_chiro(id_visite=None):
 
 
 @blueprint.route('/visite/<id_visite>', methods=['DELETE'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp
 def delete_visite_chiro(id_visite):
     '''
@@ -143,7 +144,7 @@ def delete_visite_chiro(id_visite):
 
 
 @blueprint.route('/inventaires', methods=['GET'])
-@fnauth.check_auth(3)
+@permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp
 def get_all_inventaires_chiro():
     data = GenericQuery(

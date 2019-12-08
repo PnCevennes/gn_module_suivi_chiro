@@ -18,7 +18,7 @@ def gnmodule_install_app(gn_db, gn_app):
 
         subprocess.call(
             [
-                str(ROOT_DIR / 'install_db.sh'), 
+                str(ROOT_DIR / 'install_db.sh'),
                 str(Path(gn_app.config['BASE_DIR']).parent)
             ],
             cwd=str(gn_app.config['BASE_DIR'])
@@ -27,6 +27,11 @@ def gnmodule_install_app(gn_db, gn_app):
         # Création des liens symboliques pour la configuration
         try :
             config_path = Path(gn_app.config['BASE_DIR']) / 'static/configs'
+
+
+            if not os.path.exists(config_path):
+                os.makedirs(config_path)
+
             try:
                 shutil.copytree(
                     str(ROOT_DIR / 'configs.sample'),
@@ -48,16 +53,20 @@ def gnmodule_install_app(gn_db, gn_app):
         except Exception as e:
             print(e)
 
-        
+
         # Ajout de l'application en tant que module du frontend
+
+        if not os.path.exists(os.path.join(str(config_path), 'suivis')):
+            os.makedirs(os.path.join(str(config_path), 'suivis'))
+
         suivi_app_file_dir = Path(
-            gn_app.config.get('BASE_DIR') + gn_app.static_url_path, 
-            'configs/suivis', 
+            gn_app.config.get('BASE_DIR') + gn_app.static_url_path,
+            'configs/suivis',
             'apps.toml'
         )
 
         with open(str(ROOT_DIR / 'configs/apps.toml')) as config_chiro:
-            with open(str(suivi_app_file_dir), "w") as suivi_app_file:
+            with open(str(suivi_app_file_dir), "w+") as suivi_app_file:
                 suivi_app_file.write("\n\n")
                 suivi_app_file.writelines(config_chiro)
             suivi_app_file.close()
