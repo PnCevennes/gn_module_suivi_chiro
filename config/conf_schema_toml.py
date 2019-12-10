@@ -8,5 +8,6 @@ from marshmallow import Schema, fields
 
 
 class GnModuleSchemaConf(Schema):
-    pass
+   id_dataset_suivis = fields.Integer()
+   id_dataset_inventaires = fields.Integer()
 

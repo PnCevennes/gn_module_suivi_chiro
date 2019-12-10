@@ -5,4 +5,10 @@
 api_url = '/suivi_chiro'
 id_application = 101
 
+#####################################
 # Paramètres du module
+#####################################
+# Identifiant du dataset des suivis chiro
+id_dataset_suivis=90
+# Identifiant du dataset des inventaires chiro
+id_dataset_inventaires=91

@@ -5,6 +5,7 @@ des entités gn_monitoring
 À déplacer à terme dans Geonature/backend/gn_monitoring
 """
 
+from flask import current_app
 from sqlalchemy import and_
 
 from geonature.core.gn_monitoring.models import (
@@ -51,6 +52,8 @@ class GNMonitoringVisiteRepository:
             id_base_visite facultatif (création d'une nouvelle visite)
         '''
         try:
+            id_dataset_inventaires = current_app.config["SUIVI_CHIRO"]["id_dataset_inventaires"]
+            id_dataset_suivis = current_app.config["SUIVI_CHIRO"]["id_dataset_suivis"]
 
             if "observers" in data:
                 observers = self.session.query(User).\
@@ -64,10 +67,21 @@ class GNMonitoringVisiteRepository:
                 self.session.add(model)
             else:
                 model = self.session.query(TBaseVisits).get(id_base_visite)
+                current_app.config["SUIVI_CHIRO"]["id_dataset_suivis"]
 
             for field in data:
                 if hasattr(model, field):
                     setattr(model, field, data[field])
+            if not model.visit_date_max:
+                model.visit_date_max = model.visit_date_min
+
+            # Dataset
+            # TODO pour le moment en dur dans la configuration
+            #   A voir si peut être mis dans les fichiers de configuration
+            if model.id_base_site:
+                model.id_dataset = id_dataset_suivis
+            else:
+                model.id_dataset = id_dataset_inventaires
 
             self.session.flush()  # génération de l'id de la visite
             return model
