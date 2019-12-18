@@ -75,7 +75,6 @@ name = "Informations"
         label = "Activité"
         name = "id_nomenclature_activite"
         type = "select"
-        default = "1"
         [groups.fields.options]
             nullable = true
 

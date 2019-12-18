@@ -48,7 +48,7 @@ subSchemaAdd = 3
         name = "id_nomenclature_activite"
         thesaurus_code_type = "CHI_ACTIVITE"
         type = "select"
-        label = "Statut biologique"
+        label = "Activité"
 
     [[groups.fields]]
         name = "id_nomenclature_eta_bio"
