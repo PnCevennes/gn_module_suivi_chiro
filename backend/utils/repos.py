@@ -52,8 +52,8 @@ class GNMonitoringVisiteRepository:
             id_base_visite facultatif (création d'une nouvelle visite)
         '''
         try:
-            id_dataset_inventaires = current_app.config["SUIVI_CHIRO"]["id_dataset_inventaires"]
-            id_dataset_suivis = current_app.config["SUIVI_CHIRO"]["id_dataset_suivis"]
+            id_dataset_inventaire = current_app.config["SUIVI_CHIRO"]["id_dataset_inventaire"]
+            id_dataset_suivi = current_app.config["SUIVI_CHIRO"]["id_dataset_suivi"]
 
             if "observers" in data:
                 observers = self.session.query(User).\
@@ -67,7 +67,6 @@ class GNMonitoringVisiteRepository:
                 self.session.add(model)
             else:
                 model = self.session.query(TBaseVisits).get(id_base_visite)
-                current_app.config["SUIVI_CHIRO"]["id_dataset_suivis"]
 
             for field in data:
                 if hasattr(model, field):
@@ -79,9 +78,9 @@ class GNMonitoringVisiteRepository:
             # TODO pour le moment en dur dans la configuration
             #   A voir si peut être mis dans les fichiers de configuration
             if model.id_base_site:
-                model.id_dataset = id_dataset_suivis
+                model.id_dataset = id_dataset_suivi
             else:
-                model.id_dataset = id_dataset_inventaires
+                model.id_dataset = id_dataset_inventaire
 
             self.session.flush()  # génération de l'id de la visite
             return model
