@@ -62,6 +62,12 @@ subSchemaAdd = 3
         type = "select"
         label = "Preuves de reproduction"
 
+    [[groups.fields]]
+        name = "id_nomenclature_activite"
+        thesaurus_code_type = "STATUT_OBS"
+        type = "select"
+        label = "Statut de l'observation"
+
     # [[groups.fields]]
     #     help = "Photographies pour identification"
     #     name = "obsTaxonFichiers"

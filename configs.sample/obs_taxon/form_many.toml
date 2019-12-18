@@ -126,3 +126,12 @@
     type = "num"
     [fields.options]
         min = 0
+
+[[fields]]
+    thesaurus_code_type = "STATUT_OBS"
+    default = "Pr"
+    label = "Statut de l'observation"
+    name = "id_nomenclature_observation_status"
+    type = "select"
+    [fields.options]
+        nullable = false

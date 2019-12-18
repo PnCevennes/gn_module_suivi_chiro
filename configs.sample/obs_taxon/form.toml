@@ -42,6 +42,11 @@ name = "Informations"
         label = "Taxon présumé"
 
     [[groups.fields]]
+        name = "espece_incertaine"
+        type = "bool"
+        label = "Espece incertaine"
+
+    [[groups.fields]]
         name = "indices"
         thesaurus_code_type = "METH_OBS"
         type = "multisel"
@@ -67,11 +72,9 @@ name = "Informations"
 
     [[groups.fields]]
         thesaurus_code_type = "CHI_ACTIVITE"
-        label = "Statut biologique"
+        label = "Activité"
         name = "id_nomenclature_activite"
         type = "select"
-        regne = "Animalia"
-        group2_inpn = "Mammifères"
         default = "1"
         [groups.fields.options]
             nullable = true
@@ -86,9 +89,13 @@ name = "Informations"
             nullable = true
 
     [[groups.fields]]
-        name = "espece_incertaine"
-        type = "bool"
-        label = "Espece incertaine"
+        thesaurus_code_type = "STATUT_OBS"
+        default = "Pr"
+        label = "Statut de l'observation"
+        name = "id_nomenclature_observation_status"
+        type = "select"
+        [groups.fields.options]
+            nullable = false
 
     [[groups.fields]]
         help = "Informations complémentaires sur l'observation"

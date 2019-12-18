@@ -130,6 +130,7 @@ CREATE TABLE monitoring_chiro.t_visite_contact_taxons (
     id_nomenclature_preuve_repro integer,
     id_nomenclature_activite integer,
     id_nomenclature_etat_bio integer,
+    id_nomenclature_observation_status integer,
     indices_cmt character varying(1000),
     commentaire character varying(1000),
     id_digitiser integer,
@@ -172,6 +173,9 @@ ALTER TABLE monitoring_chiro.t_visite_contact_taxons
 ALTER TABLE monitoring_chiro.t_visite_contact_taxons
     ADD CONSTRAINT check_t_visite_contact_taxons_activite CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_activite, 'CHI_ACTIVITE')) NOT VALID;
 
+ALTER TABLE monitoring_chiro.t_visite_contact_taxons
+    ADD CONSTRAINT check_t_visite_contact_taxons_obs_status CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_observation_status, 'STATUT_OBS')) NOT VALID,
+
 
 ALTER TABLE monitoring_chiro.cor_counting_contact
     ADD CONSTRAINT check_cor_counting_contact_obj_count CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_obj_count, 'OBJ_DENBR')) NOT VALID;
@@ -185,6 +189,8 @@ ALTER TABLE monitoring_chiro.cor_counting_contact
 
 ALTER TABLE monitoring_chiro.t_contact_taxon_biometries
     ADD CONSTRAINT check_cor_counting_contact_sexe CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_sex, 'SEXE')) NOT VALID;
+
+
 
 -- @TODO Finalize check constraints
 
@@ -219,7 +225,6 @@ ALTER TABLE ONLY monitoring_chiro.t_site_infos
 
 ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons
     ADD CONSTRAINT t_visite_contact_taxons_pkey PRIMARY KEY (id_contact_taxon);
-
 
 ALTER TABLE ONLY monitoring_chiro.cor_visite_area
     ADD CONSTRAINT pk_cor_visite_area PRIMARY KEY (id_base_visit, id_area);
@@ -315,10 +320,13 @@ ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons
 ALTER TABLE monitoring_chiro.t_visite_conditions
   ADD CONSTRAINT t_visite_condition_id_base_visit_fkey FOREIGN KEY (id_base_visit) REFERENCES gn_monitoring.t_base_visits (id_base_visit) ON UPDATE CASCADE ON DELETE CASCADE;
 
-
-
 ALTER TABLE monitoring_chiro.t_visite_contact_taxons
   ADD CONSTRAINT t_visite_contact_taxons_id_base_visit_fkey FOREIGN KEY (id_base_visit) REFERENCES gn_monitoring.t_base_visits (id_base_visit) ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons
+    ADD CONSTRAINT fk_t_visite_contact_taxons_observation_status FOREIGN KEY (id_nomenclature_observation_status)
+      REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE NO ACTION,
 
 
 -- ################### --

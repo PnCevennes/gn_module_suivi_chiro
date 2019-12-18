@@ -113,6 +113,8 @@ class ContactTaxon(DB.Model):
     espece_incertaine = DB.Column(DB.Boolean, default=False)
     id_nomenclature_activite = DB.Column(DB.Integer)
     id_nomenclature_preuve_repro = DB.Column(DB.Integer)
+    id_nomenclature_preuve_repro = DB.Column(DB.Integer)
+    id_nomenclature_observation_status = DB.Column(DB.Integer)
     indices_cmt = DB.Column(DB.Unicode(250))
     commentaire = DB.Column(DB.Unicode(250))
     id_digitiser = DB.Column(DB.Integer)
