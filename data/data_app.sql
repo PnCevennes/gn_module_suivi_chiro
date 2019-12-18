@@ -18,3 +18,6 @@ WHERE
         SELECT id_application FROM utilisateurs.t_applications WHERE code_application = 'SUIVI_CHIRO'
     );
 
+
+INSERT INTO gn_synthese.t_sources(name_source, desc_source, entity_source_pk_field)
+VALUES ('SUIVI_CHIRO', 'Données issues du module de suivis des chiroptères', 'monitoring_chiro.cor_counting_contact.id_counting_contact');

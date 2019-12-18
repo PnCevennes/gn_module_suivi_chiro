@@ -174,8 +174,7 @@ ALTER TABLE monitoring_chiro.t_visite_contact_taxons
     ADD CONSTRAINT check_t_visite_contact_taxons_activite CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_activite, 'CHI_ACTIVITE')) NOT VALID;
 
 ALTER TABLE monitoring_chiro.t_visite_contact_taxons
-    ADD CONSTRAINT check_t_visite_contact_taxons_obs_status CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_observation_status, 'STATUT_OBS')) NOT VALID,
-
+    ADD CONSTRAINT check_t_visite_contact_taxons_obs_status CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_observation_status, 'STATUT_OBS')) NOT VALID;
 
 ALTER TABLE monitoring_chiro.cor_counting_contact
     ADD CONSTRAINT check_cor_counting_contact_obj_count CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_obj_count, 'OBJ_DENBR')) NOT VALID;
@@ -326,7 +325,7 @@ ALTER TABLE monitoring_chiro.t_visite_contact_taxons
 ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons
     ADD CONSTRAINT fk_t_visite_contact_taxons_observation_status FOREIGN KEY (id_nomenclature_observation_status)
       REFERENCES ref_nomenclatures.t_nomenclatures (id_nomenclature) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION,
+      ON UPDATE CASCADE ON DELETE NO ACTION;
 
 
 -- ################### --

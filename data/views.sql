@@ -71,7 +71,7 @@ CREATE OR REPLACE VIEW monitoring_chiro.v_inventaires_chiro AS
      JOIN monitoring_chiro.t_visite_conditions cco ON cco.id_base_visit = obs.id_base_visit
      LEFT JOIN utilisateurs.t_roles num ON num.id_role = obs.id_digitiser
      LEFT JOIN LATERAL (
-        SELECT array_agg(CONCAT(nom_role, ' ', prenom_role)) as observers as observers
+        SELECT array_agg(CONCAT(nom_role, ' ', prenom_role)) as observers
         FROM  gn_monitoring.cor_visit_observer crole
         JOIN utilisateurs.t_roles r ON crole.id_role = r.id_role
         WHERE crole.id_base_visit = obs.id_base_visit

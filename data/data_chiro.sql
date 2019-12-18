@@ -71,7 +71,8 @@ VALUES
 (ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'H','Hivernage','Hivernage','Hivernage','monitoring_chiro','Validation en cours',0,'013.001.002',TRUE),
 (ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'C','Chasse','Chasse','Chasse','monitoring_chiro','Validation en cours',0,'013.001.003',TRUE),
 (ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'D','Déplacement','Déplacement','Déplacement','monitoring_chiro','Validation en cours',0,'013.001.004',TRUE),
-(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'SG','Sortie de gîte','Sortie de gîte','Sortie de gîte','monitoring_chiro','Validation en cours',0,'013.001.005',TRUE)
+(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'SG','Sortie de gîte','Sortie de gîte','Sortie de gîte','monitoring_chiro','Validation en cours',0,'013.001.005',TRUE),
+(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'SW','Swarming','Swarming','Swarming','monitoring_chiro','Validation en cours',0,'013.001.005',TRUE)
 
 ON CONFLICT  ON CONSTRAINT unique_id_type_cd_nomenclature DO NOTHING;
 
