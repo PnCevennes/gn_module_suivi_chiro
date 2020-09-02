@@ -115,7 +115,6 @@ def create_or_update_visite_chiro(id_visite=None):
 
     return _format_visite_data(visite)
 
-
 @blueprint.route('/visite/<id_visite>', methods=['DELETE'])
 @permissions.check_cruved_scope("R", False, module_code="SUIVI_CHIRO")
 @json_resp

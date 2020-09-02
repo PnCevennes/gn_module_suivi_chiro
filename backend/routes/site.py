@@ -130,12 +130,16 @@ def create_or_update_site_chiro(id_site=None):
         db_sess.commit()
         infos_site.base_site = base_site
 
-        # Création des médias
+        # Création des médiasn
         if (data['medium']):
             attach_uuid_to_medium(
                 data['medium'],
                 base_site.uuid_base_site
             )
+
+        # Si modification sync synthese
+        if id_site:
+            base_repo.sync_synthese(base_site.uuid_base_site)
 
         return _format_site_data(infos_site)
     except InvalidBaseSiteData:

@@ -15,6 +15,7 @@ from geonature.core.gn_monitoring.models import (
 from geonature.core.gn_commons.repositories import (
     TMediaRepository
 )
+from geonature.core.gn_synthese.utils.process import import_from_table
 # from geonature.core.users.models import TRoles
 
 from pypnusershub.db.models import User
@@ -28,6 +29,32 @@ from ..models import COR_COUNTING_VALUE
 
 from ..utils.relations import get_updated_relations
 
+
+def process_synthese(schema_name, table_name, field_name, value):
+
+        try:
+            import_from_table(
+                schema_name,
+                table_name,
+                field_name,
+                value
+            )
+        except ValueError as e:
+            # warning
+            log.warning(
+                """Error in module monitoring chiro, process_synthese.
+                Function import_from_table with parameters({}, {}, {}) raises the following error :
+                {}
+                """
+                .format(
+                    table_name,
+                    field_name,
+                    value,
+                    e
+                )
+            )
+
+        return
 
 class InvalidBaseSiteData(Exception):
     pass
@@ -54,7 +81,7 @@ class GNMonitoringVisiteRepository:
         try:
             id_dataset_inventaire = current_app.config["SUIVI_CHIRO"]["id_dataset_inventaire"]
             id_dataset_suivi = current_app.config["SUIVI_CHIRO"]["id_dataset_suivi"]
-
+            id_module = current_app.config.get('SUIVI_CHIRO', {}).get('ID_MODULE')
             if "observers" in data:
                 observers = self.session.query(User).\
                     filter(User.id_role.in_(data['observers'])).all()
@@ -81,7 +108,7 @@ class GNMonitoringVisiteRepository:
                 model.id_dataset = id_dataset_suivi
             else:
                 model.id_dataset = id_dataset_inventaire
-
+            model.id_module = id_module
             self.session.flush()  # génération de l'id de la visite
             return model
         except Exception as e:  # vérifier type erreur
@@ -177,6 +204,14 @@ class GNMonitoringSiteRepository:
 
         # faux si le site est juste déréférencé pour l'application
         return False
+
+    def sync_synthese(self, uuid):
+        process_synthese(
+            'monitoring_chiro',
+            'v_chiro_gn_synthese',
+            'uuid_base_site',
+            uuid
+        )
 
 
 class GNMonitoringContactTaxon():
@@ -278,9 +313,18 @@ class GNMonitoringContactTaxon():
                 self.data['medium'],
                 contact_taxon.uuid_chiro_visite_contact_taxon
             )
+        for ctd in contact_taxon.denombrements:
+            self.sync_synthese(ctd.unique_id_sinp)
 
         return contact_taxon
 
+    def sync_synthese(self, uuid):
+        process_synthese(
+            'monitoring_chiro',
+            'v_chiro_gn_synthese',
+            'unique_id_sinp',
+            uuid
+        )
 
 def attach_uuid_to_medium(medium, uuid_attached_row):
     '''

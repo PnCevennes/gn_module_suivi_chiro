@@ -347,7 +347,19 @@ CREATE TRIGGER tri_log_changes AFTER INSERT OR DELETE OR UPDATE ON monitoring_ch
 
 CREATE TRIGGER tri_log_changes AFTER INSERT OR DELETE OR UPDATE ON monitoring_chiro.cor_counting_contact FOR EACH ROW EXECUTE PROCEDURE gn_commons.fct_trg_log_changes();
 
+CREATE OR REPLACE FUNCTION monitoring_chiro.fct_trg_delete_synthese_cor_counting_contact()
+  RETURNS trigger AS
+$BODY$
+BEGIN
+    --Suppression des données dans la synthèse
+    DELETE FROM gn_synthese.synthese WHERE unique_id_sinp = OLD.unique_id_sinp;
+    RETURN OLD;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
 
+CREATE TRIGGER tri_delete_synthese_cor_counting_contact AFTER DELETE ON monitoring_chiro.cor_counting_contact FOR EACH ROW EXECUTE PROCEDURE monitoring_chiro.fct_trg_delete_synthese_cor_counting_contact();
 
 CREATE OR REPLACE FUNCTION monitoring_chiro.fct_trg_get_nom_complet()
   RETURNS trigger AS
