@@ -17,6 +17,7 @@ SELECT
   v.uuid_base_visit as unique_id_sinp_grp,
   (SELECT id_source FROM source) as id_source,
   ccc.id_counting_contact as entity_source_pk_value,
+  s.uuid_base_site,
   v.id_dataset as id_dataset,
  v.id_module as id_module,
 -- MISSING FIELD id_nomenclature_geo_object_nature,
@@ -28,12 +29,15 @@ vct.id_nomenclature_bio_condition as id_nomenclature_bio_condition,
 -- MISSING FIELD id_nomenclature_naturalness,
 -- MISSING FIELD id_nomenclature_exist_proof,
 -- MISSING FIELD id_nomenclature_diffusion_level,
+CASE
+  WHEN NOT s.uuid_base_site IS NULL THEN sr.id_nomenclature_sensitivity
+  ELSE NULL
+END as id_nomenclature_sensitivity, -- cas des sites => données sensibiles quelque soit le critère
 ccc.id_nomenclature_life_stage,
 ccc.id_nomenclature_sex,
 ccc.id_nomenclature_obj_count,
 ccc.id_nomenclature_type_count,
 vct.id_nomenclature_observation_status,
--- MISSING FIELD id_nomenclature_observation_status,
 -- MISSING FIELD id_nomenclature_blurring,
 -- MISSING FIELD id_nomenclature_source_status,
 -- MISSING FIELD id_nomenclature_info_geo_type,
@@ -77,4 +81,6 @@ LEFT OUTER  JOIN (
 ) obs
 ON obs.id_base_visit = v.id_base_visit
 LEFT OUTER JOIN cor_nom_act_comp cnac
-ON cnac.id_nomenclature_act = vct.id_nomenclature_behaviour ;
+ON cnac.id_nomenclature_act = vct.id_nomenclature_behaviour
+LEFT OUTER JOIN gn_sensitivity.t_sensitivity_rules_cd_ref sr
+ON sr.cd_ref = t.cd_ref;
