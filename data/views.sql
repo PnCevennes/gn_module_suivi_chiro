@@ -127,7 +127,7 @@ ct.cd_nom,
 ct.nom_complet,
 ccc.nb_total_min,
 ccc.nb_total_max
-       /*espece_incertaine, id_nomenclature_preuve_repro, id_nomenclature_activite,
+       /*espece_incertaine, id_nomenclature_preuve_repro, id_nomenclature_behaviour,
        indices_cmt, commentaire, meta_create_date, meta_update_date,
        id_digitiser, db_suivi_id, app*/
 FROM monitoring_chiro.t_visite_contact_taxons ct

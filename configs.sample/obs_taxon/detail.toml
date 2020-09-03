@@ -45,13 +45,13 @@ subSchemaAdd = 3
         label = "Description indices"
 
     [[groups.fields]]
-        name = "id_nomenclature_activite"
+        name = "id_nomenclature_behaviour"
         thesaurus_code_type = "CHI_ACTIVITE"
         type = "select"
         label = "Activité"
 
     [[groups.fields]]
-        name = "id_nomenclature_eta_bio"
+        name = "id_nomenclature_bio_condition"
         thesaurus_code_type = "ETA_BIO"
         type = "select"
         label = "Etat biologique"
@@ -63,7 +63,7 @@ subSchemaAdd = 3
         label = "Preuves de reproduction"
 
     [[groups.fields]]
-        name = "id_nomenclature_activite"
+        name = "id_nomenclature_behaviour"
         thesaurus_code_type = "STATUT_OBS"
         type = "select"
         label = "Statut de l'observation"

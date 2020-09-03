@@ -68,11 +68,11 @@ VALUES
 (ref_nomenclatures.get_id_nomenclature_type('CHI_REPRO'),'RC','Reproduction certaine','Reproduction certaine','Reproduction certaine','monitoring_chiro','Validation en cours',0,'013.001.002',TRUE),
 (ref_nomenclatures.get_id_nomenclature_type('CHI_REPRO'),'RP','Reproduction probable','Reproduction probable','Reproduction probable','monitoring_chiro','Validation en cours',0,'013.001.003',TRUE),
 (ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'T','Transit','Transit','Transit','monitoring_chiro','Validation en cours',0,'013.001.001',TRUE),
-(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'H','Hivernage','Hivernage','Hivernage','monitoring_chiro','Validation en cours',0,'013.001.002',TRUE),
-(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'C','Chasse','Chasse','Chasse','monitoring_chiro','Validation en cours',0,'013.001.003',TRUE),
-(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'D','Déplacement','Déplacement','Déplacement','monitoring_chiro','Validation en cours',0,'013.001.004',TRUE),
+(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'9','Hivernage','Hivernage','Hivernage','monitoring_chiro','Validation en cours',0,'013.001.002',TRUE),
+(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'8','ChassAlim','Chasse/alimentation','Chasse/alimentation','monitoring_chiro','Validation en cours',0,'013.001.003',TRUE),
+(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'16','Déplacement','Déplacement','Déplacement','monitoring_chiro','Validation en cours',0,'013.001.004',TRUE),
 (ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'SG','Sortie de gîte','Sortie de gîte','Sortie de gîte','monitoring_chiro','Validation en cours',0,'013.001.005',TRUE),
-(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'SW','Swarming','Swarming','Swarming','monitoring_chiro','Validation en cours',0,'013.001.005',TRUE)
+(ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE'),'7','Swarming','Swarming','Swarming','monitoring_chiro','Validation en cours',0,'013.001.005',TRUE)
 
 ON CONFLICT  ON CONSTRAINT unique_id_type_cd_nomenclature DO NOTHING;
 

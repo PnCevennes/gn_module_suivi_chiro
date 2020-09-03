@@ -5,6 +5,7 @@ des entités gn_monitoring
 À déplacer à terme dans Geonature/backend/gn_monitoring
 """
 
+import logging
 from flask import current_app
 from sqlalchemy import and_
 
@@ -29,6 +30,8 @@ from ..models import COR_COUNTING_VALUE
 
 from ..utils.relations import get_updated_relations
 
+# get the root logger
+log = logging.getLogger()
 
 def process_synthese(schema_name, table_name, field_name, value):
 
@@ -331,6 +334,10 @@ def attach_uuid_to_medium(medium, uuid_attached_row):
         Fonction permettant de ratacher à posteriori
         une liste de media à une entité
     '''
+    # Si liste vide aucun traitement
+    if not medium:
+        return
+
     for m in medium:
         m['uuid_attached_row'] = uuid_attached_row
         mr = TMediaRepository(data=m, id_media=m['id_media'])

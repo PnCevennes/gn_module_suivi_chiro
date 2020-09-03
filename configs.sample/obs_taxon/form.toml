@@ -62,7 +62,7 @@ name = "Informations"
     [[groups.fields]]
         thesaurus_code_type = "ETA_BIO"
         label = "Etat bio"
-        name = "id_nomenclature_eta_bio"
+        name = "id_nomenclature_bio_condition"
         type = "select"
         regne = "Animalia"
         group2_inpn = "Mammifères"
@@ -73,7 +73,7 @@ name = "Informations"
     [[groups.fields]]
         thesaurus_code_type = "CHI_ACTIVITE"
         label = "Activité"
-        name = "id_nomenclature_activite"
+        name = "id_nomenclature_behaviour"
         type = "select"
         [groups.fields.options]
             nullable = true

@@ -1,8 +1,16 @@
 
-DROP VIEW monitoring_chiro.v_chiro_gn_synthese ;
+DROP VIEW IF EXISTS monitoring_chiro.v_chiro_gn_synthese ;
 CREATE OR REPLACE VIEW monitoring_chiro.v_chiro_gn_synthese AS
 WITH  source AS (
   SELECT id_source FROM gn_synthese.t_sources WHERE name_source = 'SUIVI_CHIRO'
+), cor_nom_act_comp AS (
+    SELECT ca.id_nomenclature as id_nomenclature_act, co.id_nomenclature as id_nomenclature_comp
+    FROM ref_nomenclatures.t_nomenclatures ca
+    JOIN  ref_nomenclatures.t_nomenclatures co
+    ON  ca.id_type = ref_nomenclatures.get_id_nomenclature_type('CHI_ACTIVITE')
+        AND
+        co.id_type = ref_nomenclatures.get_id_nomenclature_type('OCC_COMPORTEMENT')
+        AND ca.cd_nomenclature = co.cd_nomenclature
 )
 SELECT
   ccc.unique_id_sinp as unique_id_sinp,
@@ -15,7 +23,7 @@ SELECT
 v.id_nomenclature_grp_typ as id_nomenclature_grp_typ,
 -- MISSING FIELD  id_nomenclature_obs_meth,
 -- NOT IN SYNTHESE v.id_nomenclature_tech_collect_campanule as id_nomenclature_tech_collect_campanule,
-vct.id_nomenclature_etat_bio as id_nomenclature_bio_condition,
+vct.id_nomenclature_bio_condition as id_nomenclature_bio_condition,
 -- MISSING FIELD id_nomenclature_bio_status,
 -- MISSING FIELD id_nomenclature_naturalness,
 -- MISSING FIELD id_nomenclature_exist_proof,
@@ -24,10 +32,12 @@ ccc.id_nomenclature_life_stage,
 ccc.id_nomenclature_sex,
 ccc.id_nomenclature_obj_count,
 ccc.id_nomenclature_type_count,
+vct.id_nomenclature_observation_status,
 -- MISSING FIELD id_nomenclature_observation_status,
 -- MISSING FIELD id_nomenclature_blurring,
 -- MISSING FIELD id_nomenclature_source_status,
 -- MISSING FIELD id_nomenclature_info_geo_type,
+cnac.id_nomenclature_comp as id_nomenclature_behaviour,
 ccc.count_min,
 ccc.count_max,
 vct.cd_nom as cd_nom,
@@ -65,4 +75,6 @@ LEFT OUTER  JOIN (
     ON vr.id_role = r.id_role
     GROUP BY id_base_visit
 ) obs
-ON obs.id_base_visit = v.id_base_visit;
+ON obs.id_base_visit = v.id_base_visit
+LEFT OUTER JOIN cor_nom_act_comp cnac
+ON cnac.id_nomenclature_act = vct.id_nomenclature_behaviour ;

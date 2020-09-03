@@ -128,8 +128,8 @@ CREATE TABLE monitoring_chiro.t_visite_contact_taxons (
     nom_complet character varying(255),
     espece_incertaine boolean DEFAULT false NOT NULL,
     id_nomenclature_preuve_repro integer,
-    id_nomenclature_activite integer,
-    id_nomenclature_etat_bio integer,
+    id_nomenclature_behaviour integer,
+    id_nomenclature_bio_condition integer,
     id_nomenclature_observation_status integer,
     indices_cmt character varying(1000),
     commentaire character varying(1000),
@@ -165,13 +165,13 @@ ALTER TABLE monitoring_chiro.t_contact_taxon_biometries
     ADD CONSTRAINT check_cor_counting_contact_life_stage CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_life_stage, 'STADE_VIE')) NOT VALID;
 
 ALTER TABLE monitoring_chiro.t_visite_contact_taxons
-    ADD CONSTRAINT check_t_visite_contact_taxons_etat_bio CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_etat_bio, 'ETA_BIO')) NOT VALID;
+    ADD CONSTRAINT check_t_visite_contact_taxons_bio_condition CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_bio_condition, 'ETA_BIO')) NOT VALID;
 
 ALTER TABLE monitoring_chiro.t_visite_contact_taxons
     ADD CONSTRAINT check_t_visite_contact_taxons_preuve_repro CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_preuve_repro, 'CHI_REPRO')) NOT VALID;
 
 ALTER TABLE monitoring_chiro.t_visite_contact_taxons
-    ADD CONSTRAINT check_t_visite_contact_taxons_activite CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_activite, 'CHI_ACTIVITE')) NOT VALID;
+    ADD CONSTRAINT check_t_visite_contact_taxons_behaviour CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_behaviour, 'CHI_ACTIVITE')) NOT VALID;
 
 ALTER TABLE monitoring_chiro.t_visite_contact_taxons
     ADD CONSTRAINT check_t_visite_contact_taxons_obs_status CHECK (ref_nomenclatures.check_nomenclature_type_by_mnemonique(id_nomenclature_observation_status, 'STATUT_OBS')) NOT VALID;
@@ -310,7 +310,7 @@ ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons
     ADD CONSTRAINT t_visite_contact_taxons_id_digitiser_fkey FOREIGN KEY (id_digitiser) REFERENCES utilisateurs.t_roles(id_role) ON UPDATE CASCADE;
 
 ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons
-    ADD CONSTRAINT t_visite_contact_taxons_id_nomenclature_activite_fkey FOREIGN KEY (id_nomenclature_activite) REFERENCES ref_nomenclatures.t_nomenclatures(id_nomenclature) ON UPDATE CASCADE;
+    ADD CONSTRAINT t_visite_contact_taxons_id_nomenclature_behaviour_fkey FOREIGN KEY (id_nomenclature_behaviour) REFERENCES ref_nomenclatures.t_nomenclatures(id_nomenclature) ON UPDATE CASCADE;
 
 ALTER TABLE ONLY monitoring_chiro.t_visite_contact_taxons
     ADD CONSTRAINT t_visite_contact_taxons_id_nomenclature_preuve_repro_fkey FOREIGN KEY (id_nomenclature_preuve_repro) REFERENCES ref_nomenclatures.t_nomenclatures(id_nomenclature) ON UPDATE CASCADE;
