@@ -11,6 +11,11 @@ WITH  source AS (
         AND
         co.id_type = ref_nomenclatures.get_id_nomenclature_type('OCC_COMPORTEMENT')
         AND ca.cd_nomenclature = co.cd_nomenclature
+), sensitivity AS (
+    SELECT cd_ref, max(id_nomenclature_sensitivity) as id_nomenclature_sensitivity
+    FROM gn_sensitivity.t_sensitivity_rules_cd_ref sr
+    WHERE active = true
+    GROUP BY cd_ref
 )
 SELECT
   ccc.unique_id_sinp as unique_id_sinp,
@@ -82,5 +87,5 @@ LEFT OUTER  JOIN (
 ON obs.id_base_visit = v.id_base_visit
 LEFT OUTER JOIN cor_nom_act_comp cnac
 ON cnac.id_nomenclature_act = vct.id_nomenclature_behaviour
-LEFT OUTER JOIN gn_sensitivity.t_sensitivity_rules_cd_ref sr
+LEFT OUTER JOIN sensitivity sr
 ON sr.cd_ref = t.cd_ref;

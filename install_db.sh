@@ -33,3 +33,9 @@ echo "Create chiro views" &>> $LOG_FILE
 echo "--------------------" &>> $LOG_FILE
 echo "" &>> $LOG_FILE
 export PGPASSWORD=$user_pg_pass;psql -h $db_host -U $user_pg -d $db_name -f $SCRIPTPATH/data/views.sql  &>> $LOG_FILE
+
+echo "" &>> $LOG_FILE
+echo "Create chiro synthese view" &>> $LOG_FILE
+echo "--------------------" &>> $LOG_FILE
+echo "" &>> $LOG_FILE
+export PGPASSWORD=$user_pg_pass;psql -h $db_host -U $user_pg -d $db_name -f $SCRIPTPATH/data/view_synthese.sql  &>> $LOG_FILE
