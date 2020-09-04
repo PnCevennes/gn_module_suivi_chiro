@@ -46,7 +46,7 @@ subSchemaAdd = "2"
     label = "Observateur"
 
         [groups.fields.options]
-            url = "users/menu/10"
+            url = "users/menu/1000001"
             reverseurl = "users/role"
             displayField = ["nom_role", "prenom_role"]
             idField = "id_role"

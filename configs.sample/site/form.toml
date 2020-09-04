@@ -77,7 +77,7 @@ deleteAccess = 5
         label = "Observateur"
 
         [groups.fields.options]
-            url = "users/menu/10"
+            url = "users/menu/1000001"
             required = true
             reverseurl = "users/role"
             displayField = ["nom_role", "prenom_role"]
