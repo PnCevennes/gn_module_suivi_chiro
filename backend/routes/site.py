@@ -222,7 +222,7 @@ def _format_site_data(data):
     base.update(result)
 
     # get medium
-    medium = TMediumRepository.get_medium_for_entity(
+    medium = TMediumRepository().get_medium_for_entity(
         data.base_site.uuid_base_site
     )
     if (medium):
