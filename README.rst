@@ -31,9 +31,10 @@ Sur la base de données, lancer la commande suivante :
 
 ::
    
+
    UPDATE utilisateurs.t_applications a SET id_parent = p.id_application
    FROM  utilisateurs.t_applications p
-   WHERE p.nom_application='suivi' AND a.nom_application='suivi_chiro'
+   WHERE p.code_application='SUIVIS' AND a.code_application='SUIVI_CHIRO'
 
 
 Ajouter ce module comme une application dans le fichier de configuration du frontend.
