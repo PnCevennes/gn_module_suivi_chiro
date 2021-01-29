@@ -101,8 +101,8 @@ class GNMonitoringVisiteRepository:
             for field in data:
                 if hasattr(model, field):
                     setattr(model, field, data[field])
-            if not model.visit_date_max:
-                model.visit_date_max = model.visit_date_min
+
+            model.visit_date_max = model.visit_date_min
 
             # Dataset
             # TODO pour le moment en dur dans la configuration
