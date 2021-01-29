@@ -223,7 +223,7 @@ def _format_site_data(data):
 
     # get medium
     medium = TMediumRepository().get_medium_for_entity(
-        data.base_site.uuid_base_site
+        entity_uuid=data.base_site.uuid_base_site
     )
     if (medium):
         base['medium'] = [m.as_dict() for m in medium]
