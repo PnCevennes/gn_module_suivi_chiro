@@ -4,7 +4,7 @@ Routes relatives aux sites
 
 import geojson
 
-from flask import request
+from flask import request, current_app
 from sqlalchemy.orm.exc import NoResultFound
 from shapely.geometry import Point, asShape
 from geoalchemy2.shape import to_shape, from_shape
@@ -21,7 +21,7 @@ from geonature.core.gn_commons.repositories import (
 
 from pypnusershub import routes as fnauth
 
-from ..blueprint import blueprint, ID_MODULE
+from ..blueprint import blueprint
 from ..models.models import (
     InfoSite,
     RelChirositeTNomenclaturesAmenagement,
@@ -63,6 +63,9 @@ def get_one_site_chiro(id_site):
     '''
     Retourne le site chiro identifié par `id_site`
     '''
+    # Récupération de id_module chiro
+    id_module = current_app.config.get('SUIVI_CHIRO', {}).get('ID_MODULE')
+
     try:
         result = DB.session.query(InfoSite).filter_by(id_base_site=id_site).one()
         if result:
@@ -74,7 +77,7 @@ def get_one_site_chiro(id_site):
                 id_base_site=id_site
             ).filter(
                 TBaseSites.modules.any(
-                    corSiteModule.c.id_module == ID_MODULE
+                    corSiteModule.c.id_module == id_module
                 )
             ).one()
             result = InfoSite()
@@ -100,10 +103,14 @@ def create_or_update_site_chiro(id_site=None):
     '''
 
     try:
+        # Récupération de l'id_module
+        id_module = current_app.config.get('SUIVI_CHIRO', {}).get('ID_MODULE')
+
         db_sess = DB.session
         req_data = request.get_json()
         data = _prepare_site_data(req_data, db_sess)
-        base_repo = GNMonitoringSiteRepository(db_sess, id_app=ID_MODULE)
+
+        base_repo = GNMonitoringSiteRepository(db_sess, id_app=id_module)
 
         # Création du base site si besoin
         if not id_site:
@@ -167,6 +174,9 @@ def delete_site_chiro(id_site):
     args :
         cascade : commande la suppression du base site si true
     '''
+    # Récupération de l'id_module
+    id_module = current_app.config.get('SUIVI_CHIRO', {}).get('ID_MODULE')
+
     cascade = request.args.get('cascade', True)
     try:
         info_site = DB.session.query(InfoSite).filter(
@@ -184,7 +194,7 @@ def delete_site_chiro(id_site):
         DB.session.delete(info_site)
         try:
             base_repo = GNMonitoringSiteRepository(
-                DB.session, id_app=ID_MODULE
+                DB.session, id_app=id_module
             )
             base_repo.handle_delete(base_site_id, cascade)
             DB.session.commit()

@@ -15,9 +15,6 @@ from .models.models import InfoSite, ContactTaxon, Biometrie
 
 blueprint = Blueprint('gn_module_suivi_chiro', __name__)
 
-ID_MODULE = current_app.config.get('SUIVI_CHIRO', {}).get('ID_MODULE')
-# CODE_MODULE = blueprint.config['MODULE_CODE']
-
 
 def base_breadcrumb(type):
     if type == 'site':
