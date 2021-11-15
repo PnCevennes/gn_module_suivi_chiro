@@ -40,7 +40,7 @@ def _format_occtax_data(data):
         for d in data.denombrements
     ]
     # get medium
-    medium = TMediumRepository.get_medium_for_entity(
+    medium = TMediumRepository().get_medium_for_entity(
         data.uuid_chiro_visite_contact_taxon
     )
     if (medium):
