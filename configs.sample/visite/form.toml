@@ -24,7 +24,7 @@ subSchemaAdd = "2"
     type = "xhr"
     label = "Site"
         [groups.fields.options]
-        url = "gn_monitoring/siteslist?name_app=suivi_chiro"
+        url = "gn_monitoring/siteslist?module_code==SUIVI_CHIRO"
         displayField = ["base_site_name"]
         idField = "id_base_site"
         searchField = "base_site_name"
