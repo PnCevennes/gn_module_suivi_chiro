@@ -49,7 +49,7 @@ def find_field_config(config_data):
 
     if isinstance(config_data, dict):
         for ckey in config_data:
-            if ckey == "config_url":
+            if ckey in ["subSchemaUrl", "subEditSchemaUrl", "formUrl", "config_url"]:
                 # PATCH lié à la suppression de la route config du coeur de GeoNature et à son déplacement dans le module chiro
                 config_data[ckey] = module_url + config_data[ckey]
 
