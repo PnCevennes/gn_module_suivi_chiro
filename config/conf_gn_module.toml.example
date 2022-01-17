@@ -9,6 +9,6 @@ id_application = 101
 # Paramètres du module
 #####################################
 # Identifiant du dataset des suivis chiro
-id_dataset_suivis=90
+id_dataset_suivi=90
 # Identifiant du dataset des inventaires chiro
-id_dataset_inventaires=91
+id_dataset_inventaire=91
